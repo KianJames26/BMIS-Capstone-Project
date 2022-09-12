@@ -1,7 +1,7 @@
 <?php session_start();
     if(isset($_POST['Submit'])){
         // Define username and associated password array
-        $logins = array('Nick' => '123456', 'Stanley' => 'admin', 'administrator' => 'admin1234');
+        $logins = array('2019115318' => 'admin123');
       // Check and assign submitted user_name and password to new variable
         $id_num = isset($_POST['id-num']) ? $_POST['id-num'] : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
