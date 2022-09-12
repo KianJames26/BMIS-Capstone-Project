@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'Open Sans Light';
+    src: url("../font/OpenSans/OpenSans-Light.ttf") format("truetype");
+}
+
+.content{
+    display: flex;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    background-color: #efefef;
+}
+
+.left-column{
+    width: 45%;
+    height: 100vh;
+}
+.left-column > img{
+    width: 100%;
+    height: 100vh;
+    object-fit: fill;
+}
+
+.right-column{
+    width: 55%;
+    padding: 60px 30px;
+}
+.right-column > .right-column-content{
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px 30px 50px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.right-column > .right-column-content > img{
+    width: 20%;
+}
+.right-column > .right-column-content > h2{
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.right-column > .right-column-content > form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+.right-column > .right-column-content > form > input{
+    border: #DDDDDD solid 1px;
+    font-size: 20px;
+    font-family: 'Open Sans Light';
+    padding: 10px 20px;
+    width: 375px;
+    margin-bottom: 30px;
+}
+.right-column > .right-column-content > form > input::placeholder{
+    color: #999999;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+.right-column > .right-column-content > form > .login-btn{
+    font-size: 18px;
+    background-color: #192732;
+    padding: 9px 50px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    width: 150px;
+}
+.right-column > .right-column-content > form > .login-btn:hover{
+    background-color:  #2a4254;
+}
+

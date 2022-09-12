@@ -1,0 +1,59 @@
+body{
+    padding: 20px 50px;
+}
+
+.top-nav{
+    display: flex;
+    justify-content: flex-end;
+}
+.top-nav > a > .login-btn{
+    font-size: 18px;
+    background-color: #192732;
+    padding: 9px 38px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+.content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+.content > .left-column{
+    width: 45%;
+}
+.content > .left-column > img{
+    width: 120%;
+    object-fit: cover;
+}
+.content > .right-column{
+    width: 35%;
+    text-align: right;
+    padding-top: 5%;
+    line-height: 5vh;
+    padding-right: 5%;
+}
+.content > .right-column > h1{
+    padding-top: 2%;
+    font-size: 33px;
+    font-weight: 600;
+}
+.content > .right-column > p {
+    font-size: 20px;
+}
+.content > .right-column > a > .enroll-btn{
+    font-size: 18px;
+    padding: 15px 25px;
+    cursor: pointer;
+    background-color: #192732;
+    margin-top: 8%;
+    border-radius: 6px;
+    color: white;
+}
+
+/* pseudo code */
+.top-nav > a > .login-btn:hover, .content > .right-column > a > .enroll-btn:hover{
+    background-color:  #2a4254;
+}
