@@ -21,7 +21,7 @@
         <div class="right-column">
             <h1>Barasoain Memorial Integrated School</h2>
             <p> Donec tempus, ante blandit pulvinar scelerisque, ex ligula mattis arcu, nec pellentesque ipsum magna ac diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc velit sem, mollis at viverra eget, egestas vel erat. Nunc ac ante magna. Nulla eu tempus sapien.</p>
-            <a href="BMIS/enrollment.php"><button class="enroll-btn">ENROLL NOW</button></a>
+            <a href="BMIS/enrollment_form.php"><button class="enroll-btn">ENROLL NOW</button></a>
         </div>
     </div>
 </body>
