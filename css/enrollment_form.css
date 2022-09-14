@@ -1,11 +1,57 @@
 @font-face {
-    font-family: 'DM Sans';
-    src: url('../font/DM Sans/DMSans-Regular.ttf');
+    font-family: 'OpenSans SemiBold';
+    src: url('../font/OpenSans/OpenSans-SemiBold.ttf');
 }
 
-.page-1{
+body{
+    background-color: #efefef;
+
+}
+span.required::before{
     color: red;
-    height: 100%;
+    content: "*";
+}
+
+.container{
+    background-color: white;
+    margin: 30px 7%;
+    padding: 30px 7%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+.container .row{
+    margin: 20px 0;
+    display: flex;
     width: 100%;
-    background-color: red;
+}
+.container .row .column{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.container p.header{
+    font-size: 24px;
+    font-family: 'OpenSans SemiBold';
+    letter-spacing: 1px;
+}
+
+.container label{
+    font-size: 20px;
+}
+
+.container select#grade-level{
+    font-size: 18px;
+    border: #DDDDDD solid 2px;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.container input, .container select#suffix{
+    font-size: 18px;
+    border: #DDDDDD solid 2px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 95%;
 }

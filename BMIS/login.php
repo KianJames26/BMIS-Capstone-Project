@@ -16,7 +16,10 @@
         
         
         // Unsuccessful attempt: Set error message
-        $msg="<span style='color:red'>Invalid Login Details</span>";
+        $msg="
+            
+        
+        ";
         }
         }
 
@@ -24,7 +27,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/default.css">
     <link rel="stylesheet" href="../css/login.css">
@@ -41,16 +44,21 @@
                     <h2>Barasoain Memorial Integrated School</h2>
                     <form action="" method="post">
                         <?php if(isset($msg)){?>
-                        <tr>
-                        <td colspan="3" align="center" valign="top"><?php echo $msg;?></td>
-                        </tr>
+                        <?php echo $msg;?>
                         <?php } ?>
+                        <label for="id-num">ID number</label>
                         <input type="text" name="id-num" id="id-num" placeholder="Enter ID Number">
+                        <label for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Enter Password">
                         <input name="Submit" type="submit" value="Login" class="login-btn">
                     </form>
                 </div>
             </div>
+        </div>
+
+        <div class="error-message">
+            <img src="../img/error-logo.png" alt="Error Image">
+            <p class="message">Error Invalid Login Details!</p>
         </div>
     </body>
 </html>
