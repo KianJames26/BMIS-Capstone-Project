@@ -55,3 +55,7 @@ span.required::before{
     padding: 10px;
     width: 95%;
 }
+
+.page-2, .page-3, .page-1{
+    content-visibility: hidden;
+}
