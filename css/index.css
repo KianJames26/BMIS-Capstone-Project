@@ -14,6 +14,7 @@ body{
     color: white;
     font-weight: 500;
     cursor: pointer;
+    transition: 0.5s;
 }
 .content{
     display: flex;
@@ -51,6 +52,7 @@ body{
     margin-top: 8%;
     border-radius: 6px;
     color: white;
+    transition: 0.5s;
 }
 
 /* pseudo code */

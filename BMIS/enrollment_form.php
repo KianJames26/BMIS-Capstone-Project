@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="../css/enrollment_form.css">
     <link rel="stylesheet" href="../css/default.css">
     <title>Enrollment Form</title>
+    <script src="../js/multiple_form.js"></script>
 </head>
 <body>
     
     <form action="get">
-        <div class="page-1">
+        <div id="page-1">
             <div class="container">
                 <div class="row">
                     <label for="grade-level">Grade Level to Enroll <span class="required"></span>  &nbsp;</label>
@@ -73,13 +74,13 @@
                     </div>
                 </div>
                 <div class="row navigation">
-                    <img src="../img/next.png" alt="NEXT" id="go-to-page2">
+                    <div onclick="goToPageTwo()" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
                 </div>
             </div>
         </div>
 
 
-        <div class="page-2">
+        <div id="page-2">
             <div class="container">
                 <div class="row">
                     <div class="column">
@@ -91,8 +92,8 @@
                     <label for="gender">Gender <span class="required"></span></label>
                 </div>
                 <div class="radio-group">
-                    <label for="gender-choice1"><input id="gender-choice" type="radio" name="gender-choice" value="male"/> Male</label>
-                    <label for="gender-choice2"><input id="gender-choice" type="radio" name="gender-choice" value="female"/> Female</label>
+                    <label for="gender-choice1"><input id="gender-choice1" type="radio" name="gender-choice" value="male"/> Male</label>
+                    <label for="gender-choice2"><input id="gender-choice2" type="radio" name="gender-choice" value="female"/> Female</label>
                 </div>
                 <div class="row">
                     <div class="column">
@@ -115,13 +116,13 @@
                     </div>
                 </div>
                 <div class="row navigation">
-                    <img src="../img/previous.png" alt="PREVIOUS" id="back-to-page1">
-                    <img src="../img/next.png" alt="NEXT" id="go-to-page3">
+                    <div onclick="goToPageOne()"><img src="../img/previous.png" alt="PREVIOUS"></div>
+                    <div onclick="goToPageThree()" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
                 </div>
             </div>
         </div>
 
-        <div class="page-3">
+        <div id="page-3">
             <div class="container">
                 <div class="row">
                     <div class="column">
@@ -153,9 +154,80 @@
                     <p class="header">Parent/Guardian Information</p>
                 </div>
                 <div class="row">
-                    <div class="column"></div>
-                    <div class="column"></div>
-                    <div class="column"></div>
+                    <div class="column">
+                        <label for="parent-fullname">Full Name <span class="required"></span></label>
+                        <input type="text" name="parent-fullname" id="parent-fullname" placeholder="Enter Parent/Guardian Full Name">
+                    </div>
+                    <div class="column">
+                        <label for="parent-contact">Contact Number <span class="required"></span></label>
+                        <input type="tel" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No.">
+                    </div>
+                    <div class="column">
+                        <label for="relationship">Relationship <span class="required"></span></label>
+                        <input type="text" name="relationship" id="relationship" placeholder="Enter relationship">
+                    </div>
+                </div>
+                <div class="row navigation">
+                    <div onclick="goToPageTwo()"><img src="../img/previous.png" alt="PREVIOUS"></div>
+                    <div onclick="goToPageFour()" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-4">
+            <div class="container">
+                <div class="row">
+                    <div class="column">
+                        <p class="header">Educational Attainment</p>
+                        <p class="sub-header">All labels with <span class="required"></span> are required</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label for="last-school">Last School Attended <span class="required"></span></label>
+                        <input type="text" name="last-school" id="last-school" placeholder="Enter your Last School">
+                    </div>
+                    <div class="column">
+                        <label for="last-school-address">Last School Attended Address <span class="required"></span></label>
+                        <input type="text" name="last-school-address" id="last-school-address" placeholder="Enter your Last School Address">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column" style="width: 100%;">
+                        <p class="header">File Upload</p>
+                        <p class="sub-header">Please follow the instructions below</p>
+                        <p class="sub-header" style="font-weight: bolder;">For the 1x1 picture, upload a picture with a png format.The picture must have a white background. Upload form 138 and birth certificate as pdf file.</p>
+                    </div>
+                </div>
+                <div class="file-upload">
+                    <div class="row">
+                        <div class="column1">
+                            <label for="student-picture">1x1 picture <span class="required"></span></label>
+                        </div>
+                        <div class="column2">
+                            <input type="file" name="student-picture" id="student-picture">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column1">
+                            <label for="report-card">Form 138 <span class="required"></span></label>
+                        </div>
+                        <div class="column2">
+                            <input type="file" name="report-card" id="report-card">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column1">
+                            <label for="birth-certificate">Birth Certificate <span class="required"></span></label>
+                        </div>
+                        <div class="column2">
+                            <input type="file" name="birth-certificate" id="birth-certificate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row navigation">
+                    <div onclick="goToPageThree()"><img src="../img/previous.png" alt="PREVIOUS"></div>
+                    <button type="submit" id="submit">Register</button>
                 </div>
             </div>
         </div>

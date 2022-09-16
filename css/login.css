@@ -69,6 +69,8 @@ textarea:focus, input:focus{
     font-weight: 500;
     cursor: pointer;
     width: 150px;
+    transition: 0.5s;
+    border: none;
 }
 .right-column > .right-column-content > form > .login-btn:hover{
     background-color:  #2a4254;
