@@ -48,7 +48,7 @@ span.required::before{
     padding: 2px;
 }
 
-.container input, .container select#suffix{
+.container .row input, .container select#suffix{
     font-size: 18px;
     border: #DDDDDD solid 2px;
     border-radius: 5px;
@@ -56,6 +56,24 @@ span.required::before{
     width: 95%;
 }
 
-.page-2, .page-3, .page-1{
-    content-visibility: hidden;
+.container .navigation img{
+    width: 50px;
+    cursor: pointer;
 }
+
+.container .radio-group{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.container .radio-group >*{
+    cursor: pointer;
+}
+
+#go-to-page2, #go-to-page3{
+    margin-left: auto;
+}
+
+/* .page-2, .page-3{
+    content-visibility: hidden;
+} */

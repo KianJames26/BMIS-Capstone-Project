@@ -20,7 +20,7 @@
 }
 
 .right-column{
-    width: 55%;
+    width: 54%;
     padding: 60px 30px;
 }
 .right-column > .right-column-content{
@@ -74,3 +74,24 @@ textarea:focus, input:focus{
     background-color:  #2a4254;
 }
 
+.error-message{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    position: fixed;
+    top: 250px;
+    left: 500px;
+    background-color: white;
+    border: red solid 2px;
+    border-radius: 10px;
+    padding: 30px 75px;
+}
+.error-message img{
+    width: 60px;
+    align-self: center;
+}
+.error-message .message{
+    font-size: 20px;
+    align-self: center;
+    margin-top: 10px;
+}

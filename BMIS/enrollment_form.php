@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/enrollment_form.css">
     <link rel="stylesheet" href="../css/default.css">
-
     <title>Enrollment Form</title>
 </head>
 <body>
@@ -73,18 +72,92 @@
                         </select>
                     </div>
                 </div>
+                <div class="row navigation">
+                    <img src="../img/next.png" alt="NEXT" id="go-to-page2">
+                </div>
             </div>
         </div>
 
 
         <div class="page-2">
             <div class="container">
-                
+                <div class="row">
+                    <div class="column">
+                        <p class="header">Personal Information</p>
+                        <p class="sub-header">All labels with <span class="required"></span> are required</p>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 5px;">
+                    <label for="gender">Gender <span class="required"></span></label>
+                </div>
+                <div class="radio-group">
+                    <label for="gender-choice1"><input id="gender-choice" type="radio" name="gender-choice" value="male"/> Male</label>
+                    <label for="gender-choice2"><input id="gender-choice" type="radio" name="gender-choice" value="female"/> Female</label>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label for="birthday">Date of Birth <span class="required"></span></label>
+                        <input type="date" name="birthday" id="birthday">
+                    </div>
+                    <div class="column">
+                        <label for="birthplace">Birthplace <span class="required"></span></label>
+                        <input type="text" name="birthplace" id="birthplace" placeholder="Enter your Birthplace">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label for="contact-number">Contact Number <span class="required"></span></label>
+                        <input type="tel" name="contact-number" id="contact-number" placeholder="Enter your Contact Number">
+                    </div>
+                    <div class="column">
+                        <label for="email">Email <span class="required"></span></label>
+                        <input type="email" name="email" id="email" placeholder="Enter your Email Address">
+                    </div>
+                </div>
+                <div class="row navigation">
+                    <img src="../img/previous.png" alt="PREVIOUS" id="back-to-page1">
+                    <img src="../img/next.png" alt="NEXT" id="go-to-page3">
+                </div>
             </div>
         </div>
 
         <div class="page-3">
-            <div class="container"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="column">
+                        <p class="header">Address</p>
+                        <p class="sub-header">All labels with <span class="required"></span> are required</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label for="house-address">House number & Street <span class="required"></span></label>
+                        <input type="text" name="house-address" id="house-address" placeholder="Enter House Number & Street">
+                    </div>
+                    <div class="column">
+                        <label for="barangay">Barangay <span class="required"></span></label>
+                        <input type="text" name="barangay" id="barangay" placeholder="Enter Barangay">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label for="city">City <span class="required"></span></label>
+                        <input type="text" name="city" id="city" placeholder="Enter City">
+                    </div>
+                    <div class="column">
+                        <label for="province">Province <span class="required"></span></label>
+                        <input type="text" name="province" id="province" placeholder="Enter Province">
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="header">Parent/Guardian Information</p>
+                </div>
+                <div class="row">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                    <div class="column"></div>
+                </div>
+            </div>
         </div>
 
     </form>

@@ -17,7 +17,10 @@
         
         // Unsuccessful attempt: Set error message
         $msg="
-            
+        <div class='error-message'>
+            <img src='../img/error-logo.png' alt='Error Image'>
+            <p class='message'>Error Invalid Login Details!</p>
+        </div>
         
         ";
         }
@@ -25,14 +28,15 @@
 
 ?>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/default.css">
-    <link rel="stylesheet" href="../css/login.css">
-    <title>Login to BMIS</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/default.css">
+        <link rel="stylesheet" href="../css/login.css">
+        <title>Login to BMIS</title>
+        <script src="../js/error_message.js"></script>
+    </head>
     <body>
         <div class="content">
             <div class="left-column">
@@ -56,9 +60,6 @@
             </div>
         </div>
 
-        <div class="error-message">
-            <img src="../img/error-logo.png" alt="Error Image">
-            <p class="message">Error Invalid Login Details!</p>
-        </div>
+        
     </body>
 </html>
