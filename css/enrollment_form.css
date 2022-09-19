@@ -56,6 +56,17 @@ span.required::before{
     width: 95%;
     transition: 0.5s;
 }
+.container .row input[type=number] {
+    -moz-appearance: textfield;
+}
+.container .row input::-webkit-outer-spin-button,
+.container .row input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
 
 .container .navigation img{
     width: 50px;

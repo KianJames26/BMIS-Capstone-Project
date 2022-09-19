@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="column">
                         <label for="lrn">LRN (Learners Reference Number) <span class="required"></span></label>
-                        <input type="text" name="lrn" id="lrn" placeholder="Enter 12 Digit Number">
+                        <input type="number" name="lrn" id="lrn" placeholder="Enter 12 Digit Number">
                     </div>
                 </div> 
                 
@@ -89,11 +89,12 @@
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 5px;">
-                    <label for="gender">Gender <span class="required"></span></label>
+                    <label for="gender-choice">Gender <span class="required"></span></label>
                 </div>
                 <div class="radio-group">
-                    <label for="gender-choice1"><input id="gender-choice1" type="radio" name="gender-choice" value="male"/> Male</label>
-                    <label for="gender-choice2"><input id="gender-choice2" type="radio" name="gender-choice" value="female"/> Female</label>
+                    <label for="null" style="display: none;"><input id="null" type="radio" name="gender-choice" value="null" checked="checked"/>Null</label>
+                    <label for="gender-male"><input id="gender-male" type="radio" name="gender-choice" value="male"/> Male</label>
+                    <label for="gender-female"><input id="gender-female" type="radio" name="gender-choice" value="female"/> Female</label>
                 </div>
                 <div class="row">
                     <div class="column">
@@ -108,7 +109,7 @@
                 <div class="row">
                     <div class="column">
                         <label for="contact-number">Contact Number <span class="required"></span></label>
-                        <input type="tel" name="contact-number" id="contact-number" placeholder="Enter your Contact Number">
+                        <input type="number" name="contact-number" id="contact-number" placeholder="Enter your Contact Number - e.g 09121231234" minlength="11" maxlength="11">
                     </div>
                     <div class="column">
                         <label for="email">Email <span class="required"></span></label>
