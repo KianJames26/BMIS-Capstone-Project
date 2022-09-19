@@ -10,7 +10,7 @@
 </head>
 <body>
     
-    <form action="get">
+    <form action="" method="post">
         <div id="page-1">
             <div class="container">
                 <div class="row">
@@ -93,8 +93,8 @@
                 </div>
                 <div class="radio-group">
                     <label for="null" style="display: none;"><input id="null" type="radio" name="gender-choice" value="null" checked="checked"/>Null</label>
-                    <label for="gender-male"><input id="gender-male" type="radio" name="gender-choice" value="male"/> Male</label>
-                    <label for="gender-female"><input id="gender-female" type="radio" name="gender-choice" value="female"/> Female</label>
+                    <label for="gender-male"><input id="gender-male" type="radio" name="gender-choice" value="Male"/> Male</label>
+                    <label for="gender-female"><input id="gender-female" type="radio" name="gender-choice" value="Female"/> Female</label>
                 </div>
                 <div class="row">
                     <div class="column">
@@ -161,7 +161,7 @@
                     </div>
                     <div class="column">
                         <label for="parent-contact">Contact Number <span class="required"></span></label>
-                        <input type="tel" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No.">
+                        <input type="number" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No.">
                     </div>
                     <div class="column">
                         <label for="relationship">Relationship <span class="required"></span></label>
@@ -228,11 +228,207 @@
                 </div>
                 <div class="row navigation">
                     <div onclick="goToPageThree()"><img src="../img/previous.png" alt="PREVIOUS"></div>
-                    <button type="submit" id="submit">Register</button>
+                    <div onclick="goToPageFive()" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
                 </div>
             </div>
         </div>
 
+        <div id="page-5">
+            <div class="container">
+                <div class="row">
+                    <p class="header">Personal Information</p>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="content">LRN (Learner's Reference Number) : </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showLRN"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <p class="content">Last Name : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">First Name : </p>
+                    </div>
+                    <div class="column">
+                            <p class="content">Middle Name : </p>
+                        </div>
+                        <div class="column">
+                            <p class="content">Suffix : </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showLName"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showFName"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showMName"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showSuffix"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <p class="content">Gender : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Date of Birth : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Place of Birth : </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showGender"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showBirthday"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showBirthPlace"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <p class="content">Contact Number : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Email : </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showContactNumber"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showEmail"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="header">Address Information</p>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="content">House Number & Street : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Barangay : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">City : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Province : </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showHouse"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showBarangay"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showCity"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showProvince"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="header">PARENT/GUARDIAN INFORMATION</p>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="content">Parent/Guardian Full Name</p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Parent/Guardian Contact</p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Relationship</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showParentFullName"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showParentContact"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showParentRelationship"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="header">Educational Attainment</p>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="content">Last School Attended</p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Last School Attended Address</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showLastSchool"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showLastSchoolAddress"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="header">File Upload</p>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="content">1x1 Picture : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Form 138 : </p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Birth Certificate : </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showPicture"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showReportCard"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showBirthCertificate"></p>
+                    </div>
+                </div>
+
+                <div class="row navigation">
+                    <div onclick="goToPageFour()"><img src="../img/previous.png" alt="PREVIOUS"></div>
+                    <button type="submit" id="submit">Submit</button>
+                </div>
+                
+            </div>
+        </div>
     </form>
 </body>
 </html>

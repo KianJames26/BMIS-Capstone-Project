@@ -1,13 +1,21 @@
+function topFunction() {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    }
+
 function goToPageOne() {
     const pageOne = document.getElementById("page-1");
     const pageTwo = document.getElementById("page-2");
     const pageThree = document.getElementById("page-3");
     const pageFour = document.getElementById("page-4");
+    const pageFive = document.getElementById('page-5');
 
     pageOne.style.display = "inherit";
     pageTwo.style.display = "none";
     pageThree.style.display = "none";
     pageFour.style.display = "none";
+    pageFive.style.display = "none";
+    topFunction();
 }
 
 function goToPageTwo() {
@@ -22,13 +30,13 @@ function goToPageTwo() {
             lrn.style.borderColor = '#dddddd';
         }, 500);
         
-    } else if (lastName.value.length < 2) {
+    } else if (lastName.value.trim().length < 2) {
         alert("Please Enter your Last Name!");
         lastName.style.borderColor = 'red';
         setTimeout(function() { 
             lastName.style.borderColor = '#dddddd';
         }, 500);
-    } else if (firstName.value.length < 2) {
+    } else if (firstName.value.trim().length < 2) {
         alert("Please Enter your Firstname!");
         firstName.style.borderColor = 'red';
         setTimeout(function() { 
@@ -39,11 +47,14 @@ function goToPageTwo() {
         const pageTwo = document.getElementById("page-2");
         const pageThree = document.getElementById("page-3");
         const pageFour = document.getElementById("page-4");
+        const pageFive = document.getElementById('page-5');
     
         pageOne.style.display = "none";
         pageTwo.style.display = "inherit";
         pageThree.style.display = "none";
         pageFour.style.display = "none";
+        pageFive.style.display = "none";
+        topFunction();
     }
     // const pageOne = document.getElementById("page-1");
     // const pageTwo = document.getElementById("page-2");
@@ -81,7 +92,7 @@ function goToPageThree() {
         setTimeout(function() { 
             birthDay.style.borderColor = '#dddddd';
         }, 500);
-    }else if(birthPlace.value === "" || birthplace.value.length < 4){
+    }else if(birthPlace.value.trim() === "" || birthplace.value.trim().length < 4){
         alert("Please Enter a valid Place of Birth!");
         birthPlace.style.borderColor = 'red';
         setTimeout(function() { 
@@ -104,11 +115,14 @@ function goToPageThree() {
         const pageTwo = document.getElementById("page-2");
         const pageThree = document.getElementById("page-3");
         const pageFour = document.getElementById("page-4");
+        const pageFive = document.getElementById('page-5');
 
         pageOne.style.display = "none";
         pageTwo.style.display = "none";
         pageThree.style.display = "inherit";
         pageFour.style.display = "none";
+        pageFive.style.display = "none";
+        topFunction();
     }
     
     // const pageOne = document.getElementById("page-1");
@@ -123,15 +137,187 @@ function goToPageThree() {
 }
 
 function goToPageFour() {
-    const pageOne = document.getElementById("page-1");
-    const pageTwo = document.getElementById("page-2");
-    const pageThree = document.getElementById("page-3");
-    const pageFour = document.getElementById("page-4");
+    const houseAddress = document.getElementById('house-address');
+    const barangay = document.getElementById('barangay');
+    const city = document.getElementById('city');
+    const province = document.getElementById('province');
+    const parentFullName = document.getElementById('parent-fullname');
+    const parentContact = document.getElementById('parent-contact');
+    const relationship = document.getElementById('relationship');
 
-    pageOne.style.display = "none";
-    pageTwo.style.display = "non";
-    pageThree.style.display = "none";
-    pageFour.style.display = "inherit";
+    if(houseAddress.value.trim() === ""){
+        alert("Please Enter your House Number & Street");
+        houseAddress.style.borderColor = 'red';
+        setTimeout(function() { 
+            houseAddress.style.borderColor = '#dddddd';
+        }, 500);
+    }else if(barangay.value.trim() === ""){
+        alert("Please Enter your Barangay");
+        barangay.style.borderColor = 'red';
+        setTimeout(function() { 
+            barangay.style.borderColor = '#dddddd';
+        }, 500);
+    }else if(city.value.trim() === ""){
+        alert("Please Enter your City");
+        city.style.borderColor = 'red';
+        setTimeout(function() { 
+            city.style.borderColor = '#dddddd';
+        }, 500);
+    }else if(province.value.trim() === ""){
+        alert("Please Enter your Province");
+        province.style.borderColor = 'red';
+        setTimeout(function() { 
+            province.style.borderColor = '#dddddd';
+        }, 500);
+    }else if(parentFullName.value.trim() === ""){
+        alert("Please Enter your Parent/Guardian Full Name");
+        parentFullName.style.borderColor = 'red';
+        setTimeout(function() { 
+            parentFullName.style.borderColor = '#dddddd';
+        }, 500);
+    }else if (parentContact.value === "" || parentContact.value.length > 11 || parentContact.value.length < 11) {
+        alert("Please Enter a valid Contact Number");
+        parentContact.style.borderColor = 'red';
+        setTimeout(function() { 
+            parentContact.style.borderColor = '#dddddd';
+        }, 500);
+    }else if(relationship.value.trim() === ""){
+        alert("Please Enter your Parent/Guardian Relationship");
+        relationship.style.borderColor = 'red';
+        setTimeout(function() { 
+            relationship.style.borderColor = '#dddddd';
+        }, 500);
+    }else{
+        const pageOne = document.getElementById("page-1");
+        const pageTwo = document.getElementById("page-2");
+        const pageThree = document.getElementById("page-3");
+        const pageFour = document.getElementById("page-4");
+        const pageFive = document.getElementById('page-5');
+    
+        pageOne.style.display = "none";
+        pageTwo.style.display = "non";
+        pageThree.style.display = "none";
+        pageFour.style.display = "inherit";
+        pageFive.style.display = "none";
+        topFunction();
+    }
+    // const pageOne = document.getElementById("page-1");
+    // const pageTwo = document.getElementById("page-2");
+    // const pageThree = document.getElementById("page-3");
+    // const pageFour = document.getElementById("page-4");
+
+    // pageOne.style.display = "none";
+    // pageTwo.style.display = "non";
+    // pageThree.style.display = "none";
+    // pageFour.style.display = "inherit";
 }
 
+function goToPageFive() {
+    const lastSchool = document.getElementById('last-school');
+    const lastSchoolAddress = document.getElementById('last-school-address');
+    const studentPicture = document.getElementById('student-picture');
+    const reportCard = document.getElementById('report-card');
+    const birthCertificate = document.getElementById('birth-certificate');
+
+    if(lastSchool.value.trim() === ""){
+        alert("Please Enter your Last School");
+        lastSchool.style.borderColor = 'red';
+        setTimeout(function() { 
+            lastSchool.style.borderColor = '#dddddd';
+        }, 500);
+    }else if(lastSchoolAddress.value.trim() === ""){
+        alert("Please Enter your Last School Address");
+        lastSchoolAddress.style.borderColor = 'red';
+        setTimeout(function() { 
+            lastSchoolAddress.style.borderColor = '#dddddd';
+        }, 500);
+    }else if (studentPicture.files.length == 0){
+        alert("Please Upload your 1x1 Picture");
+        studentPicture.style.borderColor = 'red';
+        studentPicture.style.transition = '0.5s';
+        setTimeout(function() { 
+            studentPicture.style.borderColor = '#dddddd';
+        }, 500);
+    }else if (reportCard.files.length == 0){
+        alert("Please Upload your Form 138");
+        reportCard.style.borderColor = 'red';
+        reportCard.style.transition = '0.5s';
+        setTimeout(function() { 
+            reportCard.style.borderColor = '#dddddd';
+        }, 500);
+    }else if (birthCertificate.files.length == 0){
+        alert("Please Upload your Birth Certificate");
+        birthCertificate.style.borderColor = 'red';
+        birthCertificate.style.transition = '0.5s';
+        setTimeout(function() { 
+            reportCard.style.borderColor = '#dddddd';
+        }, 500);
+    }else{
+        showAllInput();
+        const pageOne = document.getElementById("page-1");
+        const pageTwo = document.getElementById("page-2");
+        const pageThree = document.getElementById("page-3");
+        const pageFour = document.getElementById("page-4");
+        const pageFive = document.getElementById('page-5');
+    
+        pageOne.style.display = "none";
+        pageTwo.style.display = "non";
+        pageThree.style.display = "none";
+        pageFour.style.display = "none";
+        pageFive.style.display = "inherit";
+        topFunction();
+    }
+    
+}
+
+function showAllInput() {
+    const lrn = document.getElementById("lrn").value;
+    const lastName = document.getElementById("last-name").value;
+    const firstName = document.getElementById("first-name").value;
+    const middleName = document.getElementById('middle-name').value;
+    const suffix = document.getElementById('suffix').value;
+    const gender = document.querySelector('input[name="gender-choice"]:checked').value;
+    const birthDay = document.getElementById("birthday").value;
+    const birthPlace = document.getElementById('birthplace').value;
+    const contactNumber = document.getElementById('contact-number').value;
+    const email = document.getElementById('email').value;
+    const houseAddress = document.getElementById('house-address').value;
+    const barangay = document.getElementById('barangay').value;
+    const city = document.getElementById('city').value;
+    const province = document.getElementById('province').value;
+    const parentFullName = document.getElementById('parent-fullname').value;
+    const parentContact = document.getElementById('parent-contact').value;
+    const relationship = document.getElementById('relationship').value;
+    const lastSchool = document.getElementById('last-school').value;
+    const lastSchoolAddress = document.getElementById('last-school-address').value;
+    const studentPicture = document.getElementById('student-picture').files[0].name;
+    const reportCard = document.getElementById('report-card').files[0].name;
+    const birthCertificate = document.getElementById('birth-certificate').files[0].name;
+
+    document.getElementById('showLRN').innerHTML = lrn;
+    document.getElementById('showLName').innerHTML = lastName;
+    document.getElementById('showFName').innerHTML = firstName;
+    document.getElementById('showMName').innerHTML = middleName;
+    document.getElementById('showSuffix').innerHTML = suffix;
+    document.getElementById('showGender').innerHTML = gender;
+    document.getElementById('showBirthday').innerHTML = birthDay;
+    document.getElementById('showBirthPlace').innerHTML = birthPlace;
+    document.getElementById('showContactNumber').innerHTML = contactNumber;
+    document.getElementById('showEmail').innerHTML = email;
+    document.getElementById('showHouse').innerHTML = houseAddress;
+    document.getElementById('showBarangay').innerHTML = barangay;
+    document.getElementById('showCity').innerHTML = city;
+    document.getElementById('showProvince').innerHTML = province;
+    document.getElementById('showParentFullName').innerHTML = parentFullName;
+    document.getElementById('showParentContact').innerHTML = parentContact;
+    document.getElementById('showParentRelationship').innerHTML = relationship;
+    document.getElementById('showLastSchool').innerHTML = lastSchool;
+    document.getElementById('showLastSchoolAddress').innerHTML = lastSchoolAddress;
+    document.getElementById('showPicture').innerHTML = studentPicture;
+    document.getElementById('showReportCard').innerHTML = reportCard;
+    document.getElementById('showBirthCertificate').innerHTML = birthCertificate;
+    
+}
+
+// console.log(reportCard.files[0].name);
 
