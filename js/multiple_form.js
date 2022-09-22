@@ -2,7 +2,6 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
     }
-
 function goToPageOne() {
     const pageOne = document.getElementById("page-1");
     const pageTwo = document.getElementById("page-2");
@@ -18,10 +17,17 @@ function goToPageOne() {
     topFunction();
 }
 
-function goToPageTwo() {
+function goToPageTwo(existingLrn) {
     const lrn = document.getElementById("lrn");
     const lastName = document.getElementById("last-name");
     const firstName = document.getElementById("first-name");
+    // const duplicateLrn = checkLrn();
+
+    Object.keys(existingLrn).forEach(key => {
+        if (existingLrn[key].lrn === lrn) {
+            console.log("DUPLICATE");
+        }
+    });
 
     if (lrn.value === "" || lrn.value.length != 12) {
         alert("Please Enter a Valid LRN");

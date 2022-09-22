@@ -2,7 +2,7 @@ CREATE DATABASE BMIS_DB;
 USE BMIS_DB;
 
 CREATE TABLE Students(
-    lrn int NOT NULL UNIQUE,
+    lrn varchar(12) NOT NULL UNIQUE,
     first_name varchar(50) NOT NULL,
     middle_name varchar(50),
     last_name varchar(50) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE Students(
     gender varchar(6) NOT NULL,
     birth_date date NOT NULL,
     birth_place varchar(100) NOT NULL,
-    contact_number int NOT NULL,
+    contact_number varchar(11) NOT NULL,
     email varchar(255) NOT NULL,
     grade_level int NOT NULL,
     section int,
@@ -29,9 +29,9 @@ CREATE TABLE Students(
     PRIMARY KEY (lrn)
 );
 CREATE TABLE Parent_Information(
-    student_lrn int,
+    student_lrn varchar(12) NOT NULL UNIQUE,
     parent_name varchar(255) NOT NULL,
-    parent_contact int NOT NULL,
+    parent_contact varchar(11) NOT NULL,
     parent_relationship varchar(50),
     
     FOREIGN KEY (student_lrn) REFERENCES Students(lrn)

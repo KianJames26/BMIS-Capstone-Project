@@ -1,3 +1,58 @@
+<?php
+    include 'phpMethods/connection.php';
+
+    $conn = OpenCon();
+    if (isset($_POST['submit'])) {
+        insertData($conn);
+    }
+
+    CloseCon($conn);
+
+    function insertData($conn){
+        $lrn = $_POST['lrn'];
+        $firstName = $_POST['first-name'];
+        $middleName = $_POST['middle-name'];
+        $lastName = $_POST['last-name'];
+        $suffix = $_POST['suffix'];
+        $gender = $_POST['gender-choice'];
+        $birthDate = $_POST['birthday'];
+        $birthPlace = $_POST['birthplace'];
+        $contactNumber = $_POST['contact-number'];
+        $email = $_POST['email'];
+        $gradeLevel = $_POST['grade-level'];
+        $houseAddress = $_POST['house-address'];
+        $barangay = $_POST['barangay'];
+        $city = $_POST['city'];
+        $province = $_POST['province'];
+        $lastSchool = $_POST['last-school'];
+        $lastSchoolAddress = $_POST['last-school-address'];
+        $studentPicture = $_POST['student-picture'];
+        $reportCard = $_POST['report-card'];
+        $birthCertificate = $_POST['birth-certificate'];
+        $isOnline = True;
+        $isEnrolled = False;
+        $parentName = $_POST['parent-fullname'];
+        $parentContact = $_POST['parent-contact'];
+        $parentRelationship = $_POST['relationship'];
+
+        $sql = "INSERT INTO students(lrn, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, contact_number, email, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isOnline, isEnrolled)
+                VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '$studentPicture', '$reportCard', '$birthCertificate', '$isOnline', '$isEnrolled')";
+        $sql2 = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
+                VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
+        
+        if(mysqli_query($conn, $sql)){
+            echo "New record has been added successfully.";
+        }else{
+            echo "Error: " . $sql . ":-" . mysqli_error($conn);
+        }
+        if(mysqli_query($conn, $sql2)){
+            echo "New record has been added successfully.";
+        }else{
+            echo "Error: " . $sql2 . ":-" . mysqli_error($conn);
+        }
+    }
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +62,19 @@
     <link rel="stylesheet" href="../css/default.css">
     <title>Enrollment Form</title>
     <script src="../js/multiple_form.js"></script>
+    <script>
+        <?php
+            $conn = OpenCon();
+            $resultWhile = mysqli_query($conn, "SELECT lrn from students");
+            $lrnArray = array();
+
+            while ($row = mysqli_fetch_array($resultWhile)){
+                $lrnArray[] = $row;
+            }
+        ?>
+        const existingLrn = <?php echo json_encode($lrnArray);?>;
+    </script>
+
 </head>
 <body>
     <form action="" method="post">
@@ -61,7 +129,7 @@
                     <div class="column">
                         <label for="suffix">Suffix</label>
                         <select name="suffix" id="suffix">
-                            <option value="null">none</option>
+                            <option value="">none</option>
                             <option value="Jr">Jr</option>
                             <option value="I">I</option>
                             <option value="II">II</option>
@@ -73,7 +141,7 @@
                     </div>
                 </div>
                 <div class="row navigation">
-                    <div onclick="goToPageTwo()" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
+                    <div onclick="goToPageTwo(existingLrn)" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
                 </div>
             </div>
         </div>
@@ -422,7 +490,7 @@
 
                 <div class="row navigation">
                     <div onclick="goToPageFour()"><img src="../img/previous.png" alt="PREVIOUS"></div>
-                    <button type="submit" id="submit">Submit</button>
+                    <button name="submit" type="submit" id="submit">Submit</button>
                 </div>
                 
             </div>
