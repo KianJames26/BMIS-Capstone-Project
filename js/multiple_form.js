@@ -1,7 +1,7 @@
 function topFunction() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-    }
+}
 function goToPageOne() {
     const pageOne = document.getElementById("page-1");
     const pageTwo = document.getElementById("page-2");
@@ -21,21 +21,26 @@ function goToPageTwo(existingLrn) {
     const lrn = document.getElementById("lrn");
     const lastName = document.getElementById("last-name");
     const firstName = document.getElementById("first-name");
-    // const duplicateLrn = checkLrn();
+    let duplicateLrn = false;
 
     Object.keys(existingLrn).forEach(key => {
-        if (existingLrn[key].lrn === lrn) {
-            console.log("DUPLICATE");
+        if (existingLrn[key].lrn === lrn.value) {
+            duplicateLrn = true
         }
     });
 
-    if (lrn.value === "" || lrn.value.length != 12) {
+    if (duplicateLrn){
+        alert("LRN is Already in our database");
+        lrn.style.borderColor = 'red';
+        setTimeout(function() { 
+            lrn.style.borderColor = '#dddddd';
+        }, 500);
+    }else if (lrn.value === "" || lrn.value.length != 12) {
         alert("Please Enter a Valid LRN");
         lrn.style.borderColor = 'red';
         setTimeout(function() { 
             lrn.style.borderColor = '#dddddd';
         }, 500);
-        
     } else if (lastName.value.trim().length < 2) {
         alert("Please Enter your Last Name!");
         lastName.style.borderColor = 'red';
