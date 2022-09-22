@@ -9,7 +9,6 @@
     <script src="../js/multiple_form.js"></script>
 </head>
 <body>
-    
     <form action="" method="post">
         <div id="page-1">
             <div class="container">
@@ -63,7 +62,7 @@
                         <label for="suffix">Suffix</label>
                         <select name="suffix" id="suffix">
                             <option value="null">none</option>
-                            <option value="JR">JR.</option>
+                            <option value="Jr">Jr</option>
                             <option value="I">I</option>
                             <option value="II">II</option>
                             <option value="III">III</option>
@@ -78,8 +77,7 @@
                 </div>
             </div>
         </div>
-
-
+<!-- END OF PAGE 1 -->
         <div id="page-2">
             <div class="container">
                 <div class="row">
@@ -122,7 +120,7 @@
                 </div>
             </div>
         </div>
-
+<!-- END OF PAGE 2 -->
         <div id="page-3">
             <div class="container">
                 <div class="row">
@@ -161,7 +159,7 @@
                     </div>
                     <div class="column">
                         <label for="parent-contact">Contact Number <span class="required"></span></label>
-                        <input type="number" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No.">
+                        <input type="number" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No. " minlength="11" maxlength="11">
                     </div>
                     <div class="column">
                         <label for="relationship">Relationship <span class="required"></span></label>
@@ -174,7 +172,7 @@
                 </div>
             </div>
         </div>
-
+<!-- END OF PAGE 3 -->
         <div id="page-4">
             <div class="container">
                 <div class="row">
@@ -232,7 +230,7 @@
                 </div>
             </div>
         </div>
-
+<!-- END OF PAGE 4 -->
         <div id="page-5">
             <div class="container">
                 <div class="row">
@@ -351,7 +349,7 @@
                 </div>
 
                 <div class="row">
-                    <p class="header">PARENT/GUARDIAN INFORMATION</p>
+                    <p class="header">Parent/Guardian Informaction</p>
                 </div>
                 <div class="row">
                     <div class="column">
@@ -429,6 +427,8 @@
                 
             </div>
         </div>
+<!-- END OF PAGE 5 -->
     </form>
+    <script src="../js/numberOnly.js"></script>
 </body>
 </html>

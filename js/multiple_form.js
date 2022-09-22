@@ -56,15 +56,6 @@ function goToPageTwo() {
         pageFive.style.display = "none";
         topFunction();
     }
-    // const pageOne = document.getElementById("page-1");
-    // const pageTwo = document.getElementById("page-2");
-    // const pageThree = document.getElementById("page-3");
-    // const pageFour = document.getElementById("page-4");
-
-    // pageOne.style.display = "none";
-    // pageTwo.style.display = "inherit";
-    // pageThree.style.display = "none";
-    // pageFour.style.display = "none";
 }
 
 function goToPageThree() {
@@ -124,16 +115,6 @@ function goToPageThree() {
         pageFive.style.display = "none";
         topFunction();
     }
-    
-    // const pageOne = document.getElementById("page-1");
-    // const pageTwo = document.getElementById("page-2");
-    // const pageThree = document.getElementById("page-3");
-    // const pageFour = document.getElementById("page-4");
-
-    // pageOne.style.display = "none";
-    // pageTwo.style.display = "none";
-    // pageThree.style.display = "inherit";
-    // pageFour.style.display = "none";
 }
 
 function goToPageFour() {
@@ -201,15 +182,6 @@ function goToPageFour() {
         pageFive.style.display = "none";
         topFunction();
     }
-    // const pageOne = document.getElementById("page-1");
-    // const pageTwo = document.getElementById("page-2");
-    // const pageThree = document.getElementById("page-3");
-    // const pageFour = document.getElementById("page-4");
-
-    // pageOne.style.display = "none";
-    // pageTwo.style.display = "non";
-    // pageThree.style.display = "none";
-    // pageFour.style.display = "inherit";
 }
 
 function goToPageFive() {
@@ -316,8 +288,4 @@ function showAllInput() {
     document.getElementById('showPicture').innerHTML = studentPicture;
     document.getElementById('showReportCard').innerHTML = reportCard;
     document.getElementById('showBirthCertificate').innerHTML = birthCertificate;
-    
 }
-
-// console.log(reportCard.files[0].name);
-
