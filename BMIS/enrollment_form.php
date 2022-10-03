@@ -73,6 +73,7 @@
             }
         ?>
         const existingLrn = <?php echo json_encode($lrnArray);?>;
+        
     </script>
 
 </head>
@@ -235,7 +236,7 @@
                     </div>
                 </div>
                 <div class="row navigation">
-                    <div onclick="goToPageTwo()"><img src="../img/previous.png" alt="PREVIOUS"></div>
+                    <div onclick="goToPageTwo(existingLrn)"><img src="../img/previous.png" alt="PREVIOUS"></div>
                     <div onclick="goToPageFour()" class="next-page"><img src="../img/next.png" alt="NEXT" ></div>
                 </div>
             </div>

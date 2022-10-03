@@ -9,6 +9,8 @@ function goToPageOne() {
     const pageFour = document.getElementById("page-4");
     const pageFive = document.getElementById('page-5');
 
+    
+
     pageOne.style.display = "inherit";
     pageTwo.style.display = "none";
     pageThree.style.display = "none";
@@ -18,6 +20,12 @@ function goToPageOne() {
 }
 
 function goToPageTwo(existingLrn) {
+    const pageOne = document.getElementById("page-1");
+    const pageTwo = document.getElementById("page-2");
+    const pageThree = document.getElementById("page-3");
+    const pageFour = document.getElementById("page-4");
+    const pageFive = document.getElementById('page-5');
+    
     const lrn = document.getElementById("lrn");
     const lastName = document.getElementById("last-name");
     const firstName = document.getElementById("first-name");
@@ -28,6 +36,7 @@ function goToPageTwo(existingLrn) {
             duplicateLrn = true
         }
     });
+
 
     if (duplicateLrn){
         alert("LRN is Already in our database");
@@ -54,12 +63,6 @@ function goToPageTwo(existingLrn) {
             firstName.style.borderColor = '#dddddd';
         }, 500);
     }else {
-        const pageOne = document.getElementById("page-1");
-        const pageTwo = document.getElementById("page-2");
-        const pageThree = document.getElementById("page-3");
-        const pageFour = document.getElementById("page-4");
-        const pageFive = document.getElementById('page-5');
-    
         pageOne.style.display = "none";
         pageTwo.style.display = "inherit";
         pageThree.style.display = "none";
@@ -252,6 +255,8 @@ function goToPageFive() {
     }
     
 }
+
+
 
 function showAllInput() {
     const lrn = document.getElementById("lrn").value;
