@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    autoVanish()
+    autoVanish();
 })
 
 function autoVanish() {
@@ -9,7 +9,7 @@ function autoVanish() {
             errorMessage[0].remove();
         }, 3000);
     }
-    setTimeout(() => {autovanish();}, 500);
+    // setTimeout(() => {autovanish();}, 500);
 }
 
 

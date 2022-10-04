@@ -73,11 +73,29 @@
             }
         ?>
         const existingLrn = <?php echo json_encode($lrnArray);?>;
-        
     </script>
-
 </head>
 <body>
+    <dialog id="dialog-box">
+        <p class="title">Data Privacy Act</p>
+        <p class="reminder">The information collected in the enrollment form will be treated according to Data Privacy Act of 2012.</p>
+        <div class="actions">
+            <button id="return" onclick="location.href='../index.php'">Return</button>
+            <button id="continue">Continue</button>
+        </div>
+    </dialog>
+    <script>
+        const continueBtn = document.getElementById('continue');
+        const dialogBox = document.getElementById('dialog-box');
+        
+        continueBtn.addEventListener('click', unshowDialog);
+        function unshowDialog() {
+            dialogBox.classList.toggle("continue");
+            setTimeout(()=>{
+                dialogBox.style.display="none";
+            },400);
+        }
+    </script>
     <form action="" method="post">
         <div id="page-1">
             <div class="container">

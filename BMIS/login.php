@@ -1,30 +1,44 @@
 <?php session_start();
+    $_SESSION['loggedin'] = false;
     if(isset($_POST['Submit'])){
-        // Define username and associated password array
-        $logins = array('2019115318' => 'admin123');
-      // Check and assign submitted user_name and password to new variable
-        $id_num = isset($_POST['id-num']) ? $_POST['id-num'] : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-      // Check user_name and password existence in defined array
-        if (isset($logins[$id_num]) && $logins[$id_num] == $password){
-        
-        // Success: Set session variables and redirect to Protected page
-        $_SESSION['UserData']['id-num']=$logins[$id_num];
-        header("location:../index.php");
-        exit;
-        } else {
-        
-        
-        // Unsuccessful attempt: Set error message
-        $msg="
-        <div class='error-message'>
-            <img src='../img/error-logo.png' alt='Error Image'>
-            <p class='message'>Error Invalid Login Details!</p>
-        </div>
-        
-        ";
+        $id_num = $_POST['id-num'];
+        $password = $_POST['password'];
+        if ($id_num == "elem_admin") {
+            if($password == "elementary"){
+                $_SESSION['login-role'] = "elementary-admin";
+                $_SESSION['loggedin'] = true;
+                // header("location:../index.php");
+                echo $_SESSION['login-role'] . ' is ' .$_SESSION['loggedin'];
+                exit;
+            }else {
+                $msg="
+                <div class='error-message'>
+                    <img src='../img/error-logo.png' alt='Error Image'>
+                    <p class='message'>Error Invalid Password!</p>
+                </div>";
+            }
+        }else if ($id_num == "hs_admin") {
+            if($password == "highschool"){
+                $_SESSION['login-role'] = "highschool-admin";
+                $_SESSION['loggedin'] = true;
+                // header("location:../index.php");
+                echo $_SESSION['login-role'] . ' is ' .$_SESSION['loggedin'];
+                exit;
+            }else {
+                $msg="
+                <div class='error-message'>
+                    <img src='../img/error-logo.png' alt='Error Image'>
+                    <p class='message'>Error Invalid Password!</p>
+                </div>";
+            }
+        }else{
+            $msg="
+            <div class='error-message'>
+                <img src='../img/error-logo.png' alt='Error Image'>
+                <p class='message'>Error Invalid Id Number!</p>
+            </div>";
         }
-        }
+    }
 
 ?>
 <html lang="en">
