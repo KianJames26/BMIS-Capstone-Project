@@ -44,9 +44,51 @@ span.required::before{
         opacity: 0%;
     }
 }
-.continue{
+.disappear{
     animation: .5s ease-out 0s slideOut;
 }
+.show-error-box{
+    animation: .5s ease-out 0s slideInFromTop;
+}
+#error-box{
+    display: none;
+    flex-direction: column;
+    background-color: white;
+    width: 450px;
+    position: fixed;
+    top: 30%;
+    left: 35%;
+    border: red solid 2px;
+    border-radius: 8px;
+}
+#error-box .title{
+    font-family: 'OpenSans SemiBold';
+    font-size: 20px;
+    padding: 12px 16px;
+    border-bottom: red solid 2px;
+    width: 100%;
+    text-align: center;
+}
+#error-box #error-message{
+    font-size: 20px;
+    padding: 40px 16px 24px 16px;
+    width: 100%;
+}
+#error-box .action{
+    display: flex;
+    justify-content: right;
+    padding: 8px 16px 16px 16px;
+}
+#error-box #ok{
+    padding: 8px 24px;
+    margin: 0 12px;
+    font-size: 16px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #6C757D;
+}
+
 dialog{
     animation: .5s ease-out 0s slideInFromTop;
     display: flex;
@@ -124,6 +166,7 @@ dialog .actions button{
     border: #DDDDDD solid 2px;
     border-radius: 5px;
     padding: 2px;
+    transition: 0.5s;
 }
 
 .container .row > input, .container .row > .column > input, .container select#suffix{

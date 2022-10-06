@@ -1,3 +1,20 @@
+function showErrorBox() {
+    const errorBox = document.getElementById('error-box');
+    errorBox.classList.toggle('show-error-box');
+    errorBox.style.display = "inherit";
+}
+function hideErrorBox(input) {
+    const errorBox = document.getElementById('error-box');
+    errorBox.classList.replace('show-error-box','disappear');
+    setTimeout(()=>{
+        errorBox.style.display="none";
+        input.style.borderColor = 'red';
+        setTimeout(()=> { 
+            input.style.borderColor = '#dddddd';
+        }, 500);
+    },400);
+}
+
 function topFunction() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -8,8 +25,6 @@ function goToPageOne() {
     const pageThree = document.getElementById("page-3");
     const pageFour = document.getElementById("page-4");
     const pageFive = document.getElementById('page-5');
-
-    
 
     pageOne.style.display = "inherit";
     pageTwo.style.display = "none";
@@ -26,9 +41,11 @@ function goToPageTwo(existingLrn) {
     const pageFour = document.getElementById("page-4");
     const pageFive = document.getElementById('page-5');
     
+    const gradeLevel = document.getElementById('grade-level');
     const lrn = document.getElementById("lrn");
     const lastName = document.getElementById("last-name");
     const firstName = document.getElementById("first-name");
+
     let duplicateLrn = false;
 
     Object.keys(existingLrn).forEach(key => {
@@ -37,13 +54,20 @@ function goToPageTwo(existingLrn) {
         }
     });
 
-
-    if (duplicateLrn){
-        alert("LRN is Already in our database");
-        lrn.style.borderColor = 'red';
-        setTimeout(function() { 
-            lrn.style.borderColor = '#dddddd';
-        }, 500);
+    if (gradeLevel.value === "") {
+        const okBtn = document.getElementById('ok');
+        document.getElementById('error-message').innerHTML = "Please Select Grade Level to Enroll";
+        showErrorBox();
+        okBtn.addEventListener('click', ()=>{
+            hideErrorBox(gradeLevel);
+        });
+    }else if (duplicateLrn){
+        const okBtn = document.getElementById('ok');
+        document.getElementById('error-message').innerHTML = "LRN is Already in our database";
+        showErrorBox();
+        okBtn.addEventListener('click', ()=>{
+            hideErrorBox(lrn);
+        });
     }else if (lrn.value === "" || lrn.value.length != 12) {
         alert("Please Enter a Valid LRN");
         lrn.style.borderColor = 'red';

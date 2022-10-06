@@ -1,11 +1,10 @@
 <?php
+    session_start();
     include 'phpMethods/connection.php';
-
     $conn = OpenCon();
     if (isset($_POST['submit'])) {
         insertData($conn);
     }
-
     CloseCon($conn);
 
     function insertData($conn){
@@ -76,7 +75,7 @@
     </script>
 </head>
 <body>
-    <dialog id="dialog-box">
+    <!-- <dialog id="dialog-box">
         <p class="title">Data Privacy Act</p>
         <p class="reminder">The information collected in the enrollment form will be treated according to Data Privacy Act of 2012.</p>
         <div class="actions">
@@ -90,18 +89,26 @@
         
         continueBtn.addEventListener('click', unshowDialog);
         function unshowDialog() {
-            dialogBox.classList.toggle("continue");
+            dialogBox.classList.toggle("disappear");
             setTimeout(()=>{
                 dialogBox.style.display="none";
             },400);
         }
-    </script>
+    </script> -->
     <form action="" method="post">
+        <div id="error-box">
+            <p class="title">ERROR!</p>
+            <p id="error-message">Please Enter</p>
+            <div class="action">
+                <div id="ok">Okay</div>
+            </div>
+        </div>
         <div id="page-1">
             <div class="container">
                 <div class="row">
                     <label for="grade-level">Grade Level to Enroll <span class="required"></span>  &nbsp;</label>
                     <select name="grade-level" id="grade-level">
+                        <option value="" hidden="true"></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
