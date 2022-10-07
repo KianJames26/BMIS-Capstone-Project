@@ -47,11 +47,11 @@ span.required::before{
 .disappear{
     animation: .5s ease-out 0s slideOut;
 }
-.show-error-box{
+.appear{
     animation: .5s ease-out 0s slideInFromTop;
 }
 #error-box{
-    display: none;
+    display: flex;
     flex-direction: column;
     background-color: white;
     width: 450px;

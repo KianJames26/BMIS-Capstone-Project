@@ -1,18 +1,22 @@
-function showErrorBox() {
-    const errorBox = document.getElementById('error-box');
-    errorBox.classList.toggle('show-error-box');
-    errorBox.style.display = "inherit";
+function showErrorBox(msg, inputBox) {
+    const errorBox = document.getElementById('hidden-error');
+    errorBox.innerHTML = "<div id='error-box' class='appear'><p class='title'>ERROR!</p><p id='error-message'>"+msg+"</p><div class='action'><div id='ok'>Okay</div></div></div>";
+    document.getElementById('form').appendChild(errorBox);
+    const okBtn = document.getElementById('ok');
+    okBtn.addEventListener('click', ()=>{
+        hideErrorBox(inputBox);
+    });
 }
-function hideErrorBox(input) {
+function hideErrorBox(inputBox) {
     const errorBox = document.getElementById('error-box');
-    errorBox.classList.replace('show-error-box','disappear');
-    setTimeout(()=>{
-        errorBox.style.display="none";
-        input.style.borderColor = 'red';
-        setTimeout(()=> { 
-            input.style.borderColor = '#dddddd';
-        }, 500);
-    },400);
+    errorBox.classList.replace('appear', 'disappear');
+    setTimeout(() => {
+        errorBox.remove();
+        document.getElementById(inputBox).style.borderColor = "red";
+        setTimeout(() => {
+            document.getElementById(inputBox).style.borderColor = "#dddddd";
+        }, 400);
+    }, 400);
 }
 
 function topFunction() {
@@ -53,39 +57,16 @@ function goToPageTwo(existingLrn) {
             duplicateLrn = true
         }
     });
-
     if (gradeLevel.value === "") {
-        const okBtn = document.getElementById('ok');
-        document.getElementById('error-message').innerHTML = "Please Select Grade Level to Enroll";
-        showErrorBox();
-        okBtn.addEventListener('click', ()=>{
-            hideErrorBox(gradeLevel);
-        });
+        showErrorBox("Please Enter Grade Level to Enroll", gradeLevel.id);
     }else if (duplicateLrn){
-        const okBtn = document.getElementById('ok');
-        document.getElementById('error-message').innerHTML = "LRN is Already in our database";
-        showErrorBox();
-        okBtn.addEventListener('click', ()=>{
-            hideErrorBox(lrn);
-        });
+        showErrorBox("LRN already in the Database", lrn.id);
     }else if (lrn.value === "" || lrn.value.length != 12) {
-        alert("Please Enter a Valid LRN");
-        lrn.style.borderColor = 'red';
-        setTimeout(function() { 
-            lrn.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter a Valid LRN", lrn.id);
     } else if (lastName.value.trim().length < 2) {
-        alert("Please Enter your Last Name!");
-        lastName.style.borderColor = 'red';
-        setTimeout(function() { 
-            lastName.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Last Name!", lastName.id);
     } else if (firstName.value.trim().length < 2) {
-        alert("Please Enter your Firstname!");
-        firstName.style.borderColor = 'red';
-        setTimeout(function() { 
-            firstName.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Firstname!". firstName.id);
     }else {
         pageOne.style.display = "none";
         pageTwo.style.display = "inherit";
@@ -114,31 +95,15 @@ function goToPageThree() {
     }
 
     if (gender === "null") {
-        alert("Please Select your Gender!");
+        showErrorBox("Please Select your Gender!");
     }else if(birthDay.value === ""){
-        alert("Please Enter your Date of Birth!");
-        birthday.style.borderColor = 'red';
-        setTimeout(function() { 
-            birthDay.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Date of Birth!",birthDay.id);
     }else if(birthPlace.value.trim() === "" || birthplace.value.trim().length < 4){
-        alert("Please Enter a valid Place of Birth!");
-        birthPlace.style.borderColor = 'red';
-        setTimeout(function() { 
-            birthPlace.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter a valid Place of Birth!", birthPlace);
     }else if (contactNumber.value === "" || contactNumber.value.length > 11 || contactNumber.value.length < 11) {
-        alert("Please Enter a valid Contact Number");
-        contactNumber.style.borderColor = 'red';
-        setTimeout(function() { 
-            contactNumber.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter a valid Contact Number", contactNumber.id);
     }else if (!validEmail) {
-        alert("Please Enter a Valid Email!");
-        document.getElementById('email').style.borderColor = 'red';
-        setTimeout(function() { 
-            document.getElementById('email').style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter a Valid Email!", "email");
     }else{
         const pageOne = document.getElementById("page-1");
         const pageTwo = document.getElementById("page-2");
@@ -165,47 +130,20 @@ function goToPageFour() {
     const relationship = document.getElementById('relationship');
 
     if(houseAddress.value.trim() === ""){
-        alert("Please Enter your House Number & Street");
-        houseAddress.style.borderColor = 'red';
-        setTimeout(function() { 
-            houseAddress.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your House Number & Street", houseAddress.id);
     }else if(barangay.value.trim() === ""){
-        alert("Please Enter your Barangay");
+        showErrorBox("Please Enter your Barangay", barangay.id);
         barangay.style.borderColor = 'red';
-        setTimeout(function() { 
-            barangay.style.borderColor = '#dddddd';
-        }, 500);
     }else if(city.value.trim() === ""){
-        alert("Please Enter your City");
-        city.style.borderColor = 'red';
-        setTimeout(function() { 
-            city.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your City", city.id);
     }else if(province.value.trim() === ""){
-        alert("Please Enter your Province");
-        province.style.borderColor = 'red';
-        setTimeout(function() { 
-            province.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Province", province.id);
     }else if(parentFullName.value.trim() === ""){
-        alert("Please Enter your Parent/Guardian Full Name");
-        parentFullName.style.borderColor = 'red';
-        setTimeout(function() { 
-            parentFullName.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Parent/Guardian Full Name", parentFullName.id);
     }else if (parentContact.value === "" || parentContact.value.length > 11 || parentContact.value.length < 11) {
-        alert("Please Enter a valid Contact Number");
-        parentContact.style.borderColor = 'red';
-        setTimeout(function() { 
-            parentContact.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter a valid Contact Number", parentContact.id);
     }else if(relationship.value.trim() === ""){
-        alert("Please Enter your Parent/Guardian Relationship");
-        relationship.style.borderColor = 'red';
-        setTimeout(function() { 
-            relationship.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Parent/Guardian Relationship", relationship.id);
     }else{
         const pageOne = document.getElementById("page-1");
         const pageTwo = document.getElementById("page-2");
@@ -230,38 +168,15 @@ function goToPageFive() {
     const birthCertificate = document.getElementById('birth-certificate');
 
     if(lastSchool.value.trim() === ""){
-        alert("Please Enter your Last School");
-        lastSchool.style.borderColor = 'red';
-        setTimeout(function() { 
-            lastSchool.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Last School", lastSchool.id);
     }else if(lastSchoolAddress.value.trim() === ""){
-        alert("Please Enter your Last School Address");
-        lastSchoolAddress.style.borderColor = 'red';
-        setTimeout(function() { 
-            lastSchoolAddress.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Enter your Last School Address", lastSchoolAddress.id);
     }else if (studentPicture.files.length == 0){
-        alert("Please Upload your 1x1 Picture");
-        studentPicture.style.borderColor = 'red';
-        studentPicture.style.transition = '0.5s';
-        setTimeout(function() { 
-            studentPicture.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Upload your 1x1 Picture", studentPicture.id);
     }else if (reportCard.files.length == 0){
-        alert("Please Upload your Form 138");
-        reportCard.style.borderColor = 'red';
-        reportCard.style.transition = '0.5s';
-        setTimeout(function() { 
-            reportCard.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Upload your Form 138", reportCard.id);
     }else if (birthCertificate.files.length == 0){
-        alert("Please Upload your Birth Certificate");
-        birthCertificate.style.borderColor = 'red';
-        birthCertificate.style.transition = '0.5s';
-        setTimeout(function() { 
-            reportCard.style.borderColor = '#dddddd';
-        }, 500);
+        showErrorBox("Please Upload your Birth Certificate", birthCertificate.id);
     }else{
         showAllInput();
         const pageOne = document.getElementById("page-1");

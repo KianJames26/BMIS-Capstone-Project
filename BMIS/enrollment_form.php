@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include 'phpMethods/connection.php';
     $conn = OpenCon();
     if (isset($_POST['submit'])) {
@@ -75,7 +74,7 @@
     </script>
 </head>
 <body>
-    <!-- <dialog id="dialog-box">
+    <dialog id="dialog-box">
         <p class="title">Data Privacy Act</p>
         <p class="reminder">The information collected in the enrollment form will be treated according to Data Privacy Act of 2012.</p>
         <div class="actions">
@@ -94,15 +93,9 @@
                 dialogBox.style.display="none";
             },400);
         }
-    </script> -->
-    <form action="" method="post">
-        <div id="error-box">
-            <p class="title">ERROR!</p>
-            <p id="error-message">Please Enter</p>
-            <div class="action">
-                <div id="ok">Okay</div>
-            </div>
-        </div>
+    </script>
+    <form id="form" action="" method="post">
+        <div id="hidden-error"></div>
         <div id="page-1">
             <div class="container">
                 <div class="row">
