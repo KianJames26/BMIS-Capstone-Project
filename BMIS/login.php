@@ -1,14 +1,14 @@
-<?php session_start();
-    $_SESSION['loggedin'] = false;
+<?php session_start();session_destroy();
     if(isset($_POST['Submit'])){
+        session_start();
+        $_SESSION['loggedin'] = false;
         $id_num = $_POST['id-num'];
         $password = $_POST['password'];
         if ($id_num == "elem_admin") {
             if($password == "elementary"){
                 $_SESSION['login-role'] = "elementary-admin";
                 $_SESSION['loggedin'] = true;
-                // header("location:../index.php");
-                echo $_SESSION['login-role'] . ' is ' .$_SESSION['loggedin'];
+                header("location:admin/elementary/admin.php?page=dashboard");
                 exit;
             }else {
                 $msg="
