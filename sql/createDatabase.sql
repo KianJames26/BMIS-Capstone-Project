@@ -20,11 +20,10 @@ CREATE TABLE Students(
     province varchar(255) NOT NULL,
     last_school varchar(255) NOT NULL,
     last_school_address varchar(255) NOT NULL,
-    student_picture MEDIUMBLOB NOT NULL,
-    report_card MEDIUMBLOB NOT NULL,
-    birth_certificate MEDIUMBLOB NOT NULL,
+    student_picture varchar(255) NOT NULL,
+    report_card varchar(255) NOT NULL,
+    birth_certificate varchar(255) NOT NULL,
     isOnline boolean,
-    isEnrolled boolean,
     
     PRIMARY KEY (lrn)
 );
@@ -34,5 +33,9 @@ CREATE TABLE Parent_Information(
     parent_contact varchar(11) NOT NULL,
     parent_relationship varchar(50),
     
+    FOREIGN KEY (student_lrn) REFERENCES Students(lrn)
+);
+CREATE TABLE Enrollees(
+    student_lrn varchar(12) NOT NULL UNIQUE,
     FOREIGN KEY (student_lrn) REFERENCES Students(lrn)
 )

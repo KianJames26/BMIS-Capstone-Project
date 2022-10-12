@@ -44,6 +44,13 @@ span.required::before{
         opacity: 0%;
     }
 }
+.hidden, .hidden-error{
+    width: 100vw;
+    height: 100vh;
+    margin-top: -30px;
+    background-color: rgba(0, 0, 0, 0.322);
+    position: fixed;
+}
 .disappear{
     animation: .5s ease-out 0s slideOut;
 }
@@ -209,14 +216,15 @@ textarea:focus, input:focus{
 .container .row .column2{
     width: auto;
 }
-.container .row .column2 input{
+.container .row .column2 input[type='file']{
     cursor: pointer;
     border: #DDDDDD solid 2px;
     font-size: 16px;
     border-radius: 5px;
     outline: none;
-    transition: 0.5;
+    transition: 0.5s;
 }
+
 ::-webkit-file-upload-button{
     background-color: #E9ECEF;
     border: none;

@@ -192,10 +192,31 @@ function goToPageFive() {
         pageFive.style.display = "inherit";
         topFunction();
     }
-    
 }
 
+function studentPictureValidation() {
+    const studentPicture = document.getElementById('student-picture');
 
+    const allowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
+
+    if(!allowedExtension.exec(studentPicture.value)){
+        showErrorBox("Please upload a file with .jpg/.jpeg/.png extenstion only", studentPicture.id);
+        studentPicture.value = '';
+        return false;
+    }
+}
+
+function pdfValidation(id){
+    const fileInput = document.getElementById(id);
+
+    const allowedExtension = /(\.pdf)$/i;
+
+    if(!allowedExtension.exec(fileInput.value)){
+        showErrorBox("Please upload a file with .pdf extenstion only", fileInput.id);
+        fileInput.value = '';
+        return false;
+    }
+}
 
 function showAllInput() {
     const lrn = document.getElementById("lrn").value;

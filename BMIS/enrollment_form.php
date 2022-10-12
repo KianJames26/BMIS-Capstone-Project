@@ -24,29 +24,33 @@
         $province = $_POST['province'];
         $lastSchool = $_POST['last-school'];
         $lastSchoolAddress = $_POST['last-school-address'];
-        $studentPicture = $_POST['student-picture'];
-        $reportCard = $_POST['report-card'];
-        $birthCertificate = $_POST['birth-certificate'];
         $isOnline = True;
-        $isEnrolled = False;
         $parentName = $_POST['parent-fullname'];
         $parentContact = $_POST['parent-contact'];
         $parentRelationship = $_POST['relationship'];
+        $studentPicture = $lrn . "_student_picture." . pathinfo($_FILES['student-picture']['name'], PATHINFO_EXTENSION);
+        $reportCard = $lrn . "_report_card." . pathinfo($_FILES['report-card']['name'], PATHINFO_EXTENSION);
+        $birthCertificate = $lrn . "_birth_certificate." . pathinfo($_FILES['birth-certificate']['name'], PATHINFO_EXTENSION);
 
-        $sql = "INSERT INTO students(lrn, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, contact_number, email, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isOnline, isEnrolled)
-                VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '$studentPicture', '$reportCard', '$birthCertificate', '$isOnline', '$isEnrolled')";
-        $sql2 = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
-                VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
-        
-        if(mysqli_query($conn, $sql)){
-            echo "New record has been added successfully.";
-        }else{
-            echo "Error: " . $sql . ":-" . mysqli_error($conn);
+        $targetDir = "../../uploads/". $lrn . "/";
+        if(!is_dir($targetDir)){
+            mkdir($targetDir);
         }
-        if(mysqli_query($conn, $sql2)){
-            echo "New record has been added successfully.";
+
+        if(move_uploaded_file($_FILES['student-picture']['tmp_name'], $targetDir . $studentPicture) && move_uploaded_file($_FILES['report-card']['tmp_name'], $targetDir . $reportCard) && move_uploaded_file($_FILES['birth-certificate']['tmp_name'], $targetDir . $birthCertificate)){
+            $addStudentInfo = "INSERT INTO students(lrn, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, contact_number, email, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isOnline)
+                            VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isOnline')";
+            $addParentInfo = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
+                            VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
+            $addStudentToEnrollees = "INSERT INTO Enrollees(student_lrn)
+                            VALUES ('$lrn')";
+            if(mysqli_query($conn, $addStudentInfo) && mysqli_query($conn, $addParentInfo) && mysqli_query($conn, $addStudentToEnrollees)){
+                echo "Query Success!!!";
+            }else{
+                echo "Error! Please Try Again!!!";
+            }
         }else{
-            echo "Error: " . $sql2 . ":-" . mysqli_error($conn);
+            echo "Error in uploading your files!";
         }
     }
 ?>
@@ -74,14 +78,17 @@
     </script>
 </head>
 <body>
-    <dialog id="dialog-box">
-        <p class="title">Data Privacy Act</p>
-        <p class="reminder">The information collected in the enrollment form will be treated according to Data Privacy Act of 2012.</p>
-        <div class="actions">
-            <button id="return" onclick="location.href='../index.php'">Return</button>
-            <button id="continue">Continue</button>
-        </div>
-    </dialog>
+    <div class="hidden" onload="topFunction()">
+        <dialog id="dialog-box">
+            <p class="title">Data Privacy Act</p>
+            <p class="reminder">The information collected in the enrollment form will be treated according to Data Privacy Act of 2012.</p>
+            <div class="actions">
+                <button id="return" onclick="location.href='../index.php'">Return</button>
+                <button id="continue">Continue</button>
+            </div>
+        </dialog>
+    </div>
+    
     <script>
         const continueBtn = document.getElementById('continue');
         const dialogBox = document.getElementById('dialog-box');
@@ -91,10 +98,11 @@
             dialogBox.classList.toggle("disappear");
             setTimeout(()=>{
                 dialogBox.style.display="none";
+                document.getElementsByClassName('hidden')[0].style.display='none';
             },400);
         }
     </script>
-    <form id="form" action="" method="post">
+    <form id="form" action="" method="post" enctype="multipart/form-data">
         <div id="hidden-error"></div>
         <div id="page-1">
             <div class="container">
@@ -291,7 +299,7 @@
                             <label for="student-picture">1x1 picture <span class="required"></span></label>
                         </div>
                         <div class="column2">
-                            <input type="file" name="student-picture" id="student-picture">
+                            <input type="file" name="student-picture" id="student-picture" onchange="return studentPictureValidation()">
                         </div>
                     </div>
                     <div class="row">
@@ -299,7 +307,7 @@
                             <label for="report-card">Form 138 <span class="required"></span></label>
                         </div>
                         <div class="column2">
-                            <input type="file" name="report-card" id="report-card">
+                            <input type="file" name="report-card" id="report-card" onchange="return pdfValidation('report-card')">
                         </div>
                     </div>
                     <div class="row">
@@ -307,7 +315,7 @@
                             <label for="birth-certificate">Birth Certificate <span class="required"></span></label>
                         </div>
                         <div class="column2">
-                            <input type="file" name="birth-certificate" id="birth-certificate">
+                            <input type="file" name="birth-certificate" id="birth-certificate" onchange="return pdfValidation('birth-certificate')">
                         </div>
                     </div>
                 </div>

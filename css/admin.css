@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'OpenSans SemiBold';
+    src: url('../font/OpenSans/OpenSans-SemiBold.ttf');
+}
 body{
     background-color: #efefef;
 }
@@ -5,13 +9,15 @@ body{
     width: 100%;
     background-color: white;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-content: center;
     padding: 12px 32px;
     position: fixed;
 }
 .header img{
-    width: 75px;
+    width: 80px;
+    margin-left: 40px;
+    margin-right: auto;
 }
 .header a{
     font-size: 18px;
@@ -23,13 +29,17 @@ body{
     transition: 0.5s;
     text-decoration: none;
     align-self: center;
+    margin-left: auto;
 }
 .header a:hover{
     background-color:  #2a4254;
 }
+.header h1{
+    align-self: center;
+}
 
 .navigation{
-    margin-top: 99px;
+    margin-top: 105px;
     padding: 16px 0 0 28px;
     position: fixed;
     height: 100vh;
@@ -63,4 +73,43 @@ body{
     margin: 32px 32px 0 32px;
     padding: 16px 32px;
     border-radius: 8px;
+}
+
+.dashboard{
+    padding: 64px 0 100px 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+.dashboard .box{
+    display: flex;
+    background-color: #192732;
+    width: 420px;
+    height: 200px;
+    border-radius: 16px;
+    flex-direction: column;
+    padding: 16px 24px;
+}
+.dashboard .box .icon{
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}
+.dashboard .box .icon img{
+    width: 64px;
+}
+.dashboard .box .text{
+    color: white;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+}
+.dashboard .box .text p.title{
+    font-size: 21px;
+    font-family: 'OpenSans SemiBold';
+    align-self: center;
+}
+.dashboard .box .text p.count{
+    font-size: 48px;
+    align-self: center;
 }
