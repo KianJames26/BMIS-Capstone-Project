@@ -3,7 +3,7 @@
         header("Location: ../../../index.php");
     }else {
         include '../../phpMethods/connection.php';
-        include 'content.php';
+        include 'admin_content.php';
         if (isset($_GET['logout'])) {
             header("Location: ../../../index.php");
             session_destroy();

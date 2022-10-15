@@ -113,3 +113,45 @@ body{
     font-size: 48px;
     align-self: center;
 }
+
+.enrollees {
+    height: 450px;
+    padding: 8px;
+    overflow: scroll;
+    overflow: auto;
+}
+.enrollees table{
+    height: 300px;
+    overflow: scroll;
+    overflow: auto;
+    text-align: center;
+}
+.enrollees table, .enrollees tr, .enrollees th, .enrollees td{
+    border: #CCCCCC 1px solid;
+    border-collapse: collapse;
+    padding: 8px;
+}
+.enrollees td{
+    white-space: nowrap;
+}
+.enrollees table tr.table-header{
+    background-color: #eeeeee;
+}
+.enrollees .action{
+    display: flex;
+    border: none;
+    justify-content: space-evenly;
+    width: 200px;
+}
+.enrollees .action a{
+    text-decoration: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+.enrollees .action #edit{
+    background-color: #0D6EFD;
+}
+.enrollees .action #delete{
+    background-color: #D83444;
+}
