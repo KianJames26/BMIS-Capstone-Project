@@ -121,7 +121,7 @@ body{
     overflow: auto;
 }
 .enrollees table{
-    height: 300px;
+    height: 200px;
     overflow: scroll;
     overflow: auto;
     text-align: center;
@@ -131,6 +131,7 @@ body{
     border-collapse: collapse;
     padding: 8px;
 }
+
 .enrollees td{
     white-space: nowrap;
 }
@@ -154,4 +155,94 @@ body{
 }
 .enrollees .action #delete{
     background-color: #D83444;
+}
+
+@keyframes slideInFromTop{
+    0% {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+    50%{
+        opacity: 50%;
+    }
+    75%{
+        opacity: 75%;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 100%;
+    }
+}
+.edit{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.322);
+    position: fixed;
+    top: 0%;
+    left: 0%;
+}
+.edit .enrollee-info{
+    animation: .5s ease-out 0s slideInFromTop;
+    background-color: white;
+    width: 700px;
+    height: 550px;
+    top: 5%;
+    left: 25%;
+    position: fixed;
+    border-radius: 16px;
+    overflow: scroll;
+    overflow: auto;
+    padding: 28px;
+}
+.edit .enrollee-info #close-editor{
+    cursor: pointer;
+    margin-left: auto;
+    position: fixed;
+    left: 72%;
+    aspect-ratio: 1/1;
+    width: 30px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.edit .enrollee-info #close-editor:hover::after, .edit .enrollee-info #close-editor:hover::before{
+    background-color: #2a4254;
+}
+.edit .enrollee-info #close-editor::after, .edit .enrollee-info #close-editor::before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 4px; /* cross thickness */
+    background-color: #192732;
+    transition: all 0.5s;
+}
+.edit .enrollee-info #close-editor::after{
+    transform: rotate(-45deg);
+}
+.edit .enrollee-info #close-editor::before{
+    transform: rotate(45deg);
+}
+.edit .enrollee-info .row{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.edit .enrollee-info .row img{
+    aspect-ratio: 1/1;
+    width: 200px;
+    border: 1px black solid;
+    border-radius: 8px;
+}
+.edit .enrollee-info .student-info{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+.edit .enrollee-info p{
+    font-size: 20px;
+    padding-top: 3px;
+}
+.edit .enrollee-info h1.title{
+    text-align: center;
+    width: 100%;
 }

@@ -44,12 +44,14 @@ span.required::before{
         opacity: 0%;
     }
 }
-.hidden, .hidden-error{
+.hidden{
     width: 100vw;
     height: 100vh;
-    margin-top: -30px;
+    /* margin-top: -30px; */
     background-color: rgba(0, 0, 0, 0.322);
     position: fixed;
+    top: 0%;
+    left: 0%;
 }
 .disappear{
     animation: .5s ease-out 0s slideOut;
@@ -146,6 +148,9 @@ dialog .actions button{
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    height: 90%;
+    overflow: scroll;
+    overflow: auto;
 }
 .container .row{
     margin: 20px 0;

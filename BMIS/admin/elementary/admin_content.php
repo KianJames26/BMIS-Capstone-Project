@@ -4,7 +4,7 @@
     function dashboardContent()
     {
         $conn = OpenCon();
-        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level <7;")){
+        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level < 7;")){
             if($row = mysqli_fetch_array($result)) {
                 $elementaryEnrollees = $row[0];
             }
@@ -56,19 +56,58 @@
                 if($result = mysqli_query($conn, $sql)){
                     while ($res = mysqli_fetch_array($result)) {?>
                         <tr>
-                            <td><?php echo $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                            <td><?php echo $res['email'];?></td>
-                            <td><?php echo $res['contact_number'];?></td>
-                            <td><?php echo $res['parent_name'];?></td>
-                            <td><?php echo $res['parent_relationship'];?></td>
-                            <td><?php echo $res['parent_contact'];?></td>
-                            <td><?php echo $res['grade_level'];?></td>
+                            <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                            <td><?= $res['email'];?></td>
+                            <td><?= $res['contact_number'];?></td>
+                            <td><?= $res['parent_name'];?></td>
+                            <td><?= $res['parent_relationship'];?></td>
+                            <td><?= $res['parent_contact'];?></td>
+                            <td><?= $res['grade_level'];?></td>
                             <td class="action">
-                                <a id="edit" href="?page=enrollees&lrn=<?php echo $res['lrn'];?>">Edit</a>
+                                <a id="edit" href="?page=enrollees&edit=<?php echo $res['lrn'];?>">Edit</a>
                                 <a id="delete" href="?page=enrollees&delete_student=<?php echo $res['lrn'];?>">Delete</a>
                             </td>
                         </tr>
                     <?php }
+                }
+                if (isset($_GET['edit'])) {
+                    $sql = "SELECT students.*, parent_information.* FROM students JOIN parent_information ON parent_information.student_lrn = students.lrn where students.lrn = " . $_GET['edit'];
+                    if ($result = mysqli_query($conn, $sql)) {
+                        if ($res = mysqli_fetch_array($result)) {?>
+                            <div class="edit">
+                                <div class="enrollee-info">
+                                    <a href="?page=enrollees"><div id="close-editor"></div></a>
+                                    <div class="row">
+                                        <img src="../../../../uploads/<?= $res['lrn']?>/<?= $res['student_picture']?>">
+                                        <div class="student-info">
+                                            <p><b>LRN : </b><?= $res['lrn']?></p>
+                                            <h1><?= $res['last_name']?>, <?= $res['first_name']?></h1>
+                                            <p><b>Enrolling for Grade : </b> <?= $res['grade_level']?></p>
+                                            <p><?= $res['email']?></p>
+                                            <p><?= $res['contact_number']?></p>
+                                            <p><b>Gender : </b><?= $res['gender']?></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p><b>Address : </b> <?= $res['house_address']?>, <?= $res['barangay']?>, <?= $res['city']?>, <?= $res['province']?></p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="parent-information">
+                                            <p><b>Parent/Guardian Name : </b> <?= $res['parent_name']?></p>
+                                            <p><b>Parent/Guardian Contact No. : </b> <?= $res['parent_contact']?></p>
+                                            <p><b>Relationship to the Enrollee : </b> <?= $res['parent_relationship']?></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="parent-information">
+                                            <p><b>Last School Attended : </b> <?= $res['last_school']?></p>
+                                            <p><b>Last School Address : </b> <?= $res['last_school_address']?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    }
                 }
                 CloseCon($conn);
                 ?>
