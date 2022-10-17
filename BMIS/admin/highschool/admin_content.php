@@ -4,9 +4,9 @@
     function dashboardContent()
     {
         $conn = OpenCon();
-        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level < 7;")){
+        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level > 6;")){
             if($row = mysqli_fetch_array($result)) {
-                $elementaryEnrollees = $row[0];
+                $highschoolEnrollees = $row[0];
             }
         }
         CloseCon($conn);
@@ -17,8 +17,8 @@
                     <img src="../../../img/add-user.png" alt="O" srcset="">
                 </div>
                 <div class="text">
-                    <p class="title">Number of Elementary Enrollees : </p>
-                    <p class="count"><?php echo $elementaryEnrollees; ?></p>
+                    <p class="title">Number of Highschool Enrollees : </p>
+                    <p class="count"><?= $highschoolEnrollees; ?></p>
                 </div>
             </div>
             <div class="box">
@@ -26,8 +26,8 @@
                     <img src="../../../img/reading-book.png" alt="O" srcset="">
                 </div>
                 <div class="text">
-                    <p class="title" style="font-size: 16px;">Number of Enrolled Elementary Students : </p>
-                    <p class="count"><?php //echo $elementaryStudents; ?>0</p>
+                    <p class="title" style="font-size: 16px;">Number of Enrolled Highschool Students : </p>
+                    <p class="count"><?php //echo $highschoolStudents; ?>0</p>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 </tr>
                 <?php
                 $conn = OpenCon();
-                $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level <7;";
+                $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level > 6;";
                 if($result = mysqli_query($conn, $sql)){
                     while ($res = mysqli_fetch_array($result)) {?>
                         <tr>

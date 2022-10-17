@@ -173,7 +173,7 @@ body{
         opacity: 100%;
     }
 }
-.edit{
+.edit, .small_box, .small_box{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.322);
@@ -244,5 +244,47 @@ body{
 }
 .edit .enrollee-info h1.title{
     text-align: center;
+    width: 100%;
+}
+.edit .enrollee-info .action{
+    width: 100%;
+}
+.edit .enrollee-info #confirm-enrollment, .small_box .container #yes, .small_box .container #proceed{
+    background-color: #0D6EFD;
+}
+.edit .enrollee-info #delete, .small_box .container #cancel{
+    background-color: #D83444;
+}
+.edit .enrollee-info .files{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+.edit .enrollee-info .files a{
+    color: inherit;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bolder;
+}
+
+.small_box .container{
+    animation: .5s ease-out 0s slideInFromTop;
+    background-color: white;
+    width: 450px;
+    height: 250px;
+    top: 20%;
+    left: 35%;
+    position: fixed;
+    border-radius: 16px;
+    overflow: scroll;
+    overflow: auto;
+    padding: 28px;
+}
+.small_box .container h1{
+    font-size: 25px;
+    text-align: center;
+}
+.small_box .container .action{
+    padding: 40px 0;
     width: 100%;
 }

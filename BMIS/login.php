@@ -21,8 +21,7 @@
             if($password == "highschool"){
                 $_SESSION['login-role'] = "highschool-admin";
                 $_SESSION['loggedin'] = true;
-                // header("location:../index.php");
-                echo $_SESSION['login-role'] . ' is ' .$_SESSION['loggedin'];
+                header("location:admin/highschool/admin.php?page=dashboard");
                 exit;
             }else {
                 $msg="
