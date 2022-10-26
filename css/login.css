@@ -62,7 +62,7 @@ textarea:focus, input:focus{
 }
 .right-column > .right-column-content > form > .login-btn{
     font-size: 18px;
-    background-color: #192732;
+    background-color: #C60C29;
     padding: 9px 50px;
     border-radius: 6px;
     color: white;
@@ -73,7 +73,7 @@ textarea:focus, input:focus{
     border: none;
 }
 .right-column > .right-column-content > form > .login-btn:hover{
-    background-color:  #2a4254;
+    background-color:  #CB243E;
 }
 
 .error-message{

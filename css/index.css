@@ -1,61 +1,254 @@
-body{
-    padding: 20px 50px;
-}
-
-.top-nav{
+section{
     display: flex;
-    justify-content: flex-end;
+    width: calc(100vw - (100vw - 100%));
 }
-.top-nav > a > .login-btn{
-    font-size: 18px;
-    background-color: #192732;
-    padding: 9px 38px;
-    border-radius: 6px;
+@font-face {
+    font-family: 'OpenSans Bold';
+    src: url('../font/OpenSans/OpenSans-Bold.ttf') format("truetype");
+}
+/* SECTION ONE */
+.section-one{
+    height: 93vh;
+}
+.section-one-left{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.section-one-left > img{
+    aspect-ratio: 1/1;
+    height: 320px;
+}
+.section-one-right{
+    width: 50%;
+    background-color: #C60C29;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    row-gap: 8px;
+    padding-right: 64px;
+}
+.section-one-right > p{
+    font-size: 40px;
     color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.5s;
-}
-.content{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-}
-.content > .left-column{
-    width: 45%;
-}
-.content > .left-column > img{
-    width: 120%;
-    object-fit: cover;
-}
-.content > .right-column{
-    width: 35%;
     text-align: right;
-    padding-top: 5%;
-    line-height: 5vh;
-    padding-right: 5%;
+    margin-left: auto;
 }
-.content > .right-column > h1{
-    padding-top: 2%;
-    font-size: 33px;
-    font-weight: 600;
+.section-one-right > p.header{
+    font-family: 'OpenSans Bold';
+    font-size: 44px;
 }
-.content > .right-column > p {
+.section-one-right > a{
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 16px;
+    font-size: 28px;
+    font-weight: bold;
+    transition: background 350ms ease-in, color 250ms ease-in 150ms;
+}
+#login{
+    padding: 12px 36px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 32px;
+    margin-right: 32px;
+}
+.section-one-right > a:hover{
+    background-color: #1a1a1a;
+    color: white;
+}
+/* SECTION TWO */
+.section-two{
+    height: 100vh;
+}
+.section-two-left{
+    width: 70%;
+    background-color: #C60C29;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 60px;
+    row-gap: 20px;
+    /* align-items: flex-end; */
+}
+.section-two-left > p{
+    font-size: 36px;
+    color: white;
+}
+.section-two-left > p.header{
+    font-family: 'OpenSans Bold';
+    font-size: 40px;
+}
+.section-two-right{
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.section-two-right > img{
+    aspect-ratio: 1/1;
+    height: 320px;
+}
+/* SECTION THREE */
+.section-three{
+    min-height: 100vh;
+    background-color: #C60C29;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 64px;
+}
+.section-three-top{
+    width: 100%;
+    text-align: center;
+    padding: 48px 0;
+}
+.section-three-top > p.header{
+    font-size: 52px;
+    font-family: 'OpenSans Bold';
+    color: white;
+}
+
+.section-three-bottom{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    padding: 0 40px;
+}
+.section-three-bottom-card{
+    width: 33.33%;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 28px;
+}
+.section-three-bottom-card > img{
+    width: 100%;
+    height: 250px;
+    object-fit:cover;
+    object-position: center;
+    border-top-left-radius: 75px;
+    border-bottom-right-radius: 75px;
+}
+.section-three-bottom-card > p{
+    color: white;
     font-size: 20px;
 }
-.content > .right-column > a > .enroll-btn{
-    font-size: 18px;
-    padding: 15px 25px;
-    cursor: pointer;
-    background-color: #192732;
-    margin-top: 8%;
-    border-radius: 6px;
-    color: white;
-    transition: 0.5s;
+.section-three-bottom-card > p.header{
+    font-family: 'OpenSans Bold';
+    font-size: 32px;
 }
-
-/* pseudo code */
-.top-nav > a > .login-btn:hover, .content > .right-column > a > .enroll-btn:hover{
-    background-color:  #2a4254;
+/* SECTION FOUR */
+.section-four{
+    height: 140vh;
+    display: flex;
+    flex-direction: column;
+}
+.section-four-top{
+    background-color: white;
+    height: 20%;
+    display: flex;
+    width: 100%;
+}
+.section-four-top > p.header{
+    width: 100%;
+    font-family: 'OpenSans Bold';
+    font-size: 52px;
+    align-self: center;
+    text-align: center;
+}
+.section-four-bottom{
+    background-color: #C60C29;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.section-four-bottom-card{
+    background-color: white;
+    border-radius: 50px;
+    width: 28%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    row-gap: 32px;
+}
+.section-four-bottom-card > img{
+    aspect-ratio: 16/9;
+    height: 200px;
+    object-fit:cover;
+    object-position: center;
+    border-radius: 8px;
+}
+.section-four-bottom-card > p.date{
+    opacity: 50%;
+    font-size: 20px;
+    font-weight: bold;
+}
+.section-four-bottom-card > p.description{
+    font-size: 22px;
+    font-weight: bold;
+}
+/* SECTION FIVE */
+.section-five{
+    height: 100vh;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+.section-five-top{
+    width: 100%;
+}
+.section-five-top > p.header{
+    width: 100%;
+    font-family: 'OpenSans Bold';
+    font-size: 52px;
+    align-self: center;
+    text-align: center;
+}
+.section-five-bottom{
+    display: grid;
+    grid-template-columns: 25% 25% 25%;
+    justify-content: space-around;
+    align-items: center;
+    gap: 50px;
+    width: 100%;
+    margin-top: 64px;
+}
+.section-five-bottom-announcement{
+    border: black 1px solid;
+    border-left: #C60C29 5px solid;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.section-five-bottom-announcement > p.date{
+    opacity: 50%;
+    font-size: 20px;
+    font-weight: bold;
+}
+.section-five-bottom-announcement > p.announcement{
+    font-size: 22px;
+    font-weight: bold;
+}
+footer{
+    background-color: black;
+    height: 72px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+footer > p{
+    color: white;
+    font-family: 'OpenSans Bold';
+    padding: 0 24px;
 }
