@@ -4,7 +4,7 @@
     function dashboardContent()
     {
         $conn = OpenCon();
-        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level < 7;")){
+        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level < 7 and students.isActive = true;")){
             if($row = mysqli_fetch_array($result)) {
                 $elementaryEnrollees = $row[0];
             }
@@ -52,23 +52,29 @@
                 </tr>
                 <?php
                 $conn = OpenCon();
-                $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level <7;";
+                $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level < 7 and students.isActive = true;";
                 if($result = mysqli_query($conn, $sql)){
-                    while ($res = mysqli_fetch_array($result)) {?>
-                        <tr>
-                            <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                            <td><?= $res['email'];?></td>
-                            <td><?= $res['contact_number'];?></td>
-                            <td><?= $res['parent_name'];?></td>
-                            <td><?= $res['parent_relationship'];?></td>
-                            <td><?= $res['parent_contact'];?></td>
-                            <td><?= $res['grade_level'];?></td>
-                            <td class="action">
-                                <a id="edit" href="?page=enrollees&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                <a id="delete" href="?page=enrollees&delete_student=<?php echo $res['lrn'];?>">Delete</a>
-                            </td>
-                        </tr>
-                    <?php }
+                    if(mysqli_num_rows($result) == 0){?>
+                        <tr><td colspan="100%"><h1>No Student Enrollees at the Moment</h1></td></tr>
+                    <?php }else {
+                        while ($res = mysqli_fetch_array($result)) {
+                            ?>
+                            <tr>
+                                <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                <td><?= $res['email'];?></td>
+                                <td><?= $res['contact_number'];?></td>
+                                <td><?= $res['parent_name'];?></td>
+                                <td><?= $res['parent_relationship'];?></td>
+                                <td><?= $res['parent_contact'];?></td>
+                                <td><?= $res['grade_level'];?></td>
+                                <td class="action">
+                                    <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                    <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                </td>
+                            </tr>
+                        <?php }
+                    }
+                    
                 }
                 if (isset($_GET['edit'])) {
                     $sql = "SELECT students.*, parent_information.* FROM students JOIN parent_information ON parent_information.student_lrn = students.lrn where students.lrn = " . $_GET['edit'];
@@ -76,7 +82,7 @@
                         if ($res = mysqli_fetch_array($result)) {?>
                             <div class="edit">
                                 <div class="enrollee-info">
-                                    <a href="?page=enrollees"><div id="close-editor"></div></a>
+                                    <a href="?page=<?= $_GET['page']?>"><div id="close-editor"></div></a>
                                     <div class="row">
                                         <img src="../../../../uploads/<?= $res['lrn']?>/<?= $res['student_picture']?>">
                                         <div class="student-info">
@@ -86,6 +92,11 @@
                                             <p><?= $res['email']?></p>
                                             <p><?= $res['contact_number']?></p>
                                             <p><b>Gender : </b><?= $res['gender']?></p>
+                                            <p><b>Age : </b><?php 
+                                                $today = date("y-m-d");
+                                                $age = date_diff(date_create($res['birth_date']), date_create($today));
+                                                echo $age -> format('%y');
+                                            ?></p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -93,7 +104,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="no-column">
-                                            <p><b>Birth Day : </b><?= $res['birth_date']?></p>
+                                            <p><b>Birth Day : </b><?= date("F j,Y", strtotime($res['birth_date']))?></p>
                                             <p><b>Birth Place : </b><?= $res['birth_place']?></p>
                                         </div>
                                     </div>
@@ -118,8 +129,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="action">
-                                            <a id="confirm-enrollment" href="?page=enrollees&confirm_enrollment=<?php echo $res['lrn'];?>">Confirm Enrollment</a>
-                                            <a id="delete" href="?page=enrollees&delete_student=<?php echo $res['lrn'];?>">Delete this Enrollee</a>
+                                            <a id="confirm-enrollment" href="?page=<?= $_GET['page']?>&confirm_enrollment=<?php echo $res['lrn'];?>">Confirm Enrollment</a>
+                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete this Enrollee</a>
                                         </div>
                                     </div>
                                 </div>
@@ -133,30 +144,24 @@
                         <div class="container">
                             <h1>Are you sure you want to delete <?= $_GET['delete_student']?>?</h1>
                             <div class="action">
-                                <a href="?page=enrollees" id="cancel">Cancel</a>
-                                <a href="?page=enrollees&yes=<?= $_GET['delete_student']?>" id="yes">Yes</a>
+                                <a href="?page=<?= $_GET['page']?>" id="cancel">Cancel</a>
+                                <a href="?page=<?= $_GET['page']?>&yes=<?= $_GET['delete_student']?>" id="yes">Yes</a>
                             </div>
                         </div>
                     </div>
                 <?php }
                 if (isset($_GET['yes'])) {
-                    $deleteEnrollees = "DELETE from enrollees where enrollees.student_lrn = " . $_GET['yes'];
-                    $deleteParentInfo = "DELETE from parent_information where parent_information.student_lrn = " . $_GET['yes'];
-                    $deleteStudent = "DELETE from students where students.lrn = " . $_GET['yes'];
-                    if(mysqli_query($conn, $deleteEnrollees)){
-                        if(mysqli_query($conn, $deleteParentInfo)){
-                            if(mysqli_query($conn, $deleteStudent)){?>
-                                <div class="small_box">
-                                    <div class="container">
-                                        <h1><?= $_GET['yes']?> successfully Deleted in the Database</h1>
-                                        <div class="action">
-                                            <a href="?page=enrollees" id="proceed">Proceed to Enrollees!</a>
-                                        </div>
-                                    </div>
+                    $deleteStudent = "UPDATE students set students.isActive = false where students.lrn =" . $_GET['yes'];
+                    if(mysqli_query($conn, $deleteStudent)){?>
+                        <div class="small_box">
+                            <div class="container">
+                                <h1><?= $_GET['yes']?> successfully Deleted in the Database</h1>
+                                <div class="action">
+                                    <a href="?page=<?= $_GET['page']?>" id="proceed">Proceed to Enrollees!</a>
                                 </div>
-                            <?php }
-                        }
-                    }
+                            </div>
+                        </div>
+                    <?php }
                 }
                 CloseCon($conn);
                 ?>

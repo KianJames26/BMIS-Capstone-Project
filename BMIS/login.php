@@ -3,6 +3,7 @@
         session_start();
         $_SESSION['loggedin'] = false;
         $id_num = $_POST['id-num'];
+        $_SESSSION['id_num'] = $_POST['id-num'];
         $password = $_POST['password'];
         if ($id_num == "elem_admin") {
             if($password == "elementary"){
@@ -59,12 +60,12 @@
                 <div class="right-column-content">
                     <img src="../img/logo.png" alt="BMIS Logo">
                     <h2>Barasoain Memorial Integrated School</h2>
-                    <form action="" method="post">
+                    <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
                         <?php if(isset($msg)){?>
                         <?php echo $msg;?>
                         <?php } ?>
                         <label for="id-num">ID number</label>
-                        <input type="text" name="id-num" id="id-num" placeholder="Enter ID Number">
+                        <input type="text" name="id-num" id="id-num" placeholder="Enter ID Number" value="<?php echo isset($_POST['id-num']) ? $_POST['id-num'] : ''; ?>">
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Enter Password">
                         <input name="Submit" type="submit" value="Login" class="login-btn">
@@ -72,7 +73,5 @@
                 </div>
             </div>
         </div>
-
-        
     </body>
 </html>

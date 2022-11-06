@@ -23,7 +23,7 @@ CREATE TABLE Students(
     student_picture varchar(255) NOT NULL,
     report_card varchar(255) NOT NULL,
     birth_certificate varchar(255) NOT NULL,
-    isOnline boolean,
+    isActive boolean,
     
     PRIMARY KEY (lrn)
 );

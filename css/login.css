@@ -76,6 +76,22 @@ textarea:focus, input:focus{
     background-color:  #CB243E;
 }
 
+@keyframes slideInFromTop{
+    0% {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+    50%{
+        opacity: 50%;
+    }
+    75%{
+        opacity: 75%;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 100%;
+    }
+}
 .error-message{
     display: flex;
     flex-direction: column;
@@ -87,6 +103,7 @@ textarea:focus, input:focus{
     border: red solid 2px;
     border-radius: 10px;
     padding: 30px 75px;
+    animation: .5s ease-out 0s slideInFromTop;
 }
 .error-message img{
     width: 60px;

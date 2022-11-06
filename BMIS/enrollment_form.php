@@ -24,7 +24,7 @@
         $province = $_POST['province'];
         $lastSchool = $_POST['last-school'];
         $lastSchoolAddress = $_POST['last-school-address'];
-        $isOnline = True;
+        $isActive = True;
         $parentName = $_POST['parent-fullname'];
         $parentContact = $_POST['parent-contact'];
         $parentRelationship = $_POST['relationship'];
@@ -39,7 +39,7 @@
 
         if(move_uploaded_file($_FILES['student-picture']['tmp_name'], $targetDir . $studentPicture) && move_uploaded_file($_FILES['report-card']['tmp_name'], $targetDir . $reportCard) && move_uploaded_file($_FILES['birth-certificate']['tmp_name'], $targetDir . $birthCertificate)){
             $addStudentInfo = "INSERT INTO students(lrn, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, contact_number, email, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isOnline)
-                            VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isOnline')";
+                            VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isActive')";
             $addParentInfo = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
                             VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
             $addStudentToEnrollees = "INSERT INTO Enrollees(student_lrn)

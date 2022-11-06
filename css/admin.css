@@ -51,7 +51,7 @@ body{
 }
 .navigation a{
     text-decoration: none;
-    color: black;
+    color: white;
     font-size: 20px;
     margin-bottom: 4px;
     padding: 12px 0px;
@@ -98,7 +98,7 @@ body{
     width: 64px;
 }
 .dashboard .box .text{
-    color: black;
+    color: white;
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -121,7 +121,7 @@ body{
     overflow: auto;
 }
 .enrollees table{
-    height: 200px;
+    max-height: 200px;
     overflow: scroll;
     overflow: auto;
     text-align: center;
@@ -146,7 +146,7 @@ body{
 }
 .enrollees .action a{
     text-decoration: none;
-    color: black;
+    color: white;
     padding: 8px 16px;
     border-radius: 8px;
 }
@@ -230,6 +230,8 @@ body{
 .edit .enrollee-info .row img{
     aspect-ratio: 1/1;
     width: 200px;
+    object-fit:cover;
+    object-position: center;
     border: 1px black solid;
     border-radius: 8px;
 }
