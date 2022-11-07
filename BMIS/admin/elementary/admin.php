@@ -4,6 +4,7 @@
     }else {
         include '../../phpMethods/connection.php';
         include 'admin_content.php';
+        $gradeLevel = "< 7";
         if (isset($_GET['logout'])) {
             header("Location: ../../../index.php");
             session_destroy();
@@ -35,9 +36,9 @@
                 <div class="container">
                     <?php
                         if ($_GET['page'] == "dashboard") {
-                            echo dashboardContent();
+                            echo dashboardContent($gradeLevel);
                         }else if($_GET['page'] == "enrollees"){
-                            echo enrolleesContent();
+                            echo enrolleesContent($gradeLevel);
                         }else if($_GET['page'] == "enrolled_students"){
                             echo enrolledStudentsContent();
                         }else if($_GET['page'] == "enrollment_form"){

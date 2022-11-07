@@ -120,11 +120,39 @@ body{
     overflow: scroll;
     overflow: auto;
 }
+.enrollees form{
+    display: flex;
+    margin-bottom: 16px;
+    column-gap: 16px;
+    align-items: center;
+    position: fixed;
+    width: 1005px;
+    background-color: white;
+    height: 64px;
+    top: 145;
+}
+.enrollees form input{
+    font-size: 18px;
+    border: #DDDDDD solid 2px;
+    border-radius: 12px;
+    padding: 10px;
+    width: 400px;
+}
+.enrollees form button{
+    font-size: 18px;
+    padding: 8px 36px;
+    cursor: pointer;
+    background-color: #C60C29;
+    border-radius: 6px;
+    color: white;
+    transition: 0.5s;
+}
 .enrollees table{
     max-height: 200px;
     overflow: scroll;
     overflow: auto;
     text-align: center;
+    margin-top: 64px;
 }
 .enrollees table, .enrollees tr, .enrollees th, .enrollees td{
     border: #CCCCCC 1px solid;

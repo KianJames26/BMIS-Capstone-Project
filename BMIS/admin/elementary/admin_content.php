@@ -1,10 +1,10 @@
 <?php
     //Write Dashboard content Below!
     
-    function dashboardContent()
+    function dashboardContent($gradeLevel)
     {
         $conn = OpenCon();
-        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level < 7 and students.isActive = true;")){
+        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true;")){
             if($row = mysqli_fetch_array($result)) {
                 $elementaryEnrollees = $row[0];
             }
@@ -34,11 +34,16 @@
     <?php ;
     }
     //Write Enrollees content Below!
-    function enrolleesContent()
+    function enrolleesContent($gradeLevel)
     {
+        $searchKeyword = "";
         ?>
     
         <div class="enrollees">
+            <form action="admin.php?page=<?= $_GET['page']?>" method="post">
+                <input type="search" name="search-keyword" id="search" placeholder="Search LRN, First Name or Last Name" value="<?php echo isset($_POST['search-keyword']) ? $_POST['search-keyword'] : ''; ?>">
+                <button name="search">Search</button>
+            </form>
             <table>
                 <tr class="table-header">
                     <th>Full Name</th>
@@ -52,30 +57,59 @@
                 </tr>
                 <?php
                 $conn = OpenCon();
-                $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level < 7 and students.isActive = true;";
-                if($result = mysqli_query($conn, $sql)){
-                    if(mysqli_num_rows($result) == 0){?>
-                        <tr><td colspan="100%"><h1>No Student Enrollees at the Moment</h1></td></tr>
-                    <?php }else {
-                        while ($res = mysqli_fetch_array($result)) {
-                            ?>
-                            <tr>
-                                <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                <td><?= $res['email'];?></td>
-                                <td><?= $res['contact_number'];?></td>
-                                <td><?= $res['parent_name'];?></td>
-                                <td><?= $res['parent_relationship'];?></td>
-                                <td><?= $res['parent_contact'];?></td>
-                                <td><?= $res['grade_level'];?></td>
-                                <td class="action">
-                                    <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                    <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
-                                </td>
-                            </tr>
-                        <?php }
-                    }
-                    
+                if(isset($_POST['search'])){
+                    $searchKeyword = $_POST['search-keyword'];
                 }
+                if(trim($searchKeyword) == ""){
+                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true;";
+                    if($result = mysqli_query($conn, $sql)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <tr><td colspan="100%"><h1>No Student Enrollees at the Moment</h1></td></tr>
+                        <?php }else{
+                            while ($res = mysqli_fetch_array($result)) {
+                                ?>
+                                <tr id=<?= $res['lrn']?>>
+                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                    <td><?= $res['email'];?></td>
+                                    <td><?= $res['contact_number'];?></td>
+                                    <td><?= $res['parent_name'];?></td>
+                                    <td><?= $res['parent_relationship'];?></td>
+                                    <td><?= $res['parent_contact'];?></td>
+                                    <td><?= $res['grade_level'];?></td>
+                                    <td class="action">
+                                        <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                        <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php }
+                        }
+                    }
+                }else {
+                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and (students.lrn like '". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
+                    if($result = mysqli_query($conn, $sql)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <tr><td colspan="100%"><h1>There are no data fetched in your search</h1></td></tr>
+                        <?php }else{
+                            while ($res = mysqli_fetch_array($result)) {
+                                ?>
+                                <tr id=<?= $res['lrn']?>>
+                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                    <td><?= $res['email'];?></td>
+                                    <td><?= $res['contact_number'];?></td>
+                                    <td><?= $res['parent_name'];?></td>
+                                    <td><?= $res['parent_relationship'];?></td>
+                                    <td><?= $res['parent_contact'];?></td>
+                                    <td><?= $res['grade_level'];?></td>
+                                    <td class="action">
+                                        <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                        <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php }
+                        }
+                    }
+                }
+                
                 if (isset($_GET['edit'])) {
                     $sql = "SELECT students.*, parent_information.* FROM students JOIN parent_information ON parent_information.student_lrn = students.lrn where students.lrn = " . $_GET['edit'];
                     if ($result = mysqli_query($conn, $sql)) {
