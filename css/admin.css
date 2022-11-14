@@ -332,3 +332,70 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.admin-controls{
+    height: 430px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.admin-controls .sub-pages a{
+    padding: 8px 32px;
+    border-top: 2px solid #C60C29;
+    border-left: 2px solid #C60C29;
+    border-right: 2px solid #C60C29;
+    border-radius: 5px 5px 0 0;
+    text-decoration: none;
+    color: black;
+    transition: padding 250ms ease-in;
+}
+.admin-controls .sub-pages a:hover{
+    padding-top: 12px;
+}
+.admin-controls .sub-pages #active-sub-page{
+    padding: 8px 32px !important;
+    background-color: #C60C29;
+    color: white;
+    border: none !important;
+}
+.admin-controls .sub-page-container{
+    background-color: #C60C29;
+    color: white;
+    height: 420px;
+    padding: 16px 32px;
+    border-radius: 0px 5px 5px 5px;
+    width: auto;
+}
+.sub-page-school-year{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.sub-page-school-year  .sub-page-header{
+    font-size: 28px;
+}
+.school-year-content{
+    display: flex;
+    width: 100%;
+    height: 300px;
+}
+.school-year-content > .left, .school-year-content > .right,.school-year-content > .right > a{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.school-year-content > .right > a{
+    color: white;
+    text-decoration: none;
+}
+.school-year-content > .right img{
+    width: 200px;
+    aspect-ratio: 1/1;
+}
+
+

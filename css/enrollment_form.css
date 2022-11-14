@@ -47,7 +47,6 @@ span.required::before{
 .hidden{
     width: 100vw;
     height: 100vh;
-    /* margin-top: -30px; */
     background-color: rgba(0, 0, 0, 0.322);
     position: fixed;
     top: 0%;
@@ -191,10 +190,12 @@ dialog .actions button{
 }
 .container .row input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 .container .row input::-webkit-outer-spin-button,
 .container .row input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+    appearance: none;
     margin: 0;
 }
 textarea:focus, input:focus{

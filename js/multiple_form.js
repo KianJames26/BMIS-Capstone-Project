@@ -4,6 +4,7 @@ function showErrorBox(msg, inputBox) {
     document.getElementById('form').appendChild(errorBox);
     const okBtn = document.getElementById('ok');
     okBtn.addEventListener('click', ()=>{
+        topFunction();
         hideErrorBox(inputBox);
     });
 }
@@ -20,8 +21,8 @@ function hideErrorBox(inputBox) {
 }
 
 function topFunction() {
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    const container = document.getElementsByClassName('container')[0];
+    container.scrollTop = 0;
 }
 function goToPageOne() {
     const pageOne = document.getElementById("page-1");

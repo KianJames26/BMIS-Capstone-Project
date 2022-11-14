@@ -11,6 +11,26 @@
     <title>BIMS Enrollment</title>
 </head>
 <body>
+    <script>
+        function showEnrollmentDialog() {
+            const hidden = document.getElementsByClassName('hidden')[0];
+            hidden.style.display = 'block';
+        }
+        function hideEnrollmentDialog() {
+            const hiddin = document.getElementsByClassName('hidden')[0];
+            hidden.style.display = "none";
+        }
+    </script>
+    <div class="hidden">
+        <dialog>
+            <a href="index.php"><div id="close-editor"></div></a>
+            <p class="title">What kind of Enrollee are you?</p>
+            <div class="link">
+                <a href="BMIS/enrollment_form.php">New Student</a>
+                <a href="">Old Student</a>
+            </div>
+        </dialog>
+    </div>
     <section class="section-one">
         <div class="section-one-left">
             <img src="img/logo.png" alt="">
@@ -19,7 +39,7 @@
             <a href="BMIS/login.php" id="login">Login</a>
             <p>Welcome to</p>
             <p class="header">Barasoain Memorial <br> Integrated School <br> e-Enrollment</p>
-            <a href="BMIS/enrollment_form.php">Enroll Now!</a>
+            <button href="BMIS/enrollment_form.php" onclick="showEnrollmentDialog()">Enroll Now!</button>
         </div>
     </section>
     <section class="section-two">

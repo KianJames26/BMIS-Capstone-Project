@@ -226,7 +226,7 @@
                 </div>
                 <div class="row">
                     <div class="column">
-                        <label for="house-address">House number & Street <span class="required"></span></label>
+                        <label for="house-address">House Number & Street</label>
                         <input type="text" name="house-address" id="house-address" placeholder="Enter House Number & Street">
                     </div>
                     <div class="column">
