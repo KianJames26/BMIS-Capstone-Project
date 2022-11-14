@@ -43,6 +43,7 @@
             <form action="admin.php?page=<?= $_GET['page']?>" method="post">
                 <input type="search" name="search-keyword" id="search" placeholder="Search LRN, First Name or Last Name" value="<?php echo isset($_POST['search-keyword']) ? $_POST['search-keyword'] : ''; ?>">
                 <button name="search">Search</button>
+                <a href="?page=archived">View Archive Students</a>
             </form>
             <table>
                 <tr class="table-header">
@@ -203,6 +204,107 @@
         </div>
     <?php ;
     }
+    //Write Archived Content Below!
+    function archived($gradeLevel){
+        $searchKeyword = "";
+        ?>
+    
+        <div class="enrollees">
+            <form action="admin.php?page=<?= $_GET['page']?>" method="post">
+                <input type="search" name="search-keyword" id="search" placeholder="Search LRN, First Name or Last Name" value="<?php echo isset($_POST['search-keyword']) ? $_POST['search-keyword'] : ''; ?>">
+                <button name="search">Search</button>   
+            </form>
+            <table>
+                <tr class="table-header">
+                    <th>Full Name</th>
+                    <th>Email Adress</th>
+                    <th>Contact Number</th>
+                    <th>Parent/Guardian Information</th>
+                    <th>Relationship</th>
+                    <th>Parent Contact Number</th>
+                    <th>Grade Level</th>
+                    <th>Action</th>
+                </tr>
+                <?php
+                $conn = OpenCon();
+                if(isset($_POST['search'])){
+                    $searchKeyword = $_POST['search-keyword'];
+                }
+                if(trim($searchKeyword) == ""){
+                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = false;";
+                    if($result = mysqli_query($conn, $sql)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <tr><td colspan="100%"><h1>No Archived Students</h1></td></tr>
+                        <?php }else{
+                            while ($res = mysqli_fetch_array($result)) {
+                                ?>
+                                <tr id=<?= $res['lrn']?>>
+                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                    <td><?= $res['email'];?></td>
+                                    <td><?= $res['contact_number'];?></td>
+                                    <td><?= $res['parent_name'];?></td>
+                                    <td><?= $res['parent_relationship'];?></td>
+                                    <td><?= $res['parent_contact'];?></td>
+                                    <td><?= $res['grade_level'];?></td>
+                                    <td class="action">
+                                        <a id="edit" href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>">Restore</a>
+                                    </td>
+                                </tr>
+                            <?php }
+                        }
+                    }
+                }else {
+                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = false and (students.lrn like '". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
+                    if($result = mysqli_query($conn, $sql)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <tr><td colspan="100%"><h1>There are no data fetched in your search</h1></td></tr>
+                        <?php }else{
+                            while ($res = mysqli_fetch_array($result)) {
+                                ?>
+                                <tr id=<?= $res['lrn']?>>
+                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                    <td><?= $res['email'];?></td>
+                                    <td><?= $res['contact_number'];?></td>
+                                    <td><?= $res['parent_name'];?></td>
+                                    <td><?= $res['parent_relationship'];?></td>
+                                    <td><?= $res['parent_contact'];?></td>
+                                    <td><?= $res['grade_level'];?></td>
+                                    <td class="action">
+                                        <a id="edit" href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>">Restore</a>
+                                    </td>
+                                </tr>
+                            <?php }
+                        }
+                    }
+                }
+                if(isset($_GET['restore'])){?>
+                    <div class="small_box">
+                        <div class="container">
+                            <h1>Are you sure you want to restore <?= $_GET['restore']?>?</h1>
+                            <div class="action">
+                                <a href="?page=<?= $_GET['page']?>" id="cancel">Cancel</a>
+                                <a href="?page=<?= $_GET['page']?>&yes=<?= $_GET['restore']?>" id="yes">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php ;}
+                if (isset($_GET['yes'])){
+                    $restoreStudent = "UPDATE students set students.isActive = true where students.lrn =" . $_GET['yes'] . ";";
+                    if(mysqli_query($conn, $restoreStudent)){?>
+                        <div class="small_box">
+                            <div class="container">
+                                <h1><?= $_GET['yes']?> was successfully restored</h1>
+                                <div class="action">
+                                    <a href="?page=<?= $_GET['page']?>" id="proceed">Proceed back to Archives!</a>
+                                    <a href="?page=enrollees" id="proceed">Proceed to Enrollees!</a>
+                                </div>
+                            </div>
+                        </div>
+                <?php ; }?>
+            </table>
+        </div>
+    <?php ;}
+    }
     //Write Enrolled Students Content Below!
     function enrolledStudentsContent(){?>
         This is Enrolled Students
@@ -213,5 +315,4 @@
     {?>
         This is Enrollment Form
     <?php ;
-    }
-?>
+    }?>

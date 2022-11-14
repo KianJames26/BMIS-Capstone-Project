@@ -138,7 +138,7 @@ body{
     padding: 10px;
     width: 400px;
 }
-.enrollees form button{
+.enrollees form button, .enrollees form a{
     font-size: 18px;
     padding: 8px 36px;
     cursor: pointer;
@@ -146,6 +146,10 @@ body{
     border-radius: 6px;
     color: white;
     transition: 0.5s;
+    text-decoration: none;
+}
+.enrollees form a{
+    margin-left: auto;
 }
 .enrollees table{
     max-height: 200px;
@@ -317,4 +321,14 @@ body{
 .small_box .container .action{
     padding: 40px 0;
     width: 100%;
+    display: flex;
+    column-gap: 10px;
+}
+.small_box .container .action a{
+    width: 45%;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

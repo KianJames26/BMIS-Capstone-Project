@@ -1,9 +1,10 @@
 <?php session_start();
-    if ($_SESSION['loggedin'] == false && $_SESSION['login-role'] != "highschool-admin") {
+    if ($_SESSION['loggedin'] == false && $_SESSION['login-role'] != "elementary-admin") {
         header("Location: ../../../index.php");
     }else {
         include '../../phpMethods/connection.php';
         include 'admin_content.php';
+        $gradeLevel = ">= 7";
         if (isset($_GET['logout'])) {
             header("Location: ../../../index.php");
             session_destroy();
@@ -17,7 +18,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="../../../css/default.css">
             <link rel="stylesheet" href="../../../css/admin.css">
-            <title>BMIS HighSchool</title>
+            <title>BMIS High School</title>
         </head>
         <body>
             <div class="header">
@@ -35,13 +36,15 @@
                 <div class="container">
                     <?php
                         if ($_GET['page'] == "dashboard") {
-                            echo dashboardContent();
+                            echo dashboardContent($gradeLevel);
                         }else if($_GET['page'] == "enrollees"){
-                            echo enrolleesContent();
+                            echo enrolleesContent($gradeLevel);
                         }else if($_GET['page'] == "enrolled_students"){
                             echo enrolledStudentsContent();
                         }else if($_GET['page'] == "enrollment_form"){
                             echo enrollmentFormContent();
+                        }else if($_GET['page'] == "archived"){
+                            echo archived($gradeLevel);
                         }else{
                             header("Location: ../../../index.php");
                             session_destroy();

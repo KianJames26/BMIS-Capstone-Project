@@ -43,6 +43,8 @@
                             echo enrolledStudentsContent();
                         }else if($_GET['page'] == "enrollment_form"){
                             echo enrollmentFormContent();
+                        }else if($_GET['page'] == "archived"){
+                            echo archived($gradeLevel);
                         }else{
                             header("Location: ../../../index.php");
                             session_destroy();
