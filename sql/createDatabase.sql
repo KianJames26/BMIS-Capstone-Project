@@ -1,6 +1,12 @@
 CREATE DATABASE BMIS_DB;
 USE BMIS_DB;
 
+CREATE TABLE school_years(
+    school_year varchar(9) not null UNIQUE,
+    isActive boolean,
+
+    PRIMARY KEY (school_year)
+);
 CREATE TABLE Students(
     lrn varchar(12) NOT NULL UNIQUE,
     first_name varchar(50) NOT NULL,
@@ -14,6 +20,7 @@ CREATE TABLE Students(
     email varchar(255) NOT NULL,
     grade_level int NOT NULL,
     section int,
+    school_year varchar(9),
     house_address varchar(255) NOT NULL,
     barangay varchar(255) NOT NULL,
     city varchar(255) NOT NULL,
@@ -24,8 +31,9 @@ CREATE TABLE Students(
     report_card varchar(255) NOT NULL,
     birth_certificate varchar(255) NOT NULL,
     isActive boolean,
-    
-    PRIMARY KEY (lrn)
+
+    PRIMARY KEY (lrn),
+    FOREIGN KEY (school_year) REFERENCES School_Years(school_year)
 );
 CREATE TABLE Parent_Information(
     student_lrn varchar(12) NOT NULL UNIQUE,

@@ -397,5 +397,93 @@ body{
     width: 200px;
     aspect-ratio: 1/1;
 }
+.sub-page-container > .small_box .action{
+    justify-content: center;
+    gap: 16px !important;
+    padding: 16px 0 !important;
+}
+.sub-page-container > .small_box a{
+    text-decoration: none;
+    color: white;
+    width: auto !important;
+    padding: 8px 32px;
+    border-radius: 5px;
+    font-size: 16px !important;
+}
+.sub-page-container > .small_box h1{
+    color: black !important;
+}
 
+.sub-page-container > form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 12px;
+}
+.sub-page-container > form h1{
+    padding-bottom: 60px;
+    padding-top: 20px;
+}
+.sub-page-container > form input[type ="text"]{
+    width: 30%;
+    padding: 12px 8px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+.sub-page-container > form input[type ="submit"]{
+    padding: 8px 32px;
+    font-size: 18px;
+    color: black;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #E89DA9;
+}
 
+.sub-page-container > .alert-box{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.322);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.alert-box__container{
+    background-color: white;
+    min-height: 150px;
+    width: 450px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    animation: .5s ease-out 0s slideInFromTop;
+    justify-content: center;
+    row-gap: 20px;
+    padding: 20px 0;
+}
+.alert-box__container > p{
+    color: black;
+    font-family: 'OpenSans SemiBold';
+    font-size: 24px;
+    align-self: center;
+}
+.alert-box__container > p.sub{
+    font-size: 18px;
+    align-self: center;
+    text-align: center;
+}
+.alert-box__container > button{
+    cursor: pointer;
+    background-color: #0D6EFD;
+    color: white;
+    align-self: center;
+    padding: 8px 32px;
+    font-size: 20px;
+    border-radius: 8px;
+}
+
+.hidden-alert-box{
+    opacity: 0;
+}

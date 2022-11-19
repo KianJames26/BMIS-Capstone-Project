@@ -1,6 +1,5 @@
 <?php
     //Write Dashboard content Below!
-    
     function dashboardContent($gradeLevel)
     {
         $conn = OpenCon();
@@ -306,7 +305,9 @@
     <?php ;}
     }
     //Write Admin Controls Content Below!
-    function adminControlsContent(){?>
+    function adminControlsContent(){
+        $conn = OpenCon();
+        ?>
         <div class="admin-controls">
             <nav class="sub-pages">
                 <a <?php if($_GET["sub-page"] == "news"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=news'";}?> >News</a>
@@ -320,40 +321,116 @@
                     </div>
                 <?php ;}else if ($_GET["sub-page"] == "announcement") {?>
                     <div>Announcement</div>
-                <?php ;}else if ($_GET["sub-page"] == "school-year") {?>
-                    <div class="sub-page-school-year">
-                        <p class="sub-page-header">Current School Year : 2022-2023</p>
-                        <div class="school-year-content">
-                            <div class="left">
-                                <p class="sub-page-header">Total Enrollees: 200</p>
-                                <p>Grade 1 : 33</p>
-                                <p>Grade 2 : 33</p>
-                                <p>Grade 3 : 33</p>
-                                <p>Grade 4 : 33</p>
-                                <p>Grade 5 : 33</p>
-                                <p>Grade 6 : 35</p>
-                            </div>
-                            <div class="right">
-                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=school-year"><img src="../../../img/circular.png">Reset School Year</a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if (isset($_GET['reset'])) {?>
-                    <div class="small_box">
-                        <div class="container">
-                            <h1 style="color:black;">Are you sure you want to reset school year?</h1>
-                            <p>Note: This will end the whole school year and will require students to enroll again.</p>
-                            <div class="action">
-                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="cancel">Cancel</a>
-                                <a href="" id="yes">Yes</a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php ;}?>
+                <?php ;}else if ($_GET["sub-page"] == "school-year") {
+                    $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
+                    if($result = mysqli_query($conn, $selectActiveSchoolYear)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <script>
+                                function hideAlertBox() {
+                                    const alertBox = document.getElementsByClassName('alert-box')[0];
+                                    alertBox.className = "hidden-alert-box";
+                                }
+                            </script>
+                            <form action="" method="post" onsubmit="return confirm('Do you want to submit?')">
+                                <h1>No School Year is active at the moment</h1>
+                                <label for="school-year">Input or select School Year to be created : </label>
+                                <input type="text" name="school-year" list="school-year-list" placeholder="20xx-20yy" value="<?php echo isset($_POST['school-year']) ? $_POST['school-year'] : ''; ?>">
+                                <datalist id="school-year-list">
+                                    <option value="2022-2023">
+                                    <option value="2023-2024">
+                                    <option value="2024-2025">
+                                    <option value="2025-2026">
+                                    <option value="2026-2027">
+                                </datalist>
+                                <input type="submit" value="Create">
+                            </form>
+                            <?php
+                                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                    $schoolYear = trim($_REQUEST['school-year']);
+                                    if (empty($schoolYear)) {?>
+                                        <div class="alert-box">
+                                            <div class="alert-box__container">
+                                                <p>School Year Field can't be empty</p>
+                                                <button onclick="hideAlertBox()">Okay</button>
+                                            </div>
+                                        </div>
+                                    <?php } else if(strlen($schoolYear) !=9){?>
+                                        <div class="alert-box">
+                                            <div class="alert-box__container">
+                                                <p>Invalid School Year</p>
+                                                <p class="sub">Please input a proper school year <br>(example : 2010-2011)</p>
+                                                <button onclick="hideAlertBox()">Okay</button>
+                                            </div>
+                                        </div>
+                                    <?php } else {
+                                        $insertSchoolYear = "INSERT INTO school_years VALUES('$schoolYear', true)";
+                                        $reactivateSchoolYear = "UPDATE school_years SET school_years.isActive = true WHERE school_years.school_year = '".$schoolYear."';";
+                                        if ($result = mysqli_query($conn, "SELECT * FROM school_years WHERE school_years.school_year ='".$schoolYear."';")) {
+                                            if (mysqli_num_rows($result) == 0) {
+                                                if (mysqli_query($conn, $insertSchoolYear)) {
+                                                    header("Refresh:0");
+                                                }
+                                            }else{
+                                                if(mysqli_query($conn, $reactivateSchoolYear)){
+                                                    header("Refresh:0");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                ?>
+                        <?php ;}else{
+                            while($res = mysqli_fetch_array($result)){?>
+                                <div class="sub-page-school-year">
+                                    <p class="sub-page-header">Current School Year : <?= $res['school_year']?> </p>
+                                    <div class="school-year-content">
+                                        <div class="left">
+                                            <p class="sub-page-header">Total Enrollees: 200</p>
+                                            <p>Grade 1 : 33</p>
+                                            <p>Grade 2 : 33</p>
+                                            <p>Grade 3 : 33</p>
+                                            <p>Grade 4 : 33</p>
+                                            <p>Grade 5 : 33</p>
+                                            <p>Grade 6 : 35</p>
+                                        </div>
+                                        <div class="right">
+                                            <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=<?= $res['school_year']?>"><img src="../../../img/circular.png">Reset School Year</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php if (isset($_GET['reset'])) {?>
+                                    <div class="small_box">
+                                        <div class="container">
+                                            <h1>Are you sure you want to reset school year?</h1>
+                                            <p>Note: This will end the whole school year and will require students to enroll again.</p>
+                                            <div class="action">
+                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="cancel">Cancel</a>
+                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&resetting=<?= $_GET['reset']?>" id="yes">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php ;}?>
+                            <?php ;}
+                        }
+                    }
+                    ?>
                 <?php ;}else{
                     header("Location: ../../../index.php");
                     session_destroy();
                 }?>
+                <?php if(isset($_GET['resetting'])){
+                    $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['resetting']."';";
+                    mysqli_query($conn, $resetQuery);
+                    ?>
+                    <div class="small_box">
+                        <div class="container">
+                            <h1>School Year <?= $_GET['resetting']?> successfully reset!</h1>
+                            <div class="action">
+                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="proceed">Proceed to School Year</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php ;} ?>
             </div>
         </div>
     <?php ;
