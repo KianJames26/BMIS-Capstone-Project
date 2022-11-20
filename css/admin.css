@@ -120,7 +120,7 @@ body{
     overflow: scroll;
     overflow: auto;
 }
-.enrollees form{
+.enrollees > form{
     display: flex;
     margin-bottom: 16px;
     column-gap: 16px;
@@ -131,14 +131,14 @@ body{
     height: 64px;
     top: 145;
 }
-.enrollees form input{
+.enrollees > form input{
     font-size: 18px;
     border: #DDDDDD solid 2px;
     border-radius: 12px;
     padding: 10px;
     width: 400px;
 }
-.enrollees form button, .enrollees form a{
+.enrollees > form button, .enrollees > form a{
     font-size: 18px;
     padding: 8px 36px;
     cursor: pointer;
@@ -148,7 +148,7 @@ body{
     transition: 0.5s;
     text-decoration: none;
 }
-.enrollees form a{
+.enrollees > form a{
     margin-left: auto;
 }
 .enrollees table{
@@ -331,6 +331,55 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.enrollment-confirmation{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.322);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.enrollment-confirmation__container{
+    background-color: white;
+    width: 600px;
+    height: 400px;
+    overflow: scroll;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 24px 32px;
+    row-gap: 15px;
+    animation: .5s ease-out 0s slideInFromTop;
+}
+.enrollment-confirmation__container > p.sub-header{
+    font-style: italic;
+    text-align: center;
+    font-size: 16px !important;
+}
+.enrollment-confirmation__container > p, .enrollment-confirmation__container > .input > label{
+    font-size: 20px;
+}
+.enrollment-confirmation__container > .input > select{
+    border: 2px solid black;
+    padding: 2px;
+    font-size: 20px;
+    border-radius: 5px;
+    font-family: 'OpenSans SemiBold';
+}
+.enrollment-confirmation__container > input{
+    color: white;
+    background-color: #0D6EFD;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .admin-controls{
