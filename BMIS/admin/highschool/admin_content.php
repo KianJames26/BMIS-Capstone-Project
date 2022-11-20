@@ -1,12 +1,24 @@
 <?php
     //Write Dashboard content Below!
-    
     function dashboardContent($gradeLevel)
     {
         $conn = OpenCon();
         if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true;")){
             if($row = mysqli_fetch_array($result)) {
                 $elementaryEnrollees = $row[0];
+            }
+        }
+        $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
+        if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYear)) == 0){
+            $elementaryStudents = 0;
+        }else{
+            if ($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))) {
+                $enrolleStudentsQuery = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE `". $activeSchoolYear['school_year'] ."`.grade_level". $gradeLevel;
+                if (mysqli_num_rows(mysqli_query($conn, $enrolleStudentsQuery)) == 0) {
+                    $elementaryStudents = 0;
+                }else{
+                    $elementaryStudents = mysqli_num_rows(mysqli_query($conn, $enrolleStudentsQuery));
+                }
             }
         }
         CloseCon($conn);
@@ -17,7 +29,7 @@
                     <img src="../../../img/add-user.png" alt="O" srcset="">
                 </div>
                 <div class="text">
-                    <p class="title">Number of High School Enrollees : </p>
+                    <p class="title">Number of HighSchool Enrollees : </p>
                     <p class="count"><?php echo $elementaryEnrollees; ?></p>
                 </div>
             </div>
@@ -26,8 +38,8 @@
                     <img src="../../../img/reading-book.png" alt="O" srcset="">
                 </div>
                 <div class="text">
-                    <p class="title" style="font-size: 16px;">Number of Enrolled High School Students : </p>
-                    <p class="count"><?php //echo $elementaryStudents; ?>0</p>
+                    <p class="title" style="font-size: 16px;">Number of Enrolled HighSchool Students : </p>
+                    <p class="count"><?php echo $elementaryStudents; ?></p>
                 </div>
             </div>
         </div>
@@ -106,8 +118,9 @@
                                         <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
                                     </td>
                                 </tr>
-                            <?php }
-                        }
+                            <?php }?>
+                    </table>
+                        <?php }
                     }
                 }
                 
@@ -174,6 +187,90 @@
                     }
                     
                 }
+                if (isset($_GET['confirm_enrollment'])) {?>
+                    <div class="small_box">
+                        <div class="container">
+                            <h1>Confirm enrollment of <?= $_GET['confirm_enrollment']?>?</h1>
+                            <div class="action">
+                                <a href="?page=<?= $_GET['page']?>&edit=<?= $_GET['confirm_enrollment']?>" id="cancel">Cancel</a>
+                                <a href="?page=<?= $_GET['page']?>&enroll=<?= $_GET['confirm_enrollment']?>" id="yes">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+                if (isset($_GET['enroll'])) {
+                    $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
+                    if($result = mysqli_query($conn, $selectActiveSchoolYear)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <div class="small_box">
+                                <div class="container">
+                                    <h1>Please Activate a School Year First</h1>
+                                    <div class="action">
+                                        <a href="?page=admin_controls&sub-page=school-year" id="proceed">Go to Admin Controls</a>
+                                        <a href="?page=<?= $_GET['page']?>&edit=<?= $_GET['enroll']?>" id="cancel">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }else{ 
+                            $gradeLevelQuery = "SELECT students.grade_level from students where students.lrn = ".$_GET['enroll'];
+                            if ($enrolleeGradeLevel = mysqli_fetch_array(mysqli_query($conn, $gradeLevelQuery))) {?>
+                                <div class="enrollment-confirmation">
+                                    <div class="enrollment-confirmation__container">
+                                        <form action="<?php echo $_SERVER['PHP_SELF']."?page=enrollees&enrolled=".$_GET['enroll']; ?>" method="post" onsubmit="confirm('Confirm Enrollment of Student <?= $_GET['enroll']; ?>')">
+                                            <h1>Confirm Student Enrollment</h1>
+                                            <p class="sub-header">Note: Make sure to check all the student information completely before confirming their enrollment</p>
+                                            <p>LRN : <b><?= $_GET['enroll']?></b></p>
+                                            <p>Grade Level : <b><?= $enrolleeGradeLevel['grade_level']?></b></p>
+                                            <div class="input">
+                                                <label for="section">Select Student Section : </label>
+                                                <select name="section" id="section">
+                                                    <?php
+                                                        $activeSchoolYearQuery = "SELECT * FROM school_years where school_years.isActive = true";
+                                                        if ($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $activeSchoolYearQuery))) {
+                                                            $sectionCounter = "SELECT * FROM `".$activeSchoolYear['school_year']."` WHERE grade_level = ".$enrolleeGradeLevel['grade_level']." AND section =";
+                                                            for ($i=1; $i <= 10; $i++) { 
+                                                                if (mysqli_num_rows(mysqli_query($conn, $sectionCounter.$i)) < 40) {
+                                                                    echo "<option value=".$i.">".$i."</option>";
+                                                                }
+                                                            }
+                                                        }?>
+                                                </select>
+                                            </div>
+                                            <input type="submit" value="Confirm Student Enrollment" name="submit">
+                                        </form>
+                                    </div>
+                                </div>
+                            <?php }
+                            
+                        }
+                    }
+                }
+                if (isset($_GET['enrolled'])) {
+                    $gradeLevelQuery = "SELECT students.grade_level from students where students.lrn = ".$_GET['enrolled'];
+                    if ($enrolleeGradeLevel = mysqli_fetch_array(mysqli_query($conn, $gradeLevelQuery))) {
+                        $activeSchoolYearQuery = "SELECT * FROM school_years where school_years.isActive = true";
+                        if ($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $activeSchoolYearQuery))) {
+                            $lrn = $_GET['enrolled'];
+                            $gradeLevel = $enrolleeGradeLevel['grade_level'];
+                            $section = $_POST['section'];
+                            $addToCurrentSchoolYearQuery = "INSERT INTO `". $activeSchoolYear['school_year'] ."` (enrolled_lrn, grade_level, section) VALUES ('$lrn', '$gradeLevel', '$section');";
+                            $removeFromEnrolleeQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = '".$_GET['enrolled']."'";
+                            if (mysqli_query($conn, $addToCurrentSchoolYearQuery)) {
+                                if (mysqli_query($conn, $removeFromEnrolleeQuery)) {?>
+                                    <div class="small_box">
+                                        <div class="container">
+                                            <h1>Student <?= $_GET['enrolled']?> successfully enrolled!</h1>
+                                            <div class="action">
+                                                <a href="?page=<?= $_GET['page']?>" id="proceed">Proceed to Enrollees</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php }
+                            }
+                        }
+                        
+                    }
+                }
                 if (isset($_GET['delete_student'])) {?>
                     <div class="small_box">
                         <div class="container">
@@ -200,7 +297,7 @@
                 }
                 CloseCon($conn);
                 ?>
-            </table>
+            
         </div>
     <?php ;
     }
@@ -262,7 +359,7 @@
                             while ($res = mysqli_fetch_array($result)) {
                                 ?>
                                 <tr id=<?= $res['lrn']?>>
-                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                    <td><?= $res['last_name'];?>, <?= $res['first_name'];?></td>
                                     <td><?= $res['email'];?></td>
                                     <td><?= $res['contact_number'];?></td>
                                     <td><?= $res['parent_name'];?></td>
@@ -304,6 +401,147 @@
             </table>
         </div>
     <?php ;}
+    }
+    //Write Admin Controls Content Below!
+    function adminControlsContent(){
+        $conn = OpenCon();
+        ?>
+        <div class="admin-controls">
+            <nav class="sub-pages">
+                <a <?php if($_GET["sub-page"] == "news"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=news'";}?> >News</a>
+                <a <?php if($_GET["sub-page"] == "announcement"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=announcement'";}?> >Announcements</a>
+                <a <?php if($_GET["sub-page"] == "school-year"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=school-year'";}?> >School Year</a>
+            </nav>
+            <div class="sub-page-container">
+                <?php if ($_GET["sub-page"] == "news") {?>
+                    <div class="sub-page-news">
+                        news
+                    </div>
+                <?php ;}else if ($_GET["sub-page"] == "announcement") {?>
+                    <div>Announcement</div>
+                <?php ;}else if ($_GET["sub-page"] == "school-year") {
+                    $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
+                    if($result = mysqli_query($conn, $selectActiveSchoolYear)){
+                        if(mysqli_num_rows($result) == 0){?>
+                            <script>
+                                function hideAlertBox() {
+                                    const alertBox = document.getElementsByClassName('alert-box')[0];
+                                    alertBox.className = "hidden-alert-box";
+                                }
+                            </script>
+                            <form action="" method="post" onsubmit="return confirm('Do you want to submit?')">
+                                <h1>No School Year is active at the moment</h1>
+                                <label for="school-year">Input or select School Year to be created : </label>
+                                <input type="text" name="school-year" list="school-year-list" placeholder="20xx-20yy" value="<?php echo isset($_POST['school-year']) ? $_POST['school-year'] : ''; ?>">
+                                <datalist id="school-year-list">
+                                    <option value="2022-2023">
+                                    <option value="2023-2024">
+                                    <option value="2024-2025">
+                                    <option value="2025-2026">
+                                    <option value="2026-2027">
+                                </datalist>
+                                <input type="submit" value="Create">
+                            </form>
+                            <?php
+                                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                    $schoolYear = trim($_REQUEST['school-year']);
+                                    if (empty($schoolYear)) {?>
+                                        <div class="alert-box">
+                                            <div class="alert-box__container">
+                                                <p>School Year Field can't be empty</p>
+                                                <button onclick="hideAlertBox()">Okay</button>
+                                            </div>
+                                        </div>
+                                    <?php } else if(strlen($schoolYear) !=9){?>
+                                        <div class="alert-box">
+                                            <div class="alert-box__container">
+                                                <p>Invalid School Year</p>
+                                                <p class="sub">Please input a proper school year <br>(example : 2010-2011)</p>
+                                                <button onclick="hideAlertBox()">Okay</button>
+                                            </div>
+                                        </div>
+                                    <?php } else {
+                                        $insertSchoolYear = "INSERT INTO school_years VALUES('$schoolYear', true)";
+                                        $reactivateSchoolYear = "UPDATE school_years SET school_years.isActive = true WHERE school_years.school_year = '".$schoolYear."';";
+                                        if ($result = mysqli_query($conn, "SELECT * FROM school_years WHERE school_years.school_year ='".$schoolYear."';")) {
+                                            if (mysqli_num_rows($result) == 0) {
+                                                if (mysqli_query($conn, $insertSchoolYear)) {
+                                                    // header("Refresh:0");
+                                                    $createSchoolYearTable = "CREATE TABLE `". $schoolYear ."` (
+                                                        enrolled_lrn varchar(12) NOT NULL UNIQUE,
+                                                        grade_level int NOT NULL,
+                                                        section int NOT NULL,   
+                                                        
+                                                        FOREIGN KEY (enrolled_lrn) REFERENCES students(lrn)
+                                                    )";
+                                                    if (mysqli_query($conn, $createSchoolYearTable)) {
+                                                        header("Refresh:0");
+                                                    }
+                                                }
+                                            }else{
+                                                if(mysqli_query($conn, $reactivateSchoolYear)){
+                                                    header("Refresh:0");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                ?>
+                        <?php ;}else{
+                            while($res = mysqli_fetch_array($result)){?>
+                                <div class="sub-page-school-year">
+                                    <p class="sub-page-header">Current School Year : <?= $res['school_year']?> </p>
+                                    <div class="school-year-content">
+                                        <div class="left">
+                                            <p class="sub-page-header">Total Enrollees: 200</p>
+                                            <p>Grade 1 : 33</p>
+                                            <p>Grade 2 : 33</p>
+                                            <p>Grade 3 : 33</p>
+                                            <p>Grade 4 : 33</p>
+                                            <p>Grade 5 : 33</p>
+                                            <p>Grade 6 : 35</p>
+                                        </div>
+                                        <div class="right">
+                                            <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=<?= $res['school_year']?>"><img src="../../../img/circular.png">Reset School Year</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php if (isset($_GET['reset'])) {?>
+                                    <div class="small_box">
+                                        <div class="container">
+                                            <h1>Are you sure you want to reset school year?</h1>
+                                            <p>Note: This will end the whole school year and will require students to enroll again.</p>
+                                            <div class="action">
+                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="cancel">Cancel</a>
+                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&resetting=<?= $_GET['reset']?>" id="yes">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php ;}?>
+                            <?php ;}
+                        }
+                    }
+                    ?>
+                <?php ;}else{
+                    header("Location: ../../../index.php");
+                    session_destroy();
+                }?>
+                <?php if(isset($_GET['resetting'])){
+                    $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['resetting']."';";
+                    mysqli_query($conn, $resetQuery);
+                    ?>
+                    <div class="small_box">
+                        <div class="container">
+                            <h1>School Year <?= $_GET['resetting']?> successfully reset!</h1>
+                            <div class="action">
+                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="proceed">Proceed to School Year</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php ;} ?>
+            </div>
+        </div>
+    <?php ;
     }
     //Write Enrolled Students Content Below!
     function enrolledStudentsContent(){?>
