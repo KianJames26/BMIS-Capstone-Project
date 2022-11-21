@@ -19,8 +19,6 @@ CREATE TABLE Students(
     contact_number varchar(11) NOT NULL,
     email varchar(255) NOT NULL,
     grade_level int NOT NULL,
-    section int,
-    school_year varchar(9),
     house_address varchar(255) NOT NULL,
     barangay varchar(255) NOT NULL,
     city varchar(255) NOT NULL,
@@ -32,8 +30,7 @@ CREATE TABLE Students(
     birth_certificate varchar(255) NOT NULL,
     isActive boolean,
 
-    PRIMARY KEY (lrn),
-    FOREIGN KEY (school_year) REFERENCES School_Years(school_year)
+    PRIMARY KEY (lrn)
 );
 CREATE TABLE Parent_Information(
     student_lrn varchar(12) NOT NULL UNIQUE,
