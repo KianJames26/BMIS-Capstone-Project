@@ -4,7 +4,7 @@
     }else {
         include '../../phpMethods/connection.php';
         include 'admin_content.php';
-        $gradeLevel = ">= 7";
+        $gradeLevel = "> 6";
         if (isset($_GET['logout'])) {
             header("Location: ../../../index.php");
             session_destroy();
@@ -18,7 +18,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="../../../css/default.css">
             <link rel="stylesheet" href="../../../css/admin.css">
-            <title>BMIS High School</title>
+            <title>BMIS Elementary</title>
         </head>
         <body>
             <div class="header">
@@ -29,7 +29,7 @@
             <div class="navigation">
                 <a <?php if($_GET['page'] == "dashboard"){echo "id='active'";}else{echo "href='?page=dashboard'";}?> >Dashboard</a>
                 <a <?php if($_GET['page'] == "enrollees"){echo "id='active'";}else{echo "href='?page=enrollees'";}?> >Enrollees</a>
-                <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students'";}?> >Enrolled Students</a>
+                <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students&select_grade=true'";}?> >Enrolled Students</a>
                 <a <?php if($_GET['page'] == "admin_controls"){echo "id='active'";}else{echo "href='?page=admin_controls&sub-page=news'";}?> >Admin Controls</a>
                 <a <?php if($_GET['page'] == "enrollment_form"){echo "id='active'";}else{echo "href='?page=enrollment_form&enrollment=one'";}?> >Enrollment Form</a>
             </div>

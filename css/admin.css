@@ -532,7 +532,122 @@ body{
     font-size: 20px;
     border-radius: 8px;
 }
-
 .hidden-alert-box{
     opacity: 0;
+}
+
+.no-school-year__container{
+    width: 100%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+}
+.no-school-year__container > a{
+    background-color: #C60C29;
+    text-decoration: none;
+    color: white;
+    padding: 8px 32px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition: background-color 500ms;
+}
+.no-school-year__container > a:hover{
+    background-color: #CB243E;
+}
+
+.select-grade__container{
+    width: 100%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+}
+.select-grade__container > .grade-levels{
+    display: flex;
+    column-gap: 12px;
+}
+.select-grade__container > .grade-levels > a{
+    background-color: #C60C29;
+    text-decoration: none;
+    color: white;
+    padding: 8px 32px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition: background-color 500ms;
+}
+.select-grade__container > .grade-levels > a:hover{
+    background-color: #CB243E;
+}
+.select-section__container{
+    width: 100%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+}
+.select-section__container > .sections{
+    display: grid;
+    width: 90%;
+    grid-template-columns: repeat(5, 20%);
+    grid-template-rows: repeat(2, 75px);
+    column-gap: 5px;
+    row-gap: 12px;
+}
+.select-section__container > .sections > li{
+    list-style-type: none;
+    justify-self: center;
+}
+.select-section__container > .sections > li > a{
+    background-color: #C60C29;
+    text-decoration: none;
+    color: white;
+    padding: 8px 32px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition: background-color 500ms;
+}
+.select-section__container > .sections > li > a:hover{
+    background-color: #CB243E;
+}
+.select-section__container > #previous{
+    align-self: flex-start;
+    font-family: 'OpenSans SemiBold';
+    font-size: 20px;
+    text-decoration: none;
+    color: #C60C29;
+    transition: color 500ms;
+}
+.select-section__container > #previous:hover{
+    color: #CB243E;
+}
+
+.student-list__container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 450px;
+    overflow: scroll;
+    row-gap: 10px;
+}
+.student-list__container > table{
+    width: 80%;
+    border: 1px solid black;
+}
+.student-list__container > table > tbody{
+    width: 100%;
+}
+.student-list__container > table > tbody > tr > th{
+    width: 50%;
+    padding: 15px 0;
+}
+.student-list__container > table, .student-list__container > table > tbody > tr > th, .student-list__container > table > tbody > tr > td{
+    border:1px solid black;
+    border-collapse: collapse;
+}
+.student-list__container > table > tbody > tr > td{
+    padding-left: 15px;
 }

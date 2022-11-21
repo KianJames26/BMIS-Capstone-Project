@@ -401,6 +401,7 @@
             </table>
         </div>
     <?php ;}
+        CloseCon($conn);
     }
     //Write Admin Controls Content Below!
     function adminControlsContent(){
@@ -494,12 +495,10 @@
                                     <div class="school-year-content">
                                         <div class="left">
                                             <p class="sub-page-header">Total Enrollees: 200</p>
-                                            <p>Grade 1 : 33</p>
-                                            <p>Grade 2 : 33</p>
-                                            <p>Grade 3 : 33</p>
-                                            <p>Grade 4 : 33</p>
-                                            <p>Grade 5 : 33</p>
-                                            <p>Grade 6 : 35</p>
+                                            <p>Grade 7 : 33</p>
+                                            <p>Grade 8 : 33</p>
+                                            <p>Grade 9 : 33</p>
+                                            <p>Grade 10 : 33</p>
                                         </div>
                                         <div class="right">
                                             <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=<?= $res['school_year']?>"><img src="../../../img/circular.png">Reset School Year</a>
@@ -542,11 +541,127 @@
             </div>
         </div>
     <?php ;
+        CloseCon($conn);
     }
     //Write Enrolled Students Content Below!
-    function enrolledStudentsContent(){?>
-        This is Enrolled Students
-    <?php ;
+    function enrolledStudentsContent(){
+        $conn = OpenCon();
+        $selectActiveSchoolYear = "SELECT * FROM school_years WHERE school_years.isActive = true";
+
+        if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYear)) == 0){?>
+            <div class="no-school-year__container">
+                <h1>No school year is activated</h1>
+                <a href="?page=admin_controls&sub-page=school-year" id="proceed">Activate School Year</a>
+            </div>
+        <?php }else if($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))){
+            if (isset($_GET['select_grade'])) {?>
+                <div class="select-grade__container">
+                <h1>Please Select Grade Level to Browse</h1>
+                <div class="grade-levels">
+                    <a href="?page=<?= $_GET['page']?>&grade-level=7">Grade 7</a>
+                    <a href="?page=<?= $_GET['page']?>&grade-level=8">Grade 8</a>
+                    <a href="?page=<?= $_GET['page']?>&grade-level=9">Grade 9</a>
+                    <a href="?page=<?= $_GET['page']?>&grade-level=10">Grade 10</a>
+                </div>
+            </div>
+            <?php }elseif (isset($_GET['grade-level']) && isset($_GET['section'])) {
+                $gradeLevel = $_GET['grade-level'];
+                $section = $_GET['section'];
+                $studentInfoQuery = "SELECT * from `".$activeSchoolYear['school_year']."` join students on `".$activeSchoolYear['school_year']."`.enrolled_lrn = students.lrn where `".$activeSchoolYear['school_year']."`.`grade_level` = ".$gradeLevel." AND `". $activeSchoolYear['school_year'] ."`.section = ".$section." ORDER BY students.last_name ASC;";
+                if ($result = mysqli_query($conn, $studentInfoQuery)) {?>
+                    <div class="student-list__container">
+                        <h1>Grade <?= $gradeLevel ?> Section <?= $section ?></h1>
+                        <?php
+                            if (mysqli_num_rows($result) == 0) {?>
+                                <h2>No Students are enrolled to this section</h2>
+                                <a href="?page=enrolled_students&select_grade=true" id="previous">Reselect Grade</a>
+                            <?php }else{
+                                $maleStudents = [];
+                                $femaleStudents = [];
+                                while ($res = mysqli_fetch_array($result)) {
+                                    $lastName = $res['last_name'];
+                                    $firstName = $res['first_name'];
+                                    $middleName = $res['middle_name'];
+                                    $suffix = $res['suffix'];
+                                    $gender = $res['gender'];
+                                    // echo $lastName." ".$suffix.", ".$firstName." ".$middleName[0].".";
+                                    if ($middleName == "" && $suffix == "") {
+                                        $fullName = $lastName.", ".$firstName;
+                                    }elseif ($suffix == "") {
+                                        $fullName = $lastName.", ".$firstName." ".$middleName[0].".";
+                                    }elseif ($middleName == "") {
+                                        $fullName = $lastName." ".$suffix.", ".$firstName;
+                                    }else{
+                                        $fullName = $lastName." ".$suffix.", ".$firstName." ".$middleName[0].".";
+                                    }
+
+                                    if ($gender == "Male") {
+                                        array_push($maleStudents, $fullName);
+                                    }elseif ($gender == "Female") {
+                                        array_push($femaleStudents, $fullName);
+                                    }
+                                }
+
+                                if(count($maleStudents) > count($femaleStudents)){
+                                    $limit = count($maleStudents);
+                                }elseif(count($maleStudents) < count($femaleStudents)){
+                                    $limit = count($femaleStudents);
+                                }else{
+                                    $limit = count($maleStudents);
+                                }?>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <th>Male</th>
+                                            <th>Female</th>
+                                        </tr>
+                                        <?php for ($i=0; $i < $limit; $i++) { 
+                                            
+                                            if(array_key_exists($i, $maleStudents)){
+                                                $maleName = $maleStudents[$i];
+                                            }else{
+                                                $maleName = " ";
+                                            }
+
+                                            if(array_key_exists($i, $femaleStudents)){
+                                                $femaleName = $femaleStudents[$i];
+                                            }else{
+                                                $femaleName = " ";
+                                            }?>
+                                            <tr>
+                                                <td><?= $i+1 ?>.) <?= $maleName ?></td>
+                                                <td><?= $i+1 ?>.) <?= $femaleName ?></td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                                <a href="?page=enrolled_students&select_grade=true" id="previous">Reselect Grade</a>
+                                
+                            <?php }
+                        ?>
+                        
+                    </div>
+                <?php }?>
+            <?php }elseif (isset($_GET['grade-level'])) {?>
+                <div class="select-section__container">
+                    <a href="?page=enrolled_students&select_grade=true" id="previous"><<< Back to Grade Selection</a>
+                    <h1>Please Select the Section from Grade <?= $_GET['grade-level'] ?> to Browse</h1>
+                    <div class="sections">
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=1">Section 1</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=2">Section 2</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=3">Section 3</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=4">Section 4</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=5">Section 5</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=6">Section 6</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=7">Section 7</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=8">Section 8</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=9">Section 9</a></li>
+                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=10">Section 10</a></li>
+                    </div>
+                </div>
+            <?php }
+        }
+        CloseCon($conn);
     }
     //Write Enrollment Form content Below!
     function enrollmentFormContent()
