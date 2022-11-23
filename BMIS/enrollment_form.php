@@ -1,58 +1,5 @@
 <?php
     include 'phpMethods/connection.php';
-    $conn = OpenCon();
-    if (isset($_POST['submit'])) {
-        insertData($conn);
-    }
-    CloseCon($conn);
-
-    function insertData($conn){
-        $lrn = $_POST['lrn'];
-        $firstName = $_POST['first-name'];
-        $middleName = $_POST['middle-name'];
-        $lastName = $_POST['last-name'];
-        $suffix = $_POST['suffix'];
-        $gender = $_POST['gender-choice'];
-        $birthDate = $_POST['birthday'];
-        $birthPlace = $_POST['birthplace'];
-        $contactNumber = $_POST['contact-number'];
-        $email = $_POST['email'];
-        $gradeLevel = $_POST['grade-level'];
-        $houseAddress = $_POST['house-address'];
-        $barangay = $_POST['barangay'];
-        $city = $_POST['city'];
-        $province = $_POST['province'];
-        $lastSchool = $_POST['last-school'];
-        $lastSchoolAddress = $_POST['last-school-address'];
-        $isActive = True;
-        $parentName = $_POST['parent-fullname'];
-        $parentContact = $_POST['parent-contact'];
-        $parentRelationship = $_POST['relationship'];
-        $studentPicture = $lrn . "_student_picture." . pathinfo($_FILES['student-picture']['name'], PATHINFO_EXTENSION);
-        $reportCard = $lrn . "_report_card." . pathinfo($_FILES['report-card']['name'], PATHINFO_EXTENSION);
-        $birthCertificate = $lrn . "_birth_certificate." . pathinfo($_FILES['birth-certificate']['name'], PATHINFO_EXTENSION);
-
-        $targetDir = "../../uploads/". $lrn . "/";
-        if(!is_dir($targetDir)){
-            mkdir($targetDir);
-        }
-
-        if(move_uploaded_file($_FILES['student-picture']['tmp_name'], $targetDir . $studentPicture) && move_uploaded_file($_FILES['report-card']['tmp_name'], $targetDir . $reportCard) && move_uploaded_file($_FILES['birth-certificate']['tmp_name'], $targetDir . $birthCertificate)){
-            $addStudentInfo = "INSERT INTO students(lrn, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, contact_number, email, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isActive)
-                            VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isActive')";
-            $addParentInfo = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
-                            VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
-            $addStudentToEnrollees = "INSERT INTO Enrollees(student_lrn)
-                            VALUES ('$lrn')";
-            if(mysqli_query($conn, $addStudentInfo) && mysqli_query($conn, $addParentInfo) && mysqli_query($conn, $addStudentToEnrollees)){
-                echo "Query Success!!!";
-            }else{
-                echo "Error! Please Try Again!!!";
-            }
-        }else{
-            echo "Error in uploading your files!";
-        }
-    }
 ?>
 
 <html lang="en">
@@ -102,7 +49,7 @@
             },400);
         }
     </script>
-    <form id="form" action="" method="post" enctype="multipart/form-data">
+    <form id="form" action="generate_qr.php" method="post" enctype="multipart/form-data">
         <div id="hidden-error"></div>
         <div id="page-1">
             <div class="container">

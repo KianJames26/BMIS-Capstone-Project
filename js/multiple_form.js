@@ -122,7 +122,6 @@ function goToPageThree() {
 }
 
 function goToPageFour() {
-    const houseAddress = document.getElementById('house-address');
     const barangay = document.getElementById('barangay');
     const city = document.getElementById('city');
     const province = document.getElementById('province');
@@ -130,9 +129,7 @@ function goToPageFour() {
     const parentContact = document.getElementById('parent-contact');
     const relationship = document.getElementById('relationship');
 
-    if(houseAddress.value.trim() === ""){
-        showErrorBox("Please Enter your House Number & Street", houseAddress.id);
-    }else if(barangay.value.trim() === ""){
+    if(barangay.value.trim() === ""){
         showErrorBox("Please Enter your Barangay", barangay.id);
         barangay.style.borderColor = 'red';
     }else if(city.value.trim() === ""){

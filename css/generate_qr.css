@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    row-gap: 12px;
+}
+.container > img{
+    margin: 20px 0;
+    border: 2px solid black;
+}
+.container > .action{
+    display: flex;
+    column-gap: 16px;
+}
+.container > .action > a{
+    background-color: #C60C29;
+    text-decoration: none;
+    color: white;
+    padding: 8px 32px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition: background-color 500ms;
+}
+.container > .action > a:hover{
+    background-color: #CB243E;
+}
