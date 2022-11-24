@@ -632,6 +632,7 @@ body{
     height: 450px;
     overflow: scroll;
     row-gap: 10px;
+    background-color: white;
 }
 .student-list__container > table{
     width: 80%;

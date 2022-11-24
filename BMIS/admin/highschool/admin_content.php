@@ -570,7 +570,7 @@
                 $studentInfoQuery = "SELECT * from `".$activeSchoolYear['school_year']."` join students on `".$activeSchoolYear['school_year']."`.enrolled_lrn = students.lrn where `".$activeSchoolYear['school_year']."`.`grade_level` = ".$gradeLevel." AND `". $activeSchoolYear['school_year'] ."`.section = ".$section." ORDER BY students.last_name ASC;";
                 if ($result = mysqli_query($conn, $studentInfoQuery)) {?>
                     <div class="student-list__container">
-                        <h1>Grade <?= $gradeLevel ?> Section <?= $section ?></h1>
+                        <h1>Grade <?= $gradeLevel ?> Section <?= $section ?> S.Y. <?= $activeSchoolYear['school_year'] ?></h1>
                         <?php
                             if (mysqli_num_rows($result) == 0) {?>
                                 <h2>No Students are enrolled to this section</h2>
@@ -636,6 +636,7 @@
                                     </tbody>
                                 </table>
                                 <a href="?page=enrolled_students&select_grade=true" id="previous">Reselect Grade</a>
+                                <a href="" id="print"></a>
                                 
                             <?php }
                         ?>

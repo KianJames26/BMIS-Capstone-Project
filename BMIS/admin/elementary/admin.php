@@ -18,9 +18,11 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="../../../css/default.css">
             <link rel="stylesheet" href="../../../css/admin.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
             <title>BMIS Elementary</title>
         </head>
-        <body>
+        <body onload = "autoClick();">
             <div class="header">
                 <img src="../../../img/logo.png" alt="BMIS" srcset="">
                 <h1>Barasoain Memorial Integrated School</h1>
