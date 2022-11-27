@@ -544,7 +544,7 @@ body{
     align-items: center;
     row-gap: 30px;
 }
-.no-school-year__container > a{
+.no-school-year__container > a, a#print{
     background-color: #C60C29;
     text-decoration: none;
     color: white;
@@ -553,7 +553,7 @@ body{
     border-radius: 5px;
     transition: background-color 500ms;
 }
-.no-school-year__container > a:hover{
+.no-school-year__container > a:hover, a#print:hover{
     background-color: #CB243E;
 }
 

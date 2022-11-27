@@ -49,7 +49,7 @@
             },400);
         }
     </script>
-    <form id="form" action="generate_qr.php" method="post" enctype="multipart/form-data">
+    <form id="form" action="generate_qr.php" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
         <div id="hidden-error"></div>
         <div id="page-1">
             <div class="container">

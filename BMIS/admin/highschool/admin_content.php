@@ -29,7 +29,7 @@
                     <img src="../../../img/add-user.png" alt="O" srcset="">
                 </div>
                 <div class="text">
-                    <p class="title">Number of HighSchool Enrollees : </p>
+                    <p class="title">Number of High School Enrollees : </p>
                     <p class="count"><?php echo $elementaryEnrollees; ?></p>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <img src="../../../img/reading-book.png" alt="O" srcset="">
                 </div>
                 <div class="text">
-                    <p class="title" style="font-size: 16px;">Number of Enrolled HighSchool Students : </p>
+                    <p class="title" style="font-size: 16px;">Number of Enrolled High School Students : </p>
                     <p class="count"><?php echo $elementaryStudents; ?></p>
                 </div>
             </div>
@@ -80,21 +80,41 @@
                             <tr><td colspan="100%"><h1>No Student Enrollees at the Moment</h1></td></tr>
                         <?php }else{
                             while ($res = mysqli_fetch_array($result)) {
-                                ?>
-                                <tr id=<?= $res['lrn']?>>
-                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                    <td><?= $res['email'];?></td>
-                                    <td><?= $res['contact_number'];?></td>
-                                    <td><?= $res['parent_name'];?></td>
-                                    <td><?= $res['parent_relationship'];?></td>
-                                    <td><?= $res['parent_contact'];?></td>
-                                    <td><?= $res['grade_level'];?></td>
-                                    <td class="action">
-                                        <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                        <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php }
+                                $selectActiveSchoolYearQuery = "SELECT * FROM school_years WHERE isActive = true";
+                                if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYearQuery)) == 0){
+                                    ?>
+                                    <tr id=<?= $res['lrn']?>>
+                                        <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                        <td><?= $res['email'];?></td>
+                                        <td><?= $res['contact_number'];?></td>
+                                        <td><?= $res['parent_name'];?></td>
+                                        <td><?= $res['parent_relationship'];?></td>
+                                        <td><?= $res['parent_contact'];?></td>
+                                        <td><?= $res['grade_level'];?></td>
+                                        <td class="action">
+                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php }elseif($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYearQuery))){
+                                    $checkIfEnrolled = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE enrolled_lrn = '" . $res['lrn'] . "'";
+                                    if (mysqli_num_rows(mysqli_query($conn, $checkIfEnrolled)) == 0) {?>
+                                        <tr id=<?= $res['lrn']?>>
+                                        <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                        <td><?= $res['email'];?></td>
+                                        <td><?= $res['contact_number'];?></td>
+                                        <td><?= $res['parent_name'];?></td>
+                                        <td><?= $res['parent_relationship'];?></td>
+                                        <td><?= $res['parent_contact'];?></td>
+                                        <td><?= $res['grade_level'];?></td>
+                                        <td class="action">
+                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <?php }
+                                }
+                            }
                         }
                     }
                 }else {
@@ -104,21 +124,41 @@
                             <tr><td colspan="100%"><h1>There are no data fetched in your search</h1></td></tr>
                         <?php }else{
                             while ($res = mysqli_fetch_array($result)) {
-                                ?>
-                                <tr id=<?= $res['lrn']?>>
-                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                    <td><?= $res['email'];?></td>
-                                    <td><?= $res['contact_number'];?></td>
-                                    <td><?= $res['parent_name'];?></td>
-                                    <td><?= $res['parent_relationship'];?></td>
-                                    <td><?= $res['parent_contact'];?></td>
-                                    <td><?= $res['grade_level'];?></td>
-                                    <td class="action">
-                                        <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                        <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php }?>
+                                $selectActiveSchoolYearQuery = "SELECT * FROM school_years WHERE isActive = true";
+                                if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYearQuery)) == 0){
+                                    ?>
+                                    <tr id=<?= $res['lrn']?>>
+                                        <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                        <td><?= $res['email'];?></td>
+                                        <td><?= $res['contact_number'];?></td>
+                                        <td><?= $res['parent_name'];?></td>
+                                        <td><?= $res['parent_relationship'];?></td>
+                                        <td><?= $res['parent_contact'];?></td>
+                                        <td><?= $res['grade_level'];?></td>
+                                        <td class="action">
+                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php }elseif($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYearQuery))){
+                                    $checkIfEnrolled = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE enrolled_lrn = '" . $res['lrn'] . "'";
+                                    if (mysqli_num_rows(mysqli_query($conn, $checkIfEnrolled)) == 0) {?>
+                                        <tr id=<?= $res['lrn']?>>
+                                        <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                        <td><?= $res['email'];?></td>
+                                        <td><?= $res['contact_number'];?></td>
+                                        <td><?= $res['parent_name'];?></td>
+                                        <td><?= $res['parent_relationship'];?></td>
+                                        <td><?= $res['parent_contact'];?></td>
+                                        <td><?= $res['grade_level'];?></td>
+                                        <td class="action">
+                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
+                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <?php }
+                                }
+                            }?>
                     </table>
                         <?php }
                     }
@@ -404,14 +444,14 @@
         CloseCon($conn);
     }
     //Write Admin Controls Content Below!
-    function adminControlsContent(){
+    function adminControlsContent($gradeLevel){
         $conn = OpenCon();
         ?>
         <div class="admin-controls">
             <nav class="sub-pages">
+            <a <?php if($_GET["sub-page"] == "school-year"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=school-year'";}?> >School Year</a>
                 <a <?php if($_GET["sub-page"] == "news"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=news'";}?> >News</a>
                 <a <?php if($_GET["sub-page"] == "announcement"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=announcement'";}?> >Announcements</a>
-                <a <?php if($_GET["sub-page"] == "school-year"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=school-year'";}?> >School Year</a>
             </nav>
             <div class="sub-page-container">
                 <?php if ($_GET["sub-page"] == "news") {?>
@@ -430,7 +470,7 @@
                                     alertBox.className = "hidden-alert-box";
                                 }
                             </script>
-                            <form action="" method="post" onsubmit="return confirm('Do you want to submit?')">
+                            <form autocomplete="off" action="" method="post" onsubmit="return confirm('Do you want to submit?')">
                                 <h1>No School Year is active at the moment</h1>
                                 <label for="school-year">Input or select School Year to be created : </label>
                                 <input type="text" name="school-year" list="school-year-list" placeholder="20xx-20yy" value="<?php echo isset($_POST['school-year']) ? $_POST['school-year'] : ''; ?>">
@@ -489,16 +529,18 @@
                                 }
                                 ?>
                         <?php ;}else{
-                            while($res = mysqli_fetch_array($result)){?>
+                            while($res = mysqli_fetch_array($result)){
+                                $queryActiveSchoolYear = "SELECT * FROM `". $res['school_year'] ."`";
+                                ?>
                                 <div class="sub-page-school-year">
                                     <p class="sub-page-header">Current School Year : <?= $res['school_year']?> </p>
                                     <div class="school-year-content">
                                         <div class="left">
-                                            <p class="sub-page-header">Total Enrollees: 200</p>
-                                            <p>Grade 7 : 33</p>
-                                            <p>Grade 8 : 33</p>
-                                            <p>Grade 9 : 33</p>
-                                            <p>Grade 10 : 33</p>
+                                            <p class="sub-page-header">Total Enrolled Students: <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level ".$gradeLevel)) ?></p>
+                                            <p>Grade 7 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 7")) ?></p>
+                                            <p>Grade 8 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 8")) ?></p>
+                                            <p>Grade 9 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 9")) ?></p>
+                                            <p>Grade 10 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 10")) ?></p>
                                         </div>
                                         <div class="right">
                                             <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=<?= $res['school_year']?>"><img src="../../../img/circular.png">Reset School Year</a>
@@ -569,7 +611,7 @@
                 $section = $_GET['section'];
                 $studentInfoQuery = "SELECT * from `".$activeSchoolYear['school_year']."` join students on `".$activeSchoolYear['school_year']."`.enrolled_lrn = students.lrn where `".$activeSchoolYear['school_year']."`.`grade_level` = ".$gradeLevel." AND `". $activeSchoolYear['school_year'] ."`.section = ".$section." ORDER BY students.last_name ASC;";
                 if ($result = mysqli_query($conn, $studentInfoQuery)) {?>
-                    <div class="student-list__container">
+                    <div class="student-list__container" id="student-list">
                         <h1>Grade <?= $gradeLevel ?> Section <?= $section ?> S.Y. <?= $activeSchoolYear['school_year'] ?></h1>
                         <?php
                             if (mysqli_num_rows($result) == 0) {?>
@@ -636,7 +678,25 @@
                                     </tbody>
                                 </table>
                                 <a href="?page=enrolled_students&select_grade=true" id="previous">Reselect Grade</a>
-                                <a href="" id="print"></a>
+                                <a id="print">Print</a>
+                                <script>
+                                    function autoClick(){
+                                        $("#print").click();
+                                    }
+                                    $(document).ready(function(){
+                                        var element = $("#student-list");
+
+                                        $("#print").on('click', function(){
+                                            html2canvas(element, {
+                                                onrendered: function(canvas){
+                                                    var imageData = canvas.toDataURL("image/jpg");
+                                                    var newData = imageData.replace(/^data:image\/jpg/, "data:application/octet-stream");
+                                                    $("#print").attr("download", "Grade <?= $gradeLevel ?> Section <?= $section ?> S.Y. <?= $activeSchoolYear['school_year'] ?>.jpg").attr("href", newData)
+                                                }
+                                            });
+                                        });
+                                    })
+                                </script>
                                 
                             <?php }
                         ?>
