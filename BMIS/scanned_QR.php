@@ -32,7 +32,7 @@
         if (isset($_GET['re-enrolling'])) {
             $lrn = $_GET['re-enrolling'];
             $insertToEnrollees = "INSERT INTO enrollees (student_lrn) VALUES ('$lrn');";
-            $updateGradeLevel = "UPDATE students SET grade_level = grade_level + 1 WHERE students.lrn = '148752369542';";
+            $updateGradeLevel = "UPDATE students SET grade_level = grade_level + 1 WHERE students.lrn = '". $_GET['re-enrolling'] ."';";
             if (mysqli_query($conn, $insertToEnrollees) && mysqli_query($conn, $updateGradeLevel)) { ?>
                 <div class="prompt">
                     <div class="prompt__container">
