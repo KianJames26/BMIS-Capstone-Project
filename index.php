@@ -1,4 +1,4 @@
-<?php session_start();session_destroy();?>
+<?php session_start();session_destroy();include 'BMIS/phpMethods/connection.php';?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,26 +11,34 @@
     <title>BIMS Enrollment</title>
 </head>
 <body>
-    <!-- <script>
-        function showEnrollmentDialog() {
-            const hidden = document.getElementsByClassName('hidden')[0];
-            hidden.style.display = 'block';
+    <?php 
+        if (isset($_GET['enrollment'])) {
+            $conn = OpenCon();
+            $checkActiveSchoolYearQuery = "SELECT * FROM school_years WHERE isActive=true";
+            if (mysqli_num_rows(mysqli_query($conn, $checkActiveSchoolYearQuery)) == 0) { ?>
+                <div class="hidden">
+                    <dialog>
+                        <a href="index.php"><div id="close-editor"></div></a>
+                        <p class="title">Enrollment isn't opened yet. Please wait for further announcement</p>
+                        <div class="link">
+                            <a href="index.php">Okay</a>
+                        </div>
+                    </dialog>
+                </div>
+            <?php }else {?>
+                <div class="hidden">
+                        <dialog>
+                            <a href="index.php"><div id="close-editor"></div></a>
+                            <p class="title">What kind of enrollment?</p>
+                            <div class="link">
+                                <a href="BMIS/enrollment_form.php">New Enrollee</a>
+                                <a href="BMIS/transferree_form.php">Transferee</a>
+                            </div>
+                        </dialog>
+                    </div>
+        <?php }
         }
-        function hideEnrollmentDialog() {
-            const hiddin = document.getElementsByClassName('hidden')[0];
-            hidden.style.display = "none";
-        }
-    </script> -->
-    <!-- <div class="hidden">
-        <dialog>
-            <a href="index.php"><div id="close-editor"></div></a>
-            <p class="title">What kind of Enrollee are you?</p>
-            <div class="link">
-                <a href="BMIS/enrollment_form.php">New Student</a>
-                <a href="">Old Student</a>
-            </div>
-        </dialog>
-    </div> -->
+    ?>
     <section class="section-one">
         <div class="section-one-left">
             <img src="img/logo.png" alt="">
@@ -39,7 +47,7 @@
             <a href="BMIS/login.php" id="login">Login</a>
             <p>Welcome to</p>
             <p class="header">Barasoain Memorial <br> Integrated School <br> e-Enrollment</p>
-            <a href="BMIS/enrollment_form.php">Enroll Now!</a>
+            <a href="?enrollment=true">Enroll Now!</a>
         </div>
     </section>
     <section class="section-two">

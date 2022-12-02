@@ -50,7 +50,7 @@ section{
     position: fixed;
     top: 0%;
     left: 0%;
-    display: none;
+    display: flex;
 }
 dialog{
     animation: .5s ease-out 0s slideInFromTop;

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/enrollment_form.css">
     <link rel="stylesheet" href="../css/default.css">
     <title>Enrollment Form</title>
-    <script src="../js/enrollment_form.js"></script>
+    <script src="../js/transferree_form.js"></script>
     <script>
         <?php
             $conn = OpenCon();
@@ -60,7 +60,16 @@
                 <div class="row">
                     <label for="grade-level">Grade Level to Enroll <span class="required"></span>  &nbsp;</label>
                     <select name="grade-level" id="grade-level">
-                        <option value="1">1</option>
+                        <option value="" hidden="true"></option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
                     </select>
                     <label style="margin-left: auto;">School Year: <?= $activeShoolYear?></label>
                 </div>
@@ -76,6 +85,10 @@
                     <div class="column">
                         <label for="lrn">LRN (Learners Reference Number) <span class="required"></span></label>
                         <input type="number" name="lrn" id="lrn" placeholder="Enter 12 Digit Number">
+                    </div>
+                    <div class="column">
+                        <label for="lrn">Last School Year Average <span class="required"></span></label>
+                        <input type="number" name="gwa" id="gwa" placeholder="Enter student average (No decimals)">
                     </div>
                 </div> 
                 
@@ -139,6 +152,16 @@
                     <div class="column">
                         <label for="birthplace">Birthplace <span class="required"></span></label>
                         <input type="text" name="birthplace" id="birthplace" placeholder="Enter your Birthplace">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label for="last-school">Last School Attended <span class="required"></span></label>
+                        <input type="text" name="last-school" id="last-school" placeholder="Enter your Last School">
+                    </div>
+                    <div class="column">
+                        <label for="last-school-address">Last School Attended Address <span class="required"></span></label>
+                        <input type="text" name="last-school-address" id="last-school-address" placeholder="Enter your Last School Address">
                     </div>
                 </div>
                 <!-- <div class="row">
@@ -332,6 +355,22 @@
                         <p class="data" id="showBirthPlace"></p>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="content">Last School Attended</p>
+                    </div>
+                    <div class="column">
+                        <p class="content">Last School Attended Address</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <p class="data" id="showLastSchool"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showLastSchoolAddress"></p>
+                    </div>
+                </div>
 
                 <div class="row">
                     <p class="header">Student Address</p>
@@ -416,12 +455,9 @@
                         <p class="data" id="showBirthCertificate"></p>
                     </div>
                 </div>
-                <input type="hidden" name="gwa" id="gwa" value="">
-                    <input type="hidden" name="last-school" id="last-school" value="">
-                    <input type="hidden" name="last-school-address" id="last-school-address" value="">
+
                 <div class="row navigation">
                     <div onclick="goToPageFour()"><img src="../img/previous.png" alt="PREVIOUS"></div>
-                    
                     <button name="submit" type="submit" id="submit">Submit</button>
                 </div>
                 

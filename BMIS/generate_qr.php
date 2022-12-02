@@ -16,9 +16,9 @@
         insertData($conn);
     }
     CloseCon($conn);
-
     function insertData($conn){
         $lrn = $_POST['lrn'];
+        $gwa = $_POST['gwa'];
         $firstName = $_POST['first-name'];
         $middleName = $_POST['middle-name'];
         $lastName = $_POST['last-name'];
@@ -26,8 +26,6 @@
         $gender = $_POST['gender-choice'];
         $birthDate = $_POST['birthday'];
         $birthPlace = $_POST['birthplace'];
-        $contactNumber = $_POST['contact-number'];
-        $email = $_POST['email'];
         $gradeLevel = $_POST['grade-level'];
         $houseAddress = $_POST['house-address'];
         $barangay = $_POST['barangay'];
@@ -49,8 +47,8 @@
         }
 
         if(move_uploaded_file($_FILES['student-picture']['tmp_name'], $targetDir . $studentPicture) && move_uploaded_file($_FILES['report-card']['tmp_name'], $targetDir . $reportCard) && move_uploaded_file($_FILES['birth-certificate']['tmp_name'], $targetDir . $birthCertificate)){
-            $addStudentInfo = "INSERT INTO students(lrn, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, contact_number, email, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isActive)
-                            VALUES ('$lrn', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', '$contactNumber', '$email', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isActive')";
+            $addStudentInfo = "INSERT INTO students(lrn, gwa, first_name, middle_name, last_name, suffix, gender, birth_date, birth_place, grade_level, house_address, barangay, city, province, last_school, last_school_address, student_picture, report_card, birth_certificate, isActive)
+                            VALUES ('$lrn', '$gwa', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isActive')";
             $addParentInfo = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
                             VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
             $addStudentToEnrollees = "INSERT INTO Enrollees(student_lrn)

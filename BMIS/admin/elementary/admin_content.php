@@ -60,8 +60,6 @@
             <table>
                 <tr class="table-header">
                     <th>Full Name</th>
-                    <th>Email Adress</th>
-                    <th>Contact Number</th>
                     <th>Parent/Guardian Information</th>
                     <th>Relationship</th>
                     <th>Parent Contact Number</th>
@@ -85,8 +83,6 @@
                                     ?>
                                     <tr id=<?= $res['lrn']?>>
                                         <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
                                         <td><?= $res['parent_name'];?></td>
                                         <td><?= $res['parent_relationship'];?></td>
                                         <td><?= $res['parent_contact'];?></td>
@@ -101,8 +97,6 @@
                                     if (mysqli_num_rows(mysqli_query($conn, $checkIfEnrolled)) == 0) {?>
                                         <tr id=<?= $res['lrn']?>>
                                         <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
                                         <td><?= $res['parent_name'];?></td>
                                         <td><?= $res['parent_relationship'];?></td>
                                         <td><?= $res['parent_contact'];?></td>
@@ -129,8 +123,6 @@
                                     ?>
                                     <tr id=<?= $res['lrn']?>>
                                         <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
                                         <td><?= $res['parent_name'];?></td>
                                         <td><?= $res['parent_relationship'];?></td>
                                         <td><?= $res['parent_contact'];?></td>
@@ -145,8 +137,6 @@
                                     if (mysqli_num_rows(mysqli_query($conn, $checkIfEnrolled)) == 0) {?>
                                         <tr id=<?= $res['lrn']?>>
                                         <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
                                         <td><?= $res['parent_name'];?></td>
                                         <td><?= $res['parent_relationship'];?></td>
                                         <td><?= $res['parent_contact'];?></td>
@@ -177,8 +167,6 @@
                                             <p><b>LRN : </b><?= $res['lrn']?></p>
                                             <h1><?= $res['last_name']?>, <?= $res['first_name']?></h1>
                                             <p><b>Enrolling for Grade : </b> <?= $res['grade_level']?></p>
-                                            <p><?= $res['email']?></p>
-                                            <p><?= $res['contact_number']?></p>
                                             <p><b>Gender : </b><?= $res['gender']?></p>
                                             <p><b>Age : </b><?php 
                                                 $today = date("y-m-d");

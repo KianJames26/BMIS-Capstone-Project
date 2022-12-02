@@ -82,18 +82,7 @@ function goToPageThree() {
     const gender = document.querySelector('input[name="gender-choice"]:checked').value;
     const birthDay = document.getElementById("birthday");
     const birthPlace = document.getElementById('birthplace');
-    const contactNumber = document.getElementById('contact-number');
-    const validEmail = validateEmail();
-    
-    function validateEmail() {
-        const mailFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        if (document.getElementById('email').value.match(mailFormat)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     if (gender === "null") {
         showErrorBox("Please Select your Gender!");
@@ -101,10 +90,6 @@ function goToPageThree() {
         showErrorBox("Please Enter your Date of Birth!",birthDay.id);
     }else if(birthPlace.value.trim() === "" || birthplace.value.trim().length < 4){
         showErrorBox("Please Enter a valid Place of Birth!", birthPlace);
-    }else if (contactNumber.value === "" || contactNumber.value.length > 11 || contactNumber.value.length < 11) {
-        showErrorBox("Please Enter a valid Contact Number", contactNumber.id);
-    }else if (!validEmail) {
-        showErrorBox("Please Enter a Valid Email!", "email");
     }else{
         const pageOne = document.getElementById("page-1");
         const pageTwo = document.getElementById("page-2");
@@ -159,17 +144,11 @@ function goToPageFour() {
 }
 
 function goToPageFive() {
-    const lastSchool = document.getElementById('last-school');
-    const lastSchoolAddress = document.getElementById('last-school-address');
     const studentPicture = document.getElementById('student-picture');
     const reportCard = document.getElementById('report-card');
     const birthCertificate = document.getElementById('birth-certificate');
 
-    if(lastSchool.value.trim() === ""){
-        showErrorBox("Please Enter your Last School", lastSchool.id);
-    }else if(lastSchoolAddress.value.trim() === ""){
-        showErrorBox("Please Enter your Last School Address", lastSchoolAddress.id);
-    }else if (studentPicture.files.length == 0){
+    if (studentPicture.files.length == 0){
         showErrorBox("Please Upload your 1x1 Picture", studentPicture.id);
     }else if (reportCard.files.length == 0){
         showErrorBox("Please Upload your Form 138", reportCard.id);
@@ -225,8 +204,6 @@ function showAllInput() {
     const gender = document.querySelector('input[name="gender-choice"]:checked').value;
     const birthDay = document.getElementById("birthday").value;
     const birthPlace = document.getElementById('birthplace').value;
-    const contactNumber = document.getElementById('contact-number').value;
-    const email = document.getElementById('email').value;
     const houseAddress = document.getElementById('house-address').value;
     const barangay = document.getElementById('barangay').value;
     const city = document.getElementById('city').value;
@@ -234,11 +211,10 @@ function showAllInput() {
     const parentFullName = document.getElementById('parent-fullname').value;
     const parentContact = document.getElementById('parent-contact').value;
     const relationship = document.getElementById('relationship').value;
-    const lastSchool = document.getElementById('last-school').value;
-    const lastSchoolAddress = document.getElementById('last-school-address').value;
     const studentPicture = document.getElementById('student-picture').files[0].name;
     const reportCard = document.getElementById('report-card').files[0].name;
     const birthCertificate = document.getElementById('birth-certificate').files[0].name;
+    const gradeLevel = document.getElementById('grade-level').value;
 
     document.getElementById('showLRN').innerHTML = lrn;
     document.getElementById('showLName').innerHTML = lastName;
@@ -248,8 +224,6 @@ function showAllInput() {
     document.getElementById('showGender').innerHTML = gender;
     document.getElementById('showBirthday').innerHTML = birthDay;
     document.getElementById('showBirthPlace').innerHTML = birthPlace;
-    document.getElementById('showContactNumber').innerHTML = contactNumber;
-    document.getElementById('showEmail').innerHTML = email;
     document.getElementById('showHouse').innerHTML = houseAddress;
     document.getElementById('showBarangay').innerHTML = barangay;
     document.getElementById('showCity').innerHTML = city;
@@ -257,9 +231,21 @@ function showAllInput() {
     document.getElementById('showParentFullName').innerHTML = parentFullName;
     document.getElementById('showParentContact').innerHTML = parentContact;
     document.getElementById('showParentRelationship').innerHTML = relationship;
-    document.getElementById('showLastSchool').innerHTML = lastSchool;
-    document.getElementById('showLastSchoolAddress').innerHTML = lastSchoolAddress;
     document.getElementById('showPicture').innerHTML = studentPicture;
     document.getElementById('showReportCard').innerHTML = reportCard;
     document.getElementById('showBirthCertificate').innerHTML = birthCertificate;
+    document.getElementById('showGrade').innerHTML = gradeLevel;
 }
+
+
+// const validEmail = validateEmail();
+    
+// function validateEmail() {
+//     const mailFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+//     if (document.getElementById('email').value.match(mailFormat)) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
