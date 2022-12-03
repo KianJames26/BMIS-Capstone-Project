@@ -1,4 +1,4 @@
-const inputBox = document.querySelectorAll("input[type=number]");
+const inputBox = [document.querySelector("#lrn"), document.querySelector("#parent-contact")];
 
 const invalidChars = [
     "-",

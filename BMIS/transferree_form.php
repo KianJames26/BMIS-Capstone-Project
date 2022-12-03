@@ -88,7 +88,7 @@
                     </div>
                     <div class="column">
                         <label for="lrn">Last School Year Average <span class="required"></span></label>
-                        <input type="number" name="gwa" id="gwa" placeholder="Enter student average (No decimals)">
+                        <input type="number" name="gwa" id="gwa" placeholder="Enter your Average Last School Year">
                     </div>
                 </div> 
                 

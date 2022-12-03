@@ -45,7 +45,7 @@ body{
     height: 100vh;
     width: 210px;
     position: fixed;
-    background-color: #C60C29;
+    background-color: #213159;
     display: flex;
     flex-direction: column;
 }
@@ -58,7 +58,7 @@ body{
     transition: all 0.3s;
 }
 .navigation a:hover, #active{
-    color: #E89DA9;
+    color: #3d6098;
 }
 #active{
     cursor:auto;
@@ -82,7 +82,7 @@ body{
 }
 .dashboard .box{
     display: flex;
-    background-color: #C60C29;
+    background-color: #213159;
     width: 420px;
     height: 200px;
     border-radius: 16px;
@@ -142,7 +142,7 @@ body{
     font-size: 18px;
     padding: 8px 36px;
     cursor: pointer;
-    background-color: #C60C29;
+    background-color: #213159;
     border-radius: 6px;
     color: white;
     transition: 0.5s;
@@ -245,7 +245,7 @@ body{
     content: '';
     width: 100%;
     height: 4px; /* cross thickness */
-    background-color: #C60C29;
+    background-color: #213159;
     transition: all 0.5s;
 }
 .edit .enrollee-info #close-editor::after{
@@ -391,9 +391,9 @@ body{
 
 .admin-controls .sub-pages a{
     padding: 8px 32px;
-    border-top: 2px solid #C60C29;
-    border-left: 2px solid #C60C29;
-    border-right: 2px solid #C60C29;
+    border-top: 2px solid #213159;
+    border-left: 2px solid #213159;
+    border-right: 2px solid #213159;
     border-radius: 5px 5px 0 0;
     text-decoration: none;
     color: black;
@@ -404,12 +404,12 @@ body{
 }
 .admin-controls .sub-pages #active-sub-page{
     padding: 8px 32px !important;
-    background-color: #C60C29;
+    background-color: #213159;
     color: white;
     border: none !important;
 }
 .admin-controls .sub-page-container{
-    background-color: #C60C29;
+    background-color: #213159;
     color: white;
     height: 420px;
     padding: 16px 32px;
@@ -486,7 +486,7 @@ body{
     background-color: white;
     border-radius: 5px;
     cursor: pointer;
-    border: 2px solid #E89DA9;
+    border: 2px solid #3d6098;
 }
 
 .sub-page-container > .alert-box{
@@ -545,7 +545,7 @@ body{
     row-gap: 30px;
 }
 .no-school-year__container > a, a#print{
-    background-color: #C60C29;
+    background-color: #213159;
     text-decoration: none;
     color: white;
     padding: 8px 32px;
@@ -554,7 +554,7 @@ body{
     transition: background-color 500ms;
 }
 .no-school-year__container > a:hover, a#print:hover{
-    background-color: #CB243E;
+    background-color: #3d6098;
 }
 
 .select-grade__container{
@@ -570,7 +570,7 @@ body{
     column-gap: 12px;
 }
 .select-grade__container > .grade-levels > a{
-    background-color: #C60C29;
+    background-color: #213159;
     text-decoration: none;
     color: white;
     padding: 8px 32px;
@@ -579,7 +579,7 @@ body{
     transition: background-color 500ms;
 }
 .select-grade__container > .grade-levels > a:hover{
-    background-color: #CB243E;
+    background-color: #3d6098;
 }
 .select-section__container{
     width: 100%;
@@ -602,7 +602,7 @@ body{
     justify-self: center;
 }
 .select-section__container > .sections > li > a{
-    background-color: #C60C29;
+    background-color: #213159;
     text-decoration: none;
     color: white;
     padding: 8px 32px;
@@ -611,18 +611,18 @@ body{
     transition: background-color 500ms;
 }
 .select-section__container > .sections > li > a:hover{
-    background-color: #CB243E;
+    background-color: #3d6098;
 }
 .select-section__container > #previous{
     align-self: flex-start;
     font-family: 'OpenSans SemiBold';
     font-size: 20px;
     text-decoration: none;
-    color: #C60C29;
+    color: #213159;
     transition: color 500ms;
 }
 .select-section__container > #previous:hover{
-    color: #CB243E;
+    color: #3d6098;
 }
 
 .student-list__container{

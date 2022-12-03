@@ -92,7 +92,7 @@ dialog a #close-editor::after, dialog a #close-editor::before{
     content: '';
     width: 100%;
     height: 4px; /* cross thickness */
-    background-color: #C60C29;
+    background-color: #213159;
     transition: all 0.5s;
 }
 dialog a #close-editor::after{
@@ -114,7 +114,7 @@ dialog .link{
 }
 dialog .link a{
     text-decoration: none;
-    background-color: #C60C29;
+    background-color: #213159;
     color: white;
     padding: 8px 32px;
     border-radius: 16px;
@@ -124,7 +124,7 @@ dialog .link a{
     cursor: pointer;
 }
 dialog .link a:hover{
-    background-color:  #CB243E;
+    background-color:  #3d6098;
 }
 
 /* SECTION ONE */
@@ -143,7 +143,7 @@ dialog .link a:hover{
 }
 .section-one-right{
     width: 50%;
-    background-color: #C60C29;
+    background-color: #213159;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -187,7 +187,7 @@ dialog .link a:hover{
 }
 .section-two-left{
     width: 70%;
-    background-color: #C60C29;
+    background-color: #213159;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -216,7 +216,7 @@ dialog .link a:hover{
 /* SECTION THREE */
 .section-three{
     min-height: 100vh;
-    background-color: #C60C29;
+    background-color: #213159;
     display: flex;
     flex-direction: column;
     padding-bottom: 64px;
@@ -282,7 +282,7 @@ dialog .link a:hover{
     text-align: center;
 }
 .section-four-bottom{
-    background-color: #C60C29;
+    background-color: #213159;
     width: 100%;
     height: 80%;
     display: flex;
@@ -343,7 +343,7 @@ dialog .link a:hover{
 }
 .section-five-bottom-announcement{
     border: black 1px solid;
-    border-left: #C60C29 5px solid;
+    border-left: #213159 5px solid;
     padding: 16px 8px;
     display: flex;
     flex-direction: column;

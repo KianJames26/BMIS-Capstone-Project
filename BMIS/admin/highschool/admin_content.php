@@ -53,15 +53,14 @@
     
         <div class="enrollees">
             <form action="admin.php?page=<?= $_GET['page']?>" method="post">
-                <input type="search" name="search-keyword" id="search" placeholder="Search LRN, First Name or Last Name" value="<?php echo isset($_POST['search-keyword']) ? $_POST['search-keyword'] : ''; ?>">
+                <input type="search" name="search-keyword" id="search" placeholder="Search LRN, First Name or Last Name" value="<?php echo isset($_POST['search-keyword']) ? $_POST['search-keyword'] : ''; ?>" onkeyup="responsiveSearch()">
                 <button name="search">Search</button>
-                <a href="?page=archived">View Archive Students</a>
+                <a href="?page=archived">View Archive Enrollees</a>
             </form>
-            <table>
+            <table id="student-table">
                 <tr class="table-header">
+                    <th>LRN</th>
                     <th>Full Name</th>
-                    <th>Email Adress</th>
-                    <th>Contact Number</th>
                     <th>Parent/Guardian Information</th>
                     <th>Relationship</th>
                     <th>Parent Contact Number</th>
@@ -84,41 +83,39 @@
                                 if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYearQuery)) == 0){
                                     ?>
                                     <tr id=<?= $res['lrn']?>>
+                                        <td><?= $res['lrn'] ?></td>
                                         <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
                                         <td><?= $res['parent_name'];?></td>
                                         <td><?= $res['parent_relationship'];?></td>
                                         <td><?= $res['parent_contact'];?></td>
                                         <td><?= $res['grade_level'];?></td>
                                         <td class="action">
-                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                            <a href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>"><img src="../../../img/eye.png" alt="" height="25px"></a>
+                                            <a href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>"><img src="../../../img/trash-can.png" alt="" height="25px"></a>
                                         </td>
                                     </tr>
                                 <?php }elseif($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYearQuery))){
                                     $checkIfEnrolled = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE enrolled_lrn = '" . $res['lrn'] . "'";
                                     if (mysqli_num_rows(mysqli_query($conn, $checkIfEnrolled)) == 0) {?>
                                         <tr id=<?= $res['lrn']?>>
-                                        <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
-                                        <td><?= $res['parent_name'];?></td>
-                                        <td><?= $res['parent_relationship'];?></td>
-                                        <td><?= $res['parent_contact'];?></td>
-                                        <td><?= $res['grade_level'];?></td>
-                                        <td class="action">
-                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
-                                        </td>
-                                    </tr>
+                                            <td><?= $res['lrn'] ?></td>
+                                            <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                            <td><?= $res['parent_name'];?></td>
+                                            <td><?= $res['parent_relationship'];?></td>
+                                            <td><?= $res['parent_contact'];?></td>
+                                            <td><?= $res['grade_level'];?></td>
+                                            <td class="action">
+                                                <a href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>"><img src="../../../img/eye.png" alt="" height="25px"></a>
+                                                <a href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>"><img src="../../../img/trash-can.png" alt="" height="25px"></a>
+                                            </td>
+                                        </tr>
                                     <?php }
                                 }
                             }
                         }
                     }
                 }else {
-                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and (students.lrn like '". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
+                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and (students.lrn like '%". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
                     if($result = mysqli_query($conn, $sql)){
                         if(mysqli_num_rows($result) == 0){?>
                             <tr><td colspan="100%"><h1>There are no data fetched in your search</h1></td></tr>
@@ -128,34 +125,32 @@
                                 if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYearQuery)) == 0){
                                     ?>
                                     <tr id=<?= $res['lrn']?>>
+                                        <td><?= $res['lrn'] ?></td>
                                         <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
                                         <td><?= $res['parent_name'];?></td>
                                         <td><?= $res['parent_relationship'];?></td>
                                         <td><?= $res['parent_contact'];?></td>
                                         <td><?= $res['grade_level'];?></td>
                                         <td class="action">
-                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
+                                            <a href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>"><img src="../../../img/eye.png" alt="" height="25px"></a>
+                                            <a href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>"><img src="../../../img/trash-can.png" alt="" height="25px"></a>
                                         </td>
                                     </tr>
                                 <?php }elseif($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYearQuery))){
                                     $checkIfEnrolled = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE enrolled_lrn = '" . $res['lrn'] . "'";
                                     if (mysqli_num_rows(mysqli_query($conn, $checkIfEnrolled)) == 0) {?>
                                         <tr id=<?= $res['lrn']?>>
-                                        <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                        <td><?= $res['email'];?></td>
-                                        <td><?= $res['contact_number'];?></td>
-                                        <td><?= $res['parent_name'];?></td>
-                                        <td><?= $res['parent_relationship'];?></td>
-                                        <td><?= $res['parent_contact'];?></td>
-                                        <td><?= $res['grade_level'];?></td>
-                                        <td class="action">
-                                            <a id="edit" href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>">Edit</a>
-                                            <a id="delete" href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>">Delete</a>
-                                        </td>
-                                    </tr>
+                                            <td><?= $res['lrn'] ?></td>
+                                            <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
+                                            <td><?= $res['parent_name'];?></td>
+                                            <td><?= $res['parent_relationship'];?></td>
+                                            <td><?= $res['parent_contact'];?></td>
+                                            <td><?= $res['grade_level'];?></td>
+                                            <td class="action">
+                                                <a href="?page=<?= $_GET['page']?>&edit=<?php echo $res['lrn'];?>"><img src="../../../img/eye.png" alt="" height="25px"></a>
+                                                <a href="?page=<?= $_GET['page']?>&delete_student=<?php echo $res['lrn'];?>"><img src="../../../img/trash-can.png" alt="" height="25px"></a>
+                                            </td>
+                                        </tr>
                                     <?php }
                                 }
                             }?>
@@ -177,8 +172,6 @@
                                             <p><b>LRN : </b><?= $res['lrn']?></p>
                                             <h1><?= $res['last_name']?>, <?= $res['first_name']?></h1>
                                             <p><b>Enrolling for Grade : </b> <?= $res['grade_level']?></p>
-                                            <p><?= $res['email']?></p>
-                                            <p><?= $res['contact_number']?></p>
                                             <p><b>Gender : </b><?= $res['gender']?></p>
                                             <p><b>Age : </b><?php 
                                                 $today = date("y-m-d");
@@ -337,7 +330,6 @@
                 }
                 CloseCon($conn);
                 ?>
-            
         </div>
     <?php ;
     }
@@ -353,9 +345,8 @@
             </form>
             <table>
                 <tr class="table-header">
+                    <th>LRN</th>
                     <th>Full Name</th>
-                    <th>Email Adress</th>
-                    <th>Contact Number</th>
                     <th>Parent/Guardian Information</th>
                     <th>Relationship</th>
                     <th>Parent Contact Number</th>
@@ -376,15 +367,14 @@
                             while ($res = mysqli_fetch_array($result)) {
                                 ?>
                                 <tr id=<?= $res['lrn']?>>
+                                    <td><?= $res['lrn'] ?></td>
                                     <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                    <td><?= $res['email'];?></td>
-                                    <td><?= $res['contact_number'];?></td>
                                     <td><?= $res['parent_name'];?></td>
                                     <td><?= $res['parent_relationship'];?></td>
                                     <td><?= $res['parent_contact'];?></td>
                                     <td><?= $res['grade_level'];?></td>
                                     <td class="action">
-                                        <a id="edit" href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>">Restore</a>
+                                        <a href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>"><img src="../../../img/history.png" alt="" height="30px"></a>
                                     </td>
                                 </tr>
                             <?php }
@@ -399,15 +389,14 @@
                             while ($res = mysqli_fetch_array($result)) {
                                 ?>
                                 <tr id=<?= $res['lrn']?>>
+                                    <td><?= $res['lrn'] ?></td>
                                     <td><?= $res['last_name'];?>, <?= $res['first_name'];?></td>
-                                    <td><?= $res['email'];?></td>
-                                    <td><?= $res['contact_number'];?></td>
                                     <td><?= $res['parent_name'];?></td>
                                     <td><?= $res['parent_relationship'];?></td>
                                     <td><?= $res['parent_contact'];?></td>
                                     <td><?= $res['grade_level'];?></td>
                                     <td class="action">
-                                        <a id="edit" href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>">Restore</a>
+                                        <a id="edit" href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>"><img src="../../../img/history.png" alt="" height="30px"></a>
                                     </td>
                                 </tr>
                             <?php }
@@ -536,11 +525,11 @@
                                     <p class="sub-page-header">Current School Year : <?= $res['school_year']?> </p>
                                     <div class="school-year-content">
                                         <div class="left">
-                                            <p class="sub-page-header">Total Enrolled Students: <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level ".$gradeLevel)) ?></p>
-                                            <p>Grade 7 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 7")) ?></p>
-                                            <p>Grade 8 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 8")) ?></p>
-                                            <p>Grade 9 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 9")) ?></p>
-                                            <p>Grade 10 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 10")) ?></p>
+                                            <p class="sub-page-header">Total Enrolled Students: <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level".$gradeLevel)) ?></p>
+                                            <p>Grade 3 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 7")) ?></p>
+                                            <p>Grade 4 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 8")) ?></p>
+                                            <p>Grade 5 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 9")) ?></p>
+                                            <p>Grade 6 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 10")) ?></p>
                                         </div>
                                         <div class="right">
                                             <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=<?= $res['school_year']?>"><img src="../../../img/circular.png">Reset School Year</a>
