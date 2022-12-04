@@ -15,7 +15,7 @@
     column-gap: 16px;
 }
 .container > .action > a{
-    background-color: #C60C29;
+    background-color: #213159;
     text-decoration: none;
     color: white;
     padding: 8px 32px;
@@ -24,5 +24,5 @@
     transition: background-color 500ms;
 }
 .container > .action > a:hover{
-    background-color: #CB243E;
+    background-color: #3d6098;
 }

@@ -3,21 +3,24 @@
     function dashboardContent($gradeLevel)
     {
         $conn = OpenCon();
-        if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true;")){
-            if($row = mysqli_fetch_array($result)) {
-                $elementaryEnrollees = $row[0];
-            }
-        }
         $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
-        if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYear)) == 0){
-            $elementaryStudents = 0;
-        }else{
-            if ($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))) {
-                $enrolleStudentsQuery = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE `". $activeSchoolYear['school_year'] ."`.grade_level". $gradeLevel;
-                if (mysqli_num_rows(mysqli_query($conn, $enrolleStudentsQuery)) == 0) {
-                    $elementaryStudents = 0;
-                }else{
-                    $elementaryStudents = mysqli_num_rows(mysqli_query($conn, $enrolleStudentsQuery));
+        if($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))){
+            if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and enrollees.school_year = '". $activeSchoolYear['school_year'] ."';")){
+                if($row = mysqli_fetch_array($result)) {
+                    $elementaryEnrollees = $row[0];
+                }
+            }
+            
+            if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYear)) == 0){
+                $elementaryStudents = 0;
+            }else{
+                if ($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))) {
+                    $enrolledStudentsQuery = "SELECT * FROM `". $activeSchoolYear['school_year'] ."` WHERE `". $activeSchoolYear['school_year'] ."`.grade_level". $gradeLevel;
+                    if (mysqli_num_rows(mysqli_query($conn, $enrolledStudentsQuery)) == 0) {
+                        $elementaryStudents = 0;
+                    }else{
+                        $elementaryStudents = mysqli_num_rows(mysqli_query($conn, $enrolledStudentsQuery));
+                    }
                 }
             }
         }
@@ -72,8 +75,12 @@
                 if(isset($_POST['search'])){
                     $searchKeyword = $_POST['search-keyword'];
                 }
-                if(trim($searchKeyword) == ""){
-                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true;";
+                $activeSchoolYearQuery = "SELECT * FROM school_years WHERE isActive = true";
+                $activeSchoolYear = mysqli_query($conn, $activeSchoolYearQuery);
+                if(mysqli_num_rows($activeSchoolYear) != 0){    
+                    if(trim($searchKeyword) == ""){
+                        $aSY = mysqli_fetch_array($activeSchoolYear);
+                    $sql = "SELECT enrollees.*, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and school_year = '".$aSY['school_year']."' ;";
                     if($result = mysqli_query($conn, $sql)){
                         if(mysqli_num_rows($result) == 0){?>
                             <tr><td colspan="100%"><h1>No Student Enrollees at the Moment</h1></td></tr>
@@ -115,7 +122,8 @@
                         }
                     }
                 }else {
-                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and (students.lrn like '%". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
+                    $aSY = mysqli_fetch_array($activeSchoolYear);
+                    $sql = "SELECT enrollees.*, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and enrollees.school_year = '".$aSY['school_year']."' and (students.lrn like '%". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
                     if($result = mysqli_query($conn, $sql)){
                         if(mysqli_num_rows($result) == 0){?>
                             <tr><td colspan="100%"><h1>There are no data fetched in your search</h1></td></tr>
@@ -153,11 +161,14 @@
                                         </tr>
                                     <?php }
                                 }
-                            }?>
+                            }
+                        }?>
                     </table>
                         <?php }
                     }
-                }
+                }else{?>
+                    <tr><td colspan="100%"><h1 style="padding: 10px;">Please Activate a School Year first</h1><a id="print" href="?page=admin_controls&sub-page=school-year">Here!</a></td></tr>
+                <?php }
                 
                 if (isset($_GET['edit'])) {
                     $sql = "SELECT students.*, parent_information.* FROM students JOIN parent_information ON parent_information.student_lrn = students.lrn where students.lrn = " . $_GET['edit'];

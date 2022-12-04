@@ -41,6 +41,7 @@
         $reportCard = $lrn . "_report_card." . pathinfo($_FILES['report-card']['name'], PATHINFO_EXTENSION);
         $birthCertificate = $lrn . "_birth_certificate." . pathinfo($_FILES['birth-certificate']['name'], PATHINFO_EXTENSION);
 
+        $schoolYear = $_POST['school-year'];
         $targetDir = "../../uploads/". $lrn . "/";
         if(!is_dir($targetDir)){
             mkdir($targetDir);
@@ -51,8 +52,8 @@
                             VALUES ('$lrn', '$gwa', '$firstName', '$middleName', '$lastName', '$suffix', '$gender', '$birthDate', '$birthPlace', $gradeLevel, '$houseAddress', '$barangay', '$city', '$province', '$lastSchool', '$lastSchoolAddress', '".$studentPicture."', '".$reportCard."', '".$birthCertificate."', '$isActive')";
             $addParentInfo = "INSERT INTO parent_information(student_lrn, parent_name, parent_contact, parent_relationship)
                             VALUES ('$lrn', '$parentName', '$parentContact', '$parentRelationship')";
-            $addStudentToEnrollees = "INSERT INTO Enrollees(student_lrn)
-                            VALUES ('$lrn')";
+            $addStudentToEnrollees = "INSERT INTO Enrollees(student_lrn, school_year)
+                            VALUES ('$lrn', '$schoolYear')";
             if(mysqli_query($conn, $addStudentInfo) && mysqli_query($conn, $addParentInfo) && mysqli_query($conn, $addStudentToEnrollees)){
                 require_once 'phpMethods/phpqrcode/qrlib.php';
                 $qrPath = "../../uploads/generatedQr/";

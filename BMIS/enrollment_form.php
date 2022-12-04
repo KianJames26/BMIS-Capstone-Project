@@ -417,8 +417,9 @@
                     </div>
                 </div>
                 <input type="hidden" name="gwa" id="gwa" value="">
-                    <input type="hidden" name="last-school" id="last-school" value="">
-                    <input type="hidden" name="last-school-address" id="last-school-address" value="">
+                <input type="hidden" name="last-school" id="last-school" value="">
+                <input type="hidden" name="last-school-address" id="last-school-address" value="">
+                <input type="hidden" name="school-year" id="school-year" value="<?= $activeShoolYear ?>">
                 <div class="row navigation">
                     <div onclick="goToPageFour()"><img src="../img/previous.png" alt="PREVIOUS"></div>
                     

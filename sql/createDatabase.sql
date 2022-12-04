@@ -41,5 +41,7 @@ CREATE TABLE Parent_Information(
 );
 CREATE TABLE Enrollees(
     student_lrn varchar(12) NOT NULL UNIQUE,
-    FOREIGN KEY (student_lrn) REFERENCES Students(lrn)
+    school_year varchar(9) not null,
+    FOREIGN KEY (student_lrn) REFERENCES Students(lrn),
+    FOREIGN KEY (school_year) REFERENCES school_years(school_year)
 )

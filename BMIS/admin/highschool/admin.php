@@ -31,7 +31,6 @@
                 <a <?php if($_GET['page'] == "enrollees"){echo "id='active'";}else{echo "href='?page=enrollees'";}?> >Enrollees</a>
                 <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students&select_grade=true'";}?> >Enrolled Students</a>
                 <a <?php if($_GET['page'] == "admin_controls"){echo "id='active'";}else{echo "href='?page=admin_controls&sub-page=school-year'";}?> >Admin Controls</a>
-                <a <?php if($_GET['page'] == "enrollment_form"){echo "id='active'";}else{echo "href='?page=enrollment_form&enrollment=one'";}?> >Enrollment Form</a>
             </div>
             <div class="content">
                 <div class="container">
@@ -42,8 +41,6 @@
                             echo enrolleesContent($gradeLevel);
                         }else if($_GET['page'] == "enrolled_students"){
                             echo enrolledStudentsContent();
-                        }else if($_GET['page'] == "enrollment_form"){
-                            echo enrollmentFormContent();
                         }else if($_GET['page'] == "archived"){
                             echo archived($gradeLevel);
                         }else if($_GET['page'] == "admin_controls"){

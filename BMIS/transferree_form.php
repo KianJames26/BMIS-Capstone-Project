@@ -455,8 +455,9 @@
                         <p class="data" id="showBirthCertificate"></p>
                     </div>
                 </div>
-
+                <input type="hidden" name="school-year" id="school-year" value="<?= $activeShoolYear ?>">
                 <div class="row navigation">
+                    
                     <div onclick="goToPageFour()"><img src="../img/previous.png" alt="PREVIOUS"></div>
                     <button name="submit" type="submit" id="submit">Submit</button>
                 </div>
