@@ -4,6 +4,8 @@
     {
         $conn = OpenCon();
         $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
+        $elementaryStudents = 0;
+        $elementaryEnrollees = 0;
         if($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))){
             if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and enrollees.school_year = '". $activeSchoolYear['school_year'] ."';")){
                 if($row = mysqli_fetch_array($result)) {
@@ -676,8 +678,8 @@
                                                 $femaleName = " ";
                                             }?>
                                             <tr>
-                                                <td><?= $i+1 ?>.) <?= $maleName ?></td>
-                                                <td><?= $i+1 ?>.) <?= $femaleName ?></td>
+                                                <td><?= $i+1 ?>. <?= $maleName ?></td>
+                                                <td><?= $i+1 ?>. <?= $femaleName ?></td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>

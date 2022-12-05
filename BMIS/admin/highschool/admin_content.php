@@ -4,6 +4,8 @@
     {
         $conn = OpenCon();
         $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
+        $elementaryStudents = 0;
+        $elementaryEnrollees = 0;
         if($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))){
             if($result = mysqli_query($conn, "SELECT count(enrollees.student_lrn) from enrollees inner join students on enrollees.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = true and enrollees.school_year = '". $activeSchoolYear['school_year'] ."';")){
                 if($row = mysqli_fetch_array($result)) {
@@ -537,10 +539,10 @@
                                     <div class="school-year-content">
                                         <div class="left">
                                             <p class="sub-page-header">Total Enrolled Students: <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level".$gradeLevel)) ?></p>
-                                            <p>Grade 3 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 7")) ?></p>
-                                            <p>Grade 4 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 8")) ?></p>
-                                            <p>Grade 5 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 9")) ?></p>
-                                            <p>Grade 6 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 10")) ?></p>
+                                            <p>Grade 7 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 7")) ?></p>
+                                            <p>Grade 8 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 8")) ?></p>
+                                            <p>Grade 9 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 9")) ?></p>
+                                            <p>Grade 10 : <?= mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear." WHERE grade_level = 10")) ?></p>
                                         </div>
                                         <div class="right">
                                             <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&reset=<?= $res['school_year']?>"><img src="../../../img/circular.png">Reset School Year</a>
@@ -671,8 +673,8 @@
                                                 $femaleName = " ";
                                             }?>
                                             <tr>
-                                                <td><?= $i+1 ?>.) <?= $maleName ?></td>
-                                                <td><?= $i+1 ?>.) <?= $femaleName ?></td>
+                                                <td><?= $i+1 ?>. <?= $maleName ?></td>
+                                                <td><?= $i+1 ?>. <?= $femaleName ?></td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
