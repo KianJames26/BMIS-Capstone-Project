@@ -2,7 +2,20 @@
     function reEnrollStudent($conn){?>
         <div class="re-enroll__container">
             <p>SCHOOL YEAR HAS ENDED. PLEASE RE-ENROLL</p>
-            <a href="?lrn=<?= $_GET['lrn'] ?>&re-enroll=<?= $_GET['lrn'] ?>">Re-Enroll Now!</a>
+            <?php 
+                $queryActiveSchoolYear = "SELECT * FROM school_years WHERE isActive = true";
+                if (mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear)) == 0) {
+                    ?>
+                        <p>Please wait for further announcement about Enrollment Opening</p>
+                    <?php
+                }else {
+                    $activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $queryActiveSchoolYear))['school_year'];
+                    ?>
+                        <a href="?lrn=<?= $_GET['lrn'] ?>&re-enroll=<?= $_GET['lrn'] ?>">Re-Enroll Now!</a>
+                    <?php
+                }
+            ?>
+            
         </div>
     <?php 
         if (isset($_GET["re-enroll"])) {
@@ -31,7 +44,7 @@
         <?php }
         if (isset($_GET['re-enrolling'])) {
             $lrn = $_GET['re-enrolling'];
-            $insertToEnrollees = "INSERT INTO enrollees (student_lrn) VALUES ('$lrn');";
+            $insertToEnrollees = "INSERT INTO enrollees (student_lrn, school_year) VALUES ('$lrn', '$activeSchoolYear');";
             $updateGradeLevel = "UPDATE students SET grade_level = grade_level + 1 WHERE students.lrn = '". $_GET['re-enrolling'] ."';";
             if (mysqli_query($conn, $insertToEnrollees) && mysqli_query($conn, $updateGradeLevel)) { ?>
                 <div class="prompt">

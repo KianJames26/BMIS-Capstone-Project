@@ -24,7 +24,8 @@
             <div class="header">
                 <img src="../../../img/logo.png" alt="BMIS" srcset="">
                 <h1>Barasoain Memorial Integrated School</h1>
-                <a href="?logout">Logout</a>
+                <p>HighSchool Admin</p>
+                <a href="?logout"><img src="../../../img/logout.png" alt=""></a>
             </div>
             <div class="navigation">
                 <a <?php if($_GET['page'] == "dashboard"){echo "id='active'";}else{echo "href='?page=dashboard'";}?> >Dashboard</a>

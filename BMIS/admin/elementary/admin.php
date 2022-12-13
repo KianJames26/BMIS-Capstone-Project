@@ -26,11 +26,12 @@
             <div class="header">
                 <img src="../../../img/logo.png" alt="BMIS" srcset="">
                 <h1>Barasoain Memorial Integrated School</h1>
-                <a href="?logout" id="logout">Logout</a>
+                <p>Elementary Admin</p>
+                <a href="?logout"><img src="../../../img/logout.png" alt=""></a>
             </div>
             <div class="navigation">
                 <a <?php if($_GET['page'] == "dashboard"){echo "id='active'";}else{echo "href='?page=dashboard'";}?> >Dashboard</a>
-                <a <?php if($_GET['page'] == "enrollees"){echo "id='active'";}else{echo "href='?page=enrollees'";}?> >Enrollees</a>
+                <a <?php if($_GET['page'] == "manage_enrollees"){echo "id='active'";}else{echo "href='?page=manage_enrollees'";}?> >Manage Enrollees</a>
                 <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students&select_grade=true'";}?> >Enrolled Students</a>
                 <a <?php if($_GET['page'] == "admin_controls"){echo "id='active'";}else{echo "href='?page=admin_controls&sub-page=school-year'";}?> >Admin Controls</a>
             </div>
@@ -39,7 +40,7 @@
                     <?php
                         if ($_GET['page'] == "dashboard") {
                             echo dashboardContent($gradeLevel);
-                        }else if($_GET['page'] == "enrollees"){
+                        }else if($_GET['page'] == "manage_enrollees"){
                             echo enrolleesContent($gradeLevel);
                         }else if($_GET['page'] == "enrolled_students"){
                             echo enrolledStudentsContent();

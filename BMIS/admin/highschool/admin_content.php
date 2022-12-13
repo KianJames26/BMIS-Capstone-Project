@@ -679,8 +679,8 @@
                                         <?php } ?>
                                     </tbody>
                                 </table>
-                                <a href="?page=enrolled_students&select_grade=true" id="previous">Reselect Grade</a>
-                                <a id="print">Print</a>
+                                <a href="?page=enrolled_students&select_grade=true" id="previous" data-html2canvas-ignore>Reselect Grade</a>
+                                <a id="print" data-html2canvas-ignore>Print</a>
                                 <script>
                                     function autoClick(){
                                         $("#print").click();
@@ -690,6 +690,7 @@
 
                                         $("#print").on('click', function(){
                                             html2canvas(element, {
+                                                scale: 5,
                                                 onrendered: function(canvas){
                                                     var imageData = canvas.toDataURL("image/jpg");
                                                     var newData = imageData.replace(/^data:image\/jpg/, "data:application/octet-stream");

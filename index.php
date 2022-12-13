@@ -110,27 +110,7 @@
         <div class="section-five-bottom">
             <div class="section-five-bottom-announcement">
                 <p class="date">October 26, 2022</p>
-                <p class="announcement">Ampogi ko!</p>
-            </div>
-            <div class="section-five-bottom-announcement">
-                <p class="date">October 26, 2022</p>
-                <p class="announcement">Ampogi ko!</p>
-            </div>
-            <div class="section-five-bottom-announcement">
-                <p class="date">October 26, 2022</p>
-                <p class="announcement">Ampogi ko!</p>
-            </div>
-            <div class="section-five-bottom-announcement">
-                <p class="date">October 26, 2022</p>
-                <p class="announcement">Ampogi ko!</p>
-            </div>
-            <div class="section-five-bottom-announcement">
-                <p class="date">October 26, 2022</p>
-                <p class="announcement">Ampogi ko!</p>
-            </div>
-            <div class="section-five-bottom-announcement">
-                <p class="date">October 26, 2022</p>
-                <p class="announcement">Ampogi ko!</p>
+                <p class="announcement">The System was Created!</p>
             </div>
         </div>
     </section>
