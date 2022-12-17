@@ -158,7 +158,7 @@
                         },
                     };
                     $(function(){
-                        $('#birthProvince').on('click', birth_place_handlers.fill_cities);
+                        $('#birthProvince').on('change', birth_place_handlers.fill_cities);
 
                         
                         $('#birthCity').ph_locations({'location_type': 'cities'});
@@ -240,9 +240,9 @@
                         }
                     };
                     $(function(){
-                        $('#region').on('click',my_handlers.fill_provinces);
-                        $('#province').on('click', my_handlers.fill_cities);
-                        $('#city').on('click', my_handlers.fill_barangays);
+                        $('#region').on('change',my_handlers.fill_provinces);
+                        $('#province').on('change', my_handlers.fill_cities);
+                        $('#city').on('change', my_handlers.fill_barangays);
 
                         $('#region').ph_locations({'location_type': 'regions'});
                         $('#province').ph_locations({'location_type': 'provinces'});

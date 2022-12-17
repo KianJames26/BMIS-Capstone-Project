@@ -1,8 +1,5 @@
 <?php
     //Write Dashboard content Below!
-
-use LDAP\Result;
-
     function dashboardContent($gradeLevel)
     {
         $conn = OpenCon();
@@ -29,7 +26,6 @@ use LDAP\Result;
                 }
             }
         }
-        
         CloseCon($conn);
         ?>
         <div class="dashboard">
@@ -76,6 +72,7 @@ use LDAP\Result;
                     <label for="grade-level">Grade Level : </label>
                     <select name="grade-level" id="grade-level" >
                         <option value="default" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == 'default') {echo "selected=selected";}?> >All</option>
+                        <option value="0" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '0') {echo "selected=selected";}?> >Kinder</option>
                         <option value="1" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '1') {echo "selected=selected";}?> >1</option>
                         <option value="2" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '2') {echo "selected=selected";}?>>2</option>
                         <option value="3" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '3') {echo "selected=selected";}?>>3</option>
@@ -143,7 +140,7 @@ use LDAP\Result;
                         }
                     }
                     function showButton() {
-                        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                        var checkboxes = document.querySelectorAll('input[name="lrn[]"]:checked').length;
                         var buttons = document.getElementsByClassName('appear');;
                         if (checkboxes > 0) {
                             for (let i = 0; i < buttons.length; i++) {
@@ -174,6 +171,7 @@ use LDAP\Result;
                             <th>Guardian Full Name</th>
                             <th>Guardian Contact Number</th>
                             <th>Relationship to Enrollee</th>
+                            <th>View Additional Info</th>
                             <th>View Attachments</th>
                             <th>Accept Enrollee</th>
                             <th>Reject Enrollee</th>
@@ -199,6 +197,9 @@ use LDAP\Result;
                                     $age = $diff->format('%y');
                                     $birthPlace = $res['birth_place'];
                                     $enrollGradeLevel = $res['grade_level'];
+                                    if ($enrollGradeLevel == "0") {
+                                        $enrollGradeLevel = "Kinder";
+                                    }
                                     $gwa = $res['gwa'];
                                     $lastSchool = $res['last_school'];
                                     $lastSchoolAddress = $res['last_school_address'];
@@ -222,6 +223,10 @@ use LDAP\Result;
                                         <td><?= $parentFullName ?></td>
                                         <td><?= $parentContact ?></td>
                                         <td><?= $relationship ?></td>
+                                        <td>Null</td>
+                                        <td>Null</td>
+                                        <td><button type="submit" title="Accept Enrollee" name="individual-accept" value="<?= $lrn?>"><img src="../../../img/check.png" alt="Accept"></button></td>
+                                        <td><button type="submit" title="Reject Enrollee" name="individual-reject" value="<?= $lrn?>"><img src="../../../img/cross-button.png" alt="Reject"></button></td>
                                     </tr>
                                 <?php }
                             }
@@ -249,7 +254,6 @@ use LDAP\Result;
                             if(anyUnchecked) {
                                 selectAllCheckbox.checked = false;
                             }
-
                         });
                     }
                 </script>
@@ -259,20 +263,75 @@ use LDAP\Result;
                 foreach ($_POST['lrn'] as $lrn) {
                     $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
                     if ($result = mysqli_query($conn, $queryStudentGrade)) {
+                        
                         $res = mysqli_fetch_assoc($result);
-                        if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
-                            $section = rand(6, 10);
-                            
-                        }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
-                            $section = rand(1, 5);
-                            
+                        $enrolleeGradeLevel = $res['grade_level'];
+                        if ($res['grade_level'] == 0) {
+                            $section = rand(1, 10);
+                        }else {
+                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                                $section = rand(6, 10);
+                                
+                            }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
+                                $section = rand(1, 5);
+                            }
+                        }
+                        $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
+                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
+                        if (mysqli_query($conn, $enrollStudentsQuery)) {
+                            $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
+                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                                <div class="prompt">
+                                    <div class="prompt__container">
+                                        <h1>Enrollees Accepted Successfull</h1>
+                                        <div class="actions">
+                                            <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }
                         }
                     }
                 }
+            }elseif(isset($_POST['individual-accept'])){
+                $lrn = $_POST['individual-accept'];
+                $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
+                    if ($result = mysqli_query($conn, $queryStudentGrade)) {
+                        
+                        $res = mysqli_fetch_assoc($result);
+                        $enrolleeGradeLevel = $res['grade_level'];
+                        if ($res['grade_level'] == 0) {
+                            $section = rand(1, 10);
+                        }else {
+                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                                $section = rand(6, 10);
+                                
+                            }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
+                                $section = rand(1, 5);
+                            }
+                        }
+                        $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
+                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
+                        if (mysqli_query($conn, $enrollStudentsQuery)) {
+                            $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
+                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                                <div class="prompt">
+                                    <div class="prompt__container">
+                                        <h1>Enrollee Accepted Successfully</h1>
+                                        <div class="actions">
+                                            <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                    }
             }elseif (isset($_POST['multi-reject'])) {
                 foreach ($_POST['lrn'] as $lrn) {
                     
                 }
+            }elseif(isset($_POST['individual-reject'])){
+                
             }
             ?>
         </div>

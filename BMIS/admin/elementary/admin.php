@@ -18,8 +18,6 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="../../../css/default.css">
             <link rel="stylesheet" href="../../../css/admin.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
             <title>BMIS Elementary</title>
         </head>
         <body>
@@ -32,7 +30,7 @@
             <div class="navigation">
                 <a <?php if($_GET['page'] == "dashboard"){echo "id='active'";}else{echo "href='?page=dashboard'";}?> >Dashboard</a>
                 <a <?php if($_GET['page'] == "manage_enrollees"){echo "id='active'";}else{echo "href='?page=manage_enrollees'";}?> >Manage Enrollees</a>
-                <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students&select_grade=true'";}?> >Enrolled Students</a>
+                <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students&select_grade=true'";}?> >Manage Students</a>
                 <a <?php if($_GET['page'] == "admin_controls"){echo "id='active'";}else{echo "href='?page=admin_controls&sub-page=school-year'";}?> >Admin Controls</a>
             </div>
             <div class="content">

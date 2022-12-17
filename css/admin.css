@@ -161,6 +161,7 @@ body{
     border-radius: 16px;
     font-size: 16px;
     padding: 5px;
+    cursor: pointer;
 }
 .enrollees > form#filtration > .select-grade > label{
     font-size: 18px;
@@ -173,6 +174,7 @@ body{
     font-size: 18px;
     border-radius: 5px;
     transition: background-color 500ms;
+    cursor: pointer;
 }
 .enrollees > form#filtration > a{
     cursor: pointer;
@@ -193,6 +195,19 @@ body{
 .enrollees > form#manage-enrollees > table > thead{
     background-color: #213159;
     color: white;
+}
+.enrollees > form#manage-enrollees > table > tbody > tr > td > button > img{
+    background-color: none;
+    width: 25px;
+}
+.enrollees > form#manage-enrollees > table > tbody > tr > td > button{
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }
 .enrollees > form#manage-enrollees > table, .enrollees > form#manage-enrollees > table > thead > tr > th, .enrollees > form#manage-enrollees > table > tbody > tr > td{
     border: 1px solid black;
@@ -220,7 +235,52 @@ body{
 .enrollees > form#manage-enrollees > .buttons > #accept:hover{
     background-color: #3d6098;
 }
-
+.prompt{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.322);
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.prompt__container{
+    width: 450px;
+    min-height: 200px;
+    border-radius: 16px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    animation: .5s ease-out 0s slideInFromTop;
+}
+.prompt__container > h1{
+    align-self: center;
+    text-align: center;
+}
+.prompt__container > .actions{
+    display: flex;
+    margin-top: 32px;
+    height: 100%;
+}
+.prompt__container > .actions > a{
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: background-color 200ms ease-in;
+}
+.prompt__container > .actions > .confirm{
+    background-color: #213159;
+}
+.prompt__container > .actions > .confirm:hover{
+    background-color: #3d6098;
+}
 .small_box, .small_box{
     width: 100vw;
     height: 100vh;
