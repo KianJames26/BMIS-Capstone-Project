@@ -58,20 +58,15 @@
         <div id="page-1">
             <div class="container">
                 <div class="row">
-                    <label for="grade-level">Grade Level to Enroll <span class="required"></span>  &nbsp;</label>
-                    <select name="grade-level" id="grade-level">
-                        <option value="1">1</option>
-                    </select>
+                    <input type="hidden" name="grade-level" value="0">
                     <label style="margin-left: auto;">School Year: <?= $activeShoolYear?></label>
                 </div>
-
                 <div class="row">
                     <div class="column">
                         <p class="header">Student Information</p>
                         <p class="sub-header">All labels with <span class="required"></span> are required</p>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="column">
                         <label for="lrn">LRN (Learners Reference Number) <span class="required"></span></label>
@@ -171,21 +166,59 @@
                         <label for="house-address">House Number & Street</label>
                         <input type="text" name="house-address" id="house-address" placeholder="Enter House Number & Street">
                     </div>
+                </div>
+                <div class="row">
                     <div class="column">
-                        <label for="barangay">Barangay <span class="required"></span></label>
-                        <input type="text" name="barangay" id="barangay" placeholder="Enter Barangay">
+                        <label for="region">Region<span class="required"></label>
+                        <select name="region" class="input" id="region">
+                            <option value="" hidden="true" selected></option>
+                        </select>
+                    </div>
+                    
+                    <div class="column">
+                        <label for="province">Province<span class="required"></span></label>
+                        <select name="province" class="input" id="province"></select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="column">
                         <label for="city">City <span class="required"></span></label>
-                        <input type="text" name="city" id="city" placeholder="Enter City">
+                        <select name="city" class="input" id="city"></select>
                     </div>
                     <div class="column">
-                        <label for="province">Province <span class="required"></span></label>
-                        <input type="text" name="province" id="province" placeholder="Enter Province">
+                        <label for="barangay">Barangay <span class="required"></span></label>
+                        <select name="barangay" class="input" id="barangay"></select>
                     </div>
                 </div>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+                <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
+                <script type="text/javascript">
+                    var my_handlers = {
+                        fill_provinces:  function(){
+                            var region_code = $(this).val();
+                            $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
+                        },
+                        fill_cities: function(){
+                            var province_code = $(this).val();
+                            $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+                        },
+                        fill_barangays: function(){
+                            var city_code = $(this).val();
+                            $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
+                        }
+                    };
+                    $(function(){
+                        $('#region').on('click',my_handlers.fill_provinces);
+                        $('#province').on('click', my_handlers.fill_cities);
+                        $('#city').on('click', my_handlers.fill_barangays);
+
+                        $('#region').ph_locations({'location_type': 'regions'});
+                        $('#province').ph_locations({'location_type': 'provinces'});
+                        $('#city').ph_locations({'location_type': 'cities'});
+                        $('#barangay').ph_locations({'location_type': 'barangays'});
+                        $('#region').ph_locations('fetch_list');
+                    });
+                </script>
                 <div class="row">
                     <p class="header">Parent/Guardian Information</p>
                 </div>
@@ -416,13 +449,12 @@
                         <p class="data" id="showBirthCertificate"></p>
                     </div>
                 </div>
-                <input type="hidden" name="gwa" id="gwa" value="">
-                <input type="hidden" name="last-school" id="last-school" value="">
-                <input type="hidden" name="last-school-address" id="last-school-address" value="">
+                <input type="hidden" name="gwa" id="gwa" value="0">
+                <input type="hidden" name="last-school" id="last-school" value="Barasoain Memorial Integrated School">
+                <input type="hidden" name="last-school-address" id="last-school-address" value="Malolos, Bulacan">
                 <input type="hidden" name="school-year" id="school-year" value="<?= $activeShoolYear ?>">
                 <div class="row navigation">
                     <div onclick="goToPageFour()"><img src="../img/previous.png" alt="PREVIOUS"></div>
-                    
                     <button name="submit" type="submit" id="submit">Submit</button>
                 </div>
                 

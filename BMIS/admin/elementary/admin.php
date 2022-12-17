@@ -22,7 +22,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
             <title>BMIS Elementary</title>
         </head>
-        <body onload = "autoClick();">
+        <body>
             <div class="header">
                 <img src="../../../img/logo.png" alt="BMIS" srcset="">
                 <h1>Barasoain Memorial Integrated School</h1>

@@ -46,7 +46,6 @@ function goToPageTwo(existingLrn) {
     const pageFour = document.getElementById("page-4");
     const pageFive = document.getElementById('page-5');
     
-    const gradeLevel = document.getElementById('grade-level');
     const lrn = document.getElementById("lrn");
     const lastName = document.getElementById("last-name");
     const firstName = document.getElementById("first-name");
@@ -58,9 +57,7 @@ function goToPageTwo(existingLrn) {
             duplicateLrn = true
         }
     });
-    if (gradeLevel.value === "") {
-        showErrorBox("Please Enter Grade Level to Enroll", gradeLevel.id);
-    }else if (duplicateLrn){
+    if (duplicateLrn){
         showErrorBox("LRN already in the Database", lrn.id);
     }else if (lrn.value === "" || lrn.value.length != 12) {
         showErrorBox("Please Enter a Valid LRN", lrn.id);
@@ -114,13 +111,13 @@ function goToPageFour() {
     const parentContact = document.getElementById('parent-contact');
     const relationship = document.getElementById('relationship');
 
-    if(barangay.value.trim() === ""){
-        showErrorBox("Please Enter your Barangay", barangay.id);
-        barangay.style.borderColor = 'red';
+    if(province.value.trim() === ""){
+        showErrorBox("Please Enter your Province", province.id);
     }else if(city.value.trim() === ""){
         showErrorBox("Please Enter your City", city.id);
-    }else if(province.value.trim() === ""){
-        showErrorBox("Please Enter your Province", province.id);
+    }else if(barangay.value.trim() === ""){
+        showErrorBox("Please Enter your Barangay", barangay.id);
+        barangay.style.borderColor = 'red';
     }else if(parentFullName.value.trim() === ""){
         showErrorBox("Please Enter your Parent/Guardian Full Name", parentFullName.id);
     }else if (parentContact.value === "" || parentContact.value.length > 11 || parentContact.value.length < 11) {
@@ -214,7 +211,7 @@ function showAllInput() {
     const studentPicture = document.getElementById('student-picture').files[0].name;
     const reportCard = document.getElementById('report-card').files[0].name;
     const birthCertificate = document.getElementById('birth-certificate').files[0].name;
-    const gradeLevel = document.getElementById('grade-level').value;
+    const gradeLevel = "Kinder";
 
     document.getElementById('showLRN').innerHTML = lrn;
     document.getElementById('showLName').innerHTML = lastName;

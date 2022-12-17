@@ -123,13 +123,13 @@ function goToPageFour() {
     const parentContact = document.getElementById('parent-contact');
     const relationship = document.getElementById('relationship');
 
-    if(barangay.value.trim() === ""){
-        showErrorBox("Please Enter your Barangay", barangay.id);
-        barangay.style.borderColor = 'red';
+    if(province.value.trim() === ""){
+        showErrorBox("Please Enter your Province", province.id);
     }else if(city.value.trim() === ""){
         showErrorBox("Please Enter your City", city.id);
-    }else if(province.value.trim() === ""){
-        showErrorBox("Please Enter your Province", province.id);
+    }else if(barangay.value.trim() === ""){
+        showErrorBox("Please Enter your Barangay", barangay.id);
+        barangay.style.borderColor = 'red';
     }else if(parentFullName.value.trim() === ""){
         showErrorBox("Please Enter your Parent/Guardian Full Name", parentFullName.id);
     }else if (parentContact.value === "" || parentContact.value.length > 11 || parentContact.value.length < 11) {

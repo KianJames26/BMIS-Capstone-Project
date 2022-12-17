@@ -180,7 +180,7 @@ dialog .actions button{
     transition: 0.5s;
 }
 
-.container .row > input, .container .row > .column > input, .container select#suffix{
+.container .row > input, .container .row > .column > input, .container select#suffix, .input{
     font-size: 18px;
     border: #DDDDDD solid 2px;
     border-radius: 5px;

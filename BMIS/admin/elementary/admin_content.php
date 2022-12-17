@@ -1,5 +1,8 @@
 <?php
     //Write Dashboard content Below!
+
+use LDAP\Result;
+
     function dashboardContent($gradeLevel)
     {
         $conn = OpenCon();
@@ -66,7 +69,7 @@
             ?>
             <form action="" method="post" id="filtration">
                 <div class="search">
-                    <input type="text" name="search-keyword" placeholder="Search for LRN, First Name or Last Name" value="<?php if(isset($_POST['search-keyword'])){echo $_POST['search-keyword'];} ?>">
+                    <input type="search" name="search-keyword" placeholder="Search for LRN, First Name or Last Name" value="<?php if(isset($_POST['search-keyword'])){echo $_POST['search-keyword'];} ?>">
                     <input type="submit" name="search" value="Search">
                 </div>
                 <div class="select-grade">
@@ -125,21 +128,153 @@
                 WHERE enrollees.school_year = '". $activeSchoolYear ."' && students.grade_level". $gradeLevel .";";
             }
         } ?>
-            <form action="" method="post" id="manage-students">
+            <form action="" method="post" id="manage-enrollees">
+                <script language="JavaScript">
+                    function toggle(selectAll){
+                        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                        if (selectAll.checked == true) {
+                            for (let i = 0; i < checkboxes.length; i++) {
+                            checkboxes[i].checked = true;
+                            }
+                        } else {
+                            for (let i = 0; i < checkboxes.length; i++) {
+                            checkboxes[i].checked = false;
+                            }
+                        }
+                    }
+                    function showButton() {
+                        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                        var buttons = document.getElementsByClassName('appear');;
+                        if (checkboxes > 0) {
+                            for (let i = 0; i < buttons.length; i++) {
+                                buttons[i].style.opacity = "100%";
+                            }
+                        } else {
+                            for (let i = 0; i < buttons.length; i++) {
+                                buttons[i].style.opacity = "0%";
+                            }
+                        }
+                    }
+                </script>
                 <table>
                     <thead>
                         <tr>
-                            <td><input type="checkbox" name="accept" id="select-all"></td>
-                            <td>LRN</td>
-                            <td>First Name</td>
-                            <td>Last Name</td>
+                            <th><input type="checkbox" id="select-all" onclick="toggle(this); showButton();"></th>
+                            <th>LRN</td>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Gender</th>
+                            <th>Birth Date</th>
+                            <th>Birth Place</th>
+                            <th>Age</th>
+                            <th>Grade Level</th>
+                            <th>GWA Last School Year</th>
+                            <th>Last School</th>
+                            <th>Last School Address</th>
+                            <th>Guardian Full Name</th>
+                            <th>Guardian Contact Number</th>
+                            <th>Relationship to Enrollee</th>
+                            <th>View Attachments</th>
+                            <th>Accept Enrollee</th>
+                            <th>Reject Enrollee</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                    <?php
+                        if ($result = mysqli_query($conn, $queryEnrollees)) {
+                            if (mysqli_num_rows($result) == 0) {?>
+                                <tr>
+                                    <td colspan="100%"><h1>Empty Data</h1</td>
+                                </tr>
+                            <?php }else {
+                                while ($res = mysqli_fetch_assoc($result)) {
+                                    $lrn = $res['lrn'];
+                                    $lastName = $res['last_name'];
+                                    $firstName = $res['first_name'];
+                                    $gender = $res['gender'];
+                                    $birthDateNum = $res['birth_date'];
+                                    $birthDate = date("F d, Y", strtotime($birthDateNum));
+                                    $today = date("Y-m-d");
+                                    $diff = date_diff(date_create($birthDateNum), date_create($today));
+                                    $age = $diff->format('%y');
+                                    $birthPlace = $res['birth_place'];
+                                    $enrollGradeLevel = $res['grade_level'];
+                                    $gwa = $res['gwa'];
+                                    $lastSchool = $res['last_school'];
+                                    $lastSchoolAddress = $res['last_school_address'];
+                                    $parentFullName = $res['parent_name'];
+                                    $parentContact = $res['parent_contact'];
+                                    $relationship = $res['parent_relationship'];
+                                    ?>
+                                    <tr id="<?= $lrn?>">
+                                        <td><input type="checkbox" name="lrn[]" value="<?= $lrn?>" onchange="showButton()"></td>
+                                        <td><?= $lrn ?></td>
+                                        <td><?= $lastName ?></td>
+                                        <td><?= $firstName ?></td>
+                                        <td><?= $gender ?></td>
+                                        <td><?= $birthDate ?></td>
+                                        <td><?= $birthPlace ?></td>
+                                        <td><?= $age ?></td>
+                                        <td><?= $enrollGradeLevel ?></td>
+                                        <td><?= $gwa ?></td>
+                                        <td><?= $lastSchool ?></td>
+                                        <td><?= $lastSchoolAddress ?></td>
+                                        <td><?= $parentFullName ?></td>
+                                        <td><?= $parentContact ?></td>
+                                        <td><?= $relationship ?></td>
+                                    </tr>
+                                <?php }
+                            }
+                        }
+                    ?>
                     </tbody>
                 </table>
+                <div class="buttons">
+                    <input type="submit" value="Accept" class="appear" id="accept" name="multi-accept">
+                    <input type="submit" value="Reject" class="appear" id="reject" name="multi-reject">
+                </div>
+                <script>
+                    const selectAllCheckbox = document.getElementById("select-all");
+                    const checkboxes = document.querySelectorAll('input[name="lrn[]"]');
+                    for(var i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].addEventListener('change', function() {
+                            var anyUnchecked = false;
+                            for(var i = 0; i < checkboxes.length; i++) {
+                                if(!checkboxes[i].checked) {
+                                    anyUnchecked = true;
+                                    break;
+                                }
+                                
+                            }
+                            if(anyUnchecked) {
+                                selectAllCheckbox.checked = false;
+                            }
+
+                        });
+                    }
+                </script>
             </form>
+            <?php
+            if(isset($_POST['multi-accept'])){
+                foreach ($_POST['lrn'] as $lrn) {
+                    $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
+                    if ($result = mysqli_query($conn, $queryStudentGrade)) {
+                        $res = mysqli_fetch_assoc($result);
+                        if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                            $section = rand(6, 10);
+                            
+                        }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
+                            $section = rand(1, 5);
+                            
+                        }
+                    }
+                }
+            }elseif (isset($_POST['multi-reject'])) {
+                foreach ($_POST['lrn'] as $lrn) {
+                    
+                }
+            }
+            ?>
         </div>
     <?php }
     //Write Archived Content Below!

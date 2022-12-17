@@ -149,7 +149,7 @@ body{
     justify-content: space-around;
     /* column-gap: 5%; */
 }
-.enrollees > form#filtration > .search > input[type='text']{
+.enrollees > form#filtration > .search > input[type='search']{
     border: #DDDDDD solid 2px;
     padding: 10px;
     width: 400px;
@@ -165,7 +165,7 @@ body{
 .enrollees > form#filtration > .select-grade > label{
     font-size: 18px;
 }
-.enrollees > form#filtration > .search > input[type='submit'], .enrollees > form#filtration > .select-grade > input[type='submit']{
+.enrollees > form#filtration > .search > input[type='submit'], .enrollees > form#filtration > .select-grade > input[type='submit'], .enrollees > form#manage-enrollees > .buttons > input[type='submit']{
     background-color: #213159;
     text-decoration: none;
     color: white;
@@ -176,6 +176,49 @@ body{
 }
 .enrollees > form#filtration > a{
     cursor: pointer;
+}
+.enrollees > form#manage-enrollees{
+    display: block;
+    overflow-x: auto;
+    min-height: 300px;
+    max-height: 300px;
+    margin: 20px 10px;
+}
+.enrollees > form#manage-enrollees > table > thead > tr > th, .enrollees > form#manage-enrollees > table > tbody > tr > td{
+    min-width: 100px;
+    white-space: nowrap;
+    padding: 15px 10px;
+    text-align: center;
+}
+.enrollees > form#manage-enrollees > table > thead{
+    background-color: #213159;
+    color: white;
+}
+.enrollees > form#manage-enrollees > table, .enrollees > form#manage-enrollees > table > thead > tr > th, .enrollees > form#manage-enrollees > table > tbody > tr > td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.enrollees > form#manage-enrollees > .buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+    position: fixed;
+    top: 82%;
+    left: 70%;
+}
+.enrollees > form#manage-enrollees > .buttons >input.appear{
+    transition: opacity 200ms ease-in, background-color 200ms ease-in;
+    opacity: 0;
+}
+.enrollees > form#manage-enrollees > .buttons > #reject{
+    background-color: #C60C29;
+}
+.enrollees > form#manage-enrollees > .buttons > #reject:hover{
+    background-color: #CB243E;
+}
+.enrollees > form#manage-enrollees > .buttons > #accept:hover{
+    background-color: #3d6098;
 }
 
 .small_box, .small_box{
