@@ -87,18 +87,18 @@
                         <label for="lrn">LRN (Learners Reference Number) <span class="required"></span></label>
                         <input type="number" name="lrn" id="lrn" placeholder="Enter 12 Digit Number" maxLength="12">
                         <script>
-                            const input = document.getElementById('lrn');
-                            input.addEventListener('input', function() {
+                            const inputLrn = document.getElementById('lrn');
+                            inputLrn.addEventListener('input', function() {
                                 this.value = this.value.substring(0, 12); 
                             });
                         </script>
                     </div>
                     <div class="column">
                         <label for="lrn">Last School Year Average <span class="required"></span></label>
-                        <input type="number" name="gwa" step="any" id="gwa" placeholder="Enter your Average Last School Year">
+                        <input type="number" name="gwa" step="any" id="gwa" placeholder="Enter your Average Last School Year (74-100)">
                         <script>
-                            const input = document.getElementById('gwa');
-                            input.addEventListener('change', function() {
+                            const inputGrade = document.getElementById('gwa');
+                            inputGrade.addEventListener('change', function() {
                                 if (this.value < 74) {
                                 this.value = 74;
                                 } else if (this.value > 100) {
@@ -166,10 +166,35 @@
                         <label for="birthday">Date of Birth <span class="required"></span></label>
                         <input type="date" name="birthday" id="birthday">
                     </div>
+                </div>
+                <div class="row">
                     <div class="column">
-                        <label for="birthplace">Birthplace <span class="required"></span></label>
-                        <input type="text" name="birthplace" id="birthplace" placeholder="Enter your Birthplace">
+                        <label for="birthProvince">Birthplace Province<span class="required"></span></label>
+                        <select name="birthProvince" id="birthProvince" class="input"></select>
                     </div>
+                    <div class="column">
+                        <label for="birthCity">Birthplace City<span class="required"></span></label>
+                        <select name="birthCity" id="birthCity" class="input"></select>
+                        <input type="hidden" name="birthplace" id="birthplace">
+                    </div>
+                    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+                    <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
+                    <script type="text/javascript">
+                    var birth_place_handlers = {
+                        fill_cities: function(){
+                            var province_code = $(this).val();
+                            $('#birthCity').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+                        },
+                    };
+                    $(function(){
+                        $('#birthProvince').on('click', birth_place_handlers.fill_cities);
+
+                        
+                        $('#birthCity').ph_locations({'location_type': 'cities'});
+                        $('#birthProvince').ph_locations({'location_type': 'provinces'});
+                        $('#birthProvince').ph_locations('fetch_list');
+                    });
+                    </script>
                 </div>
                 <div class="row">
                     <div class="column">
@@ -177,9 +202,18 @@
                         <input type="text" name="last-school" id="last-school" placeholder="Enter your Last School">
                     </div>
                     <div class="column">
-                        <label for="last-school-address">Last School Attended Address <span class="required"></span></label>
-                        <input type="text" name="last-school-address" id="last-school-address" placeholder="Enter your Last School Address">
+                        <label for="last-school-address-handler">Last School Attended Address <span class="required"></span></label>
+                        <select name="last-school-address-handler" id="last-school-address-handler" class="input"></select>
+                        <input type="hidden" name="last-school-address" id="last-school-address">
                     </div>
+                    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+                    <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
+                    <script type="text/javascript">
+                    $(function(){
+                        $('#last-school-address-handler').ph_locations({'location_type': 'provinces'});
+                        $('#last-school-address-handler').ph_locations('fetch_list');
+                    });
+                    </script>
                 </div>
                 <!-- <div class="row">
                     <div class="column">
@@ -214,25 +248,26 @@
                 </div>
                 <div class="row">
                     <div class="column">
-                        <label for="region">Region<span class="required"></label>
-                        <select name="region" class="input" id="region">
-                            <option value="" hidden="true" selected></option>
-                        </select>
+                        <label for="regionHandler">Region<span class="required"></label>
+                        <select name="regionHandler" class="input" id="region"></select>
                     </div>
                     
                     <div class="column">
-                        <label for="province">Province<span class="required"></span></label>
-                        <select name="province" class="input" id="province"></select>
+                        <label for="provinceHandler">Province<span class="required"></span></label>
+                        <select name="provinceHandler" class="input" id="province"></select>
+                        <input type="hidden" name="province" id="provinceValue">
                     </div>
                 </div>
                 <div class="row">
                     <div class="column">
-                        <label for="city">City <span class="required"></span></label>
-                        <select name="city" class="input" id="city"></select>
+                        <label for="cityHandler">City <span class="required"></span></label>
+                        <select name="cityHandler" class="input" id="city"></select>
+                        <input type="hidden" name="city" id="cityValue">
                     </div>
                     <div class="column">
-                        <label for="barangay">Barangay <span class="required"></span></label>
-                        <select name="barangay" class="input" id="barangay"></select>
+                        <label for="barangayHandler">Barangay <span class="required"></span></label>
+                        <select name="barangayHandler" class="input" id="barangay"></select>
+                        <input type="hidden" name="barangay" id="barangayValue">
                     </div>
                 </div>
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
@@ -274,7 +309,13 @@
                     </div>
                     <div class="column">
                         <label for="parent-contact">Contact Number <span class="required"></span></label>
-                        <input type="number" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No. " minlength="11" maxlength="11">
+                        <input type="number" name="parent-contact" id="parent-contact" placeholder="Enter Parent/Guardian Contact No. " maxlength="11">
+                        <script>
+                            const inputMobile = document.getElementById('parent-contact');
+                            inputMobile.addEventListener('input', function() {
+                                this.value = this.value.substring(0, 11); 
+                            });
+                        </script>
                     </div>
                     <div class="column">
                         <label for="relationship">Relationship <span class="required"></span></label>

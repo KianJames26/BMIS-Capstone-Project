@@ -84,22 +84,34 @@ function goToPageTwo(existingLrn) {
 function goToPageThree() {
     const gender = document.querySelector('input[name="gender-choice"]:checked').value;
     const birthDay = document.getElementById("birthday");
-    const birthPlace = document.getElementById('birthplace');
+    const birthPlaceCity = document.getElementById('birthCity');
+    const birthPlaceProvince = document.getElementById('birthProvince');
     const lastSchool = document.getElementById('last-school');
-    const lastSchoolAddress = document.getElementById('last-school-address');
+    const lastSchoolAddressHandler = document.getElementById('last-school-address-handler');
 
 
     if (gender === "null") {
         showErrorBox("Please Select your Gender!");
     }else if(birthDay.value === ""){
         showErrorBox("Please Enter your Date of Birth!",birthDay.id);
-    }else if(birthPlace.value.trim() === "" || birthplace.value.trim().length < 4){
-        showErrorBox("Please Enter a valid Place of Birth!", birthPlace);
+    }else if(birthPlaceProvince.value.trim() === ""){
+        showErrorBox("Please Enter a valid Place of Birth!", birthPlaceProvince.id);
+    }else if(birthPlaceCity.value.trim() === ""){
+        showErrorBox("Please Enter a valid Place of Birth!", birthPlaceCity.id);
     }else if(lastSchool.value.trim() === ""){
         showErrorBox("Please Enter your Last School", lastSchool.id);
-    }else if(lastSchoolAddress.value.trim() === ""){
-        showErrorBox("Please Enter your Last School Address", lastSchoolAddress.id);
+    }else if(lastSchoolAddressHandler.value.trim() === ""){
+        showErrorBox("Please Enter your Last School Address", lastSchoolAddressHandler.id);
     }else{
+        const selectedBirthCity = birthPlaceCity.options[birthPlaceCity.selectedIndex].innerHTML;
+        const birthPlace = document.getElementById('birthplace');
+        birthPlace.value = selectedBirthCity;
+
+        const selectedSchoolAddress = lastSchoolAddressHandler.options[lastSchoolAddressHandler.selectedIndex].innerHTML;
+        const lastSchoolAddress = document.getElementById('last-school-address');
+        lastSchoolAddress.value = selectedSchoolAddress;
+        
+
         const pageOne = document.getElementById("page-1");
         const pageTwo = document.getElementById("page-2");
         const pageThree = document.getElementById("page-3");
@@ -122,6 +134,7 @@ function goToPageFour() {
     const parentFullName = document.getElementById('parent-fullname');
     const parentContact = document.getElementById('parent-contact');
     const relationship = document.getElementById('relationship');
+    const mobileReg = /^(09|9)\d{2}\d{3}\d{4}$/;
 
     if(province.value.trim() === ""){
         showErrorBox("Please Enter your Province", province.id);
@@ -133,10 +146,24 @@ function goToPageFour() {
     }else if(parentFullName.value.trim() === ""){
         showErrorBox("Please Enter your Parent/Guardian Full Name", parentFullName.id);
     }else if (parentContact.value === "" || parentContact.value.length > 11 || parentContact.value.length < 11) {
-        showErrorBox("Please Enter a valid Contact Number", parentContact.id);
+        showErrorBox("Please Enter a valid Contact Number<br>E.g: 09123456789", parentContact.id);
+    }else if (!mobileReg.test(parentContact.value)) {
+        showErrorBox("Please Enter a valid Contact Number<br>E.g: 09123456789", parentContact.id);
     }else if(relationship.value.trim() === ""){
         showErrorBox("Please Enter your Parent/Guardian Relationship", relationship.id);
     }else{
+        const selectedBarangay = barangay.options[barangay.selectedIndex].innerHTML;
+        const barangayValue = document.getElementById('barangayValue');
+        barangayValue.value = selectedBarangay;
+
+        const selectedCity = city.options[city.selectedIndex].innerHTML;
+        const cityValue = document.getElementById('cityValue');
+        cityValue.value = selectedCity;
+
+        const selectedProvince = province.options[province.selectedIndex].innerHTML;
+        const provinceValue = document.getElementById('provinceValue');
+        provinceValue.value = selectedProvince;
+
         const pageOne = document.getElementById("page-1");
         const pageTwo = document.getElementById("page-2");
         const pageThree = document.getElementById("page-3");
@@ -214,9 +241,9 @@ function showAllInput() {
     const birthDay = document.getElementById("birthday").value;
     const birthPlace = document.getElementById('birthplace').value;
     const houseAddress = document.getElementById('house-address').value;
-    const barangay = document.getElementById('barangay').value;
-    const city = document.getElementById('city').value;
-    const province = document.getElementById('province').value;
+    const barangay = document.getElementById('barangayValue').value;
+    const city = document.getElementById('cityValue').value;
+    const province = document.getElementById('provinceValue').value;
     const parentFullName = document.getElementById('parent-fullname').value;
     const parentContact = document.getElementById('parent-contact').value;
     const relationship = document.getElementById('relationship').value;
