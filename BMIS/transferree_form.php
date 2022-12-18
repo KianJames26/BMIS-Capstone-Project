@@ -385,6 +385,9 @@
                         <p class="content">Grade Level : </p>
                     </div>
                     <div class="column">
+                        <p class="content">GWA : </p>
+                    </div>
+                    <div class="column">
                         <p class="content">School Year : </p>
                     </div>
                 </div>
@@ -394,6 +397,9 @@
                     </div>
                     <div class="column">
                         <p class="data" id="showGrade"></p>
+                    </div>
+                    <div class="column">
+                        <p class="data" id="showGWA"></p>
                     </div>
                     <div class="column">
                         <p class="data"><?= $activeShoolYear?></p>

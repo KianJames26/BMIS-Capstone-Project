@@ -18,7 +18,7 @@
     CloseCon($conn);
     function insertData($conn){
         $lrn = $_POST['lrn'];
-        $gwa = $_POST['gwa'];
+        $gwa = round($_POST['gwa'],2);
         $firstName = $_POST['first-name'];
         $middleName = $_POST['middle-name'];
         $lastName = $_POST['last-name'];
@@ -67,7 +67,7 @@
                     <img src="<?= $generatedQr ?>" alt="">
                     <div class="action">
                         <a href="<?= $generatedQr ?>" download="<?= $lrn ?>.png">Download QR Image</a>
-                        <a href="../index.php">Back to Main Page!</a>
+                        <a href="../index.php">Back to Main Page</a>
                     </div>
                 </div>
             <?php }else{

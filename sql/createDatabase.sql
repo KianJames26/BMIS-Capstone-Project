@@ -9,7 +9,7 @@ CREATE TABLE school_years(
 );
 CREATE TABLE Students(
     lrn varchar(12) NOT NULL UNIQUE,
-    gwa int,
+    gwa float,
     first_name varchar(50) NOT NULL,
     middle_name varchar(50),
     last_name varchar(50) NOT NULL,

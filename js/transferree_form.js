@@ -253,6 +253,7 @@ function showAllInput() {
     const reportCard = document.getElementById('report-card').files[0].name;
     const birthCertificate = document.getElementById('birth-certificate').files[0].name;
     const gradeLevel = document.getElementById('grade-level').value;
+    const gwa = document.getElementById('gwa').value;
 
     document.getElementById('showLRN').innerHTML = lrn;
     document.getElementById('showLName').innerHTML = lastName;
@@ -275,6 +276,7 @@ function showAllInput() {
     document.getElementById('showReportCard').innerHTML = reportCard;
     document.getElementById('showBirthCertificate').innerHTML = birthCertificate;
     document.getElementById('showGrade').innerHTML = gradeLevel;
+    document.getElementById('showGWA').innerHTML = gwa;
 }
 
 
