@@ -72,8 +72,8 @@
                     <label for="grade-level">Grade Level : </label>
                     <select name="grade-level" id="grade-level" >
                         <option value="default" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == 'default') {echo "selected=selected";}?> >All</option>
-                        <option value="7" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '7') {echo "selected=selected";}?>>7</option>
-                        <option value="8" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '8') {echo "selected=selected";}?>>8</option>
+                        <option value="7" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '7') {echo "selected=selected";}?> >7</option>
+                        <option value="8" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '8') {echo "selected=selected";}?> >8</option>
                         <option value="9" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '9') {echo "selected=selected";}?>>9</option>
                         <option value="10" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '10') {echo "selected=selected";}?>>10</option>
                     </select>
@@ -245,6 +245,7 @@
                                     anyUnchecked = true;
                                     break;
                                 }
+                                
                             }
                             if(anyUnchecked) {
                                 selectAllCheckbox.checked = false;
@@ -272,22 +273,25 @@
                             }
                         }
                         $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
-                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
+                        VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
                         if (mysqli_query($conn, $enrollStudentsQuery)) {
                             $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                                <div class="prompt">
-                                    <div class="prompt__container">
-                                        <h1>Enrollees Accepted Successfull</h1>
-                                        <div class="actions">
-                                            <a href="?page=manage_enrollees" class="confirm">Okay</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php }
+                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                                $noError = true;
+                            }
                         }
                     }
                 }
+                if($noError == true){?>
+                    <div class="prompt">
+                        <div class="prompt__container">
+                            <h1>Enrollees Accepted Successfull</h1>
+                            <div class="actions">
+                                <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
             }elseif(isset($_POST['individual-accept'])){
                 $lrn = $_POST['individual-accept'];
                 $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
@@ -306,7 +310,7 @@
                             }
                         }
                         $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
-                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
+                        VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
                         if (mysqli_query($conn, $enrollStudentsQuery)) {
                             $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                             if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
@@ -383,21 +387,24 @@
                         $remark = $_POST['remark'][$lrn];
                     }
                     $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
-                                        VALUES ('$lrn', '$activeSchoolYear', '$remark')";
+                    VALUES ('$lrn', '$activeSchoolYear', '$remark')";
                     if (mysqli_query($conn, $addToRejectSql)) {
                         $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                            <div class="prompt">
-                                <div class="prompt__container">
-                                    <h1>Enrollees Rejected Successfully</h1>
-                                    <div class="actions">
-                                        <a href="?page=manage_enrollees" class="confirm">Okay</a>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php }
+                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                            $noError = true;
+                        }
                     }
                 }
+                if($noError == true){?>
+                    <div class="prompt">
+                        <div class="prompt__container">
+                            <h1>Enrollees Rejected Successfully</h1>
+                            <div class="actions">
+                                <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
             }
             if (isset($_POST['reject'])) {
                 $lrn = $_POST['rejected-lrn'];
@@ -407,7 +414,7 @@
                     $remark = $_POST['remark'][$lrn];
                 }
                 $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
-                                    VALUES ('$lrn', '$activeSchoolYear', '$remark')";
+                VALUES ('$lrn', '$activeSchoolYear', '$remark')";
                 if (mysqli_query($conn, $addToRejectSql)) {
                     $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                     if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
@@ -427,103 +434,249 @@
     <?php }
     //Write Archived Content Below!
     function archived($gradeLevel){
-        $searchKeyword = "";
+        $conn = OpenCon();
         ?>
-    
         <div class="enrollees">
-            <form action="admin.php?page=<?= $_GET['page']?>" method="post">
-                <input type="search" name="search-keyword" id="search" placeholder="Search LRN, First Name or Last Name" value="<?php echo isset($_POST['search-keyword']) ? $_POST['search-keyword'] : ''; ?>">
-                <button name="search">Search</button>   
-            </form>
-            <table>
-                <tr class="table-header">
-                    <th>LRN</th>
-                    <th>Full Name</th>
-                    <th>Parent/Guardian Information</th>
-                    <th>Relationship</th>
-                    <th>Parent Contact Number</th>
-                    <th>Grade Level</th>
-                    <th>Action</th>
-                </tr>
+        <?php
+        $queryActiveSchoolYear = "SELECT * FROM school_years WHERE isActive = 1";
+        if (mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear)) == 0) { ?>
+            <h1>No School Year is Active at the moment</h1>
+        <?php }elseif ($result = mysqli_fetch_array(mysqli_query($conn, $queryActiveSchoolYear))) {
+            $activeSchoolYear = $result['school_year'];
+            ?>
+            <form action="" method="post" id="filtration">
+                <div class="search">
+                    <input type="search" name="search-keyword" placeholder="Search for LRN, First Name or Last Name" value="<?php if(isset($_POST['search-keyword'])){echo $_POST['search-keyword'];} ?>">
+                    <input type="submit" name="search" value="Search">
+                </div>
+                <div class="select-grade">
+                    <label for="grade-level">Grade Level : </label>
+                    <select name="grade-level" id="grade-level" >
+                        <option value="default" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == 'default') {echo "selected=selected";}?> >All</option>
+                        <option value="7" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '7') {echo "selected=selected";}?> >7</option>
+                        <option value="8" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '8') {echo "selected=selected";}?> >8</option>
+                        <option value="9" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '9') {echo "selected=selected";}?>>9</option>
+                        <option value="10" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '10') {echo "selected=selected";}?>>10</option>
+                    </select>
+                    <input type="submit" name="filter-grade" value="Filter">
+                </div>
                 <?php
-                $conn = OpenCon();
-                if(isset($_POST['search'])){
-                    $searchKeyword = $_POST['search-keyword'];
+                if (isset($_POST['grade-level']) || isset($_POST['search-keyword'])) { ?>
+                    <a href="?page=rejected_enrollees"><img src="../../../img/reset.png" alt="Reset" width="50px"></a>
+                <?php }
+                ?>
+            </form>
+            <?php
+            if (isset($_POST['search']) || isset($_POST['filter-grade'])) {
+                $searchKeyword = trim($_POST['search-keyword']);
+                if ($_POST['grade-level'] == "default") {
+                    $gradeLevelFilter = $gradeLevel;
+                }else{
+                    $gradeLevelFilter = $_POST['grade-level'];
                 }
-                if(trim($searchKeyword) == ""){
-                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = false;";
-                    if($result = mysqli_query($conn, $sql)){
-                        if(mysqli_num_rows($result) == 0){?>
-                            <tr><td colspan="100%"><h1>No Archived Students</h1></td></tr>
-                        <?php }else{
-                            while ($res = mysqli_fetch_array($result)) {
-                                ?>
-                                <tr id=<?= $res['lrn']?>>
-                                    <td><?= $res['lrn'] ?></td>
-                                    <td><?= $res['last_name'];?>, <?php echo $res['first_name'];?></td>
-                                    <td><?= $res['parent_name'];?></td>
-                                    <td><?= $res['parent_relationship'];?></td>
-                                    <td><?= $res['parent_contact'];?></td>
-                                    <td><?= $res['grade_level'];?></td>
-                                    <td class="action">
-                                        <a href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>"><img src="../../../img/history.png" alt="" height="30px"></a>
-                                    </td>
-                                </tr>
-                            <?php }
+                if ($searchKeyword == "" && $gradeLevelFilter == $gradeLevel) {
+                    $queryEnrollees = "SELECT * FROM rejected_enrollees
+                    JOIN students ON rejected_enrollees.student_lrn = students.lrn
+                    JOIN parent_information ON rejected_enrollees.student_lrn = parent_information.student_lrn
+                    WHERE rejected_enrollees.school_year = '". $activeSchoolYear ."' && students.grade_level". $gradeLevel .";";
+                }elseif ($searchKeyword == "") {
+                    $queryEnrollees = "SELECT * FROM rejected_enrollees
+                    JOIN students ON rejected_enrollees.student_lrn = students.lrn
+                    JOIN parent_information ON rejected_enrollees.student_lrn = parent_information.student_lrn
+                    WHERE rejected_enrollees.school_year = '". $activeSchoolYear ."' && students.grade_level=". $gradeLevelFilter .";";
+                }elseif($gradeLevelFilter == $gradeLevel){
+                    $queryEnrollees = "SELECT * FROM rejected_enrollees
+                    JOIN students ON rejected_enrollees.student_lrn = students.lrn
+                    JOIN parent_information ON rejected_enrollees.student_lrn = parent_information.student_lrn
+                    WHERE rejected_enrollees.school_year = '". $activeSchoolYear ."' AND students.grade_level".$gradeLevel ." AND (students.lrn LIKE '%". $searchKeyword ."%' OR students.first_name LIKE '%". $searchKeyword ."%' OR students.last_name LIKE '%". $searchKeyword ."%');";
+                }else{
+                    $queryEnrollees = "SELECT * FROM rejected_enrollees
+                    JOIN students ON rejected_enrollees.student_lrn = students.lrn
+                    JOIN parent_information ON rejected_enrollees.student_lrn = parent_information.student_lrn
+                    WHERE rejected_enrollees.school_year = '". $activeSchoolYear ."' AND students.grade_level=".$gradeLevelFilter ." AND (students.lrn LIKE '%". $searchKeyword ."%' OR students.first_name LIKE '%". $searchKeyword ."%' OR students.last_name LIKE '%". $searchKeyword ."%');";
+                }
+            }else{
+                $queryEnrollees = "SELECT * FROM rejected_enrollees
+                JOIN students ON rejected_enrollees.student_lrn = students.lrn
+                JOIN parent_information ON rejected_enrollees.student_lrn = parent_information.student_lrn
+                WHERE rejected_enrollees.school_year = '". $activeSchoolYear ."' && students.grade_level". $gradeLevel .";";
+            }
+        } ?>
+            <form action="" method="post" id="manage-enrollees">
+                <script language="JavaScript">
+                    function toggle(selectAll){
+                        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                        if (selectAll.checked == true) {
+                            for (let i = 0; i < checkboxes.length; i++) {
+                            checkboxes[i].checked = true;
+                            }
+                        } else {
+                            for (let i = 0; i < checkboxes.length; i++) {
+                            checkboxes[i].checked = false;
+                            }
                         }
                     }
-                }else {
-                    $sql = "SELECT enrollees.student_lrn, students.*, parent_information.* from enrollees join students on enrollees.student_lrn = students.lrn join parent_information on parent_information.student_lrn = students.lrn WHERE students.grade_level ". $gradeLevel ." and students.isActive = false and (students.lrn like '". $searchKeyword ."%' or students.first_name like '%". $searchKeyword ."%' or students.last_name like '%". $searchKeyword ."%');";
-                    if($result = mysqli_query($conn, $sql)){
-                        if(mysqli_num_rows($result) == 0){?>
-                            <tr><td colspan="100%"><h1>There are no data fetched in your search</h1></td></tr>
-                        <?php }else{
-                            while ($res = mysqli_fetch_array($result)) {
-                                ?>
-                                <tr id=<?= $res['lrn']?>>
-                                    <td><?= $res['lrn'] ?></td>
-                                    <td><?= $res['last_name'];?>, <?= $res['first_name'];?></td>
-                                    <td><?= $res['parent_name'];?></td>
-                                    <td><?= $res['parent_relationship'];?></td>
-                                    <td><?= $res['parent_contact'];?></td>
-                                    <td><?= $res['grade_level'];?></td>
-                                    <td class="action">
-                                        <a id="edit" href="?page=<?= $_GET['page']?>&restore=<?php echo $res['lrn'];?>"><img src="../../../img/history.png" alt="" height="30px"></a>
-                                    </td>
-                                </tr>
-                            <?php }
+                    function showButton() {
+                        var checkboxes = document.querySelectorAll('input[name="lrn[]"]:checked').length;
+                        var buttons = document.getElementsByClassName('appear');;
+                        if (checkboxes > 0) {
+                            for (let i = 0; i < buttons.length; i++) {
+                                buttons[i].style.opacity = "100%";
+                            }
+                        } else {
+                            for (let i = 0; i < buttons.length; i++) {
+                                buttons[i].style.opacity = "0%";
+                            }
                         }
                     }
-                }
-                if(isset($_GET['restore'])){?>
-                    <div class="small_box">
-                        <div class="container">
-                            <h1>Are you sure you want to restore <?= $_GET['restore']?>?</h1>
-                            <div class="action">
-                                <a href="?page=<?= $_GET['page']?>" id="cancel">Cancel</a>
-                                <a href="?page=<?= $_GET['page']?>&yes=<?= $_GET['restore']?>" id="yes">Yes</a>
-                            </div>
-                        </div>
-                    </div>
-                <?php ;}
-                if (isset($_GET['yes'])){
-                    $restoreStudent = "UPDATE students set students.isActive = true where students.lrn =" . $_GET['yes'] . ";";
-                    if(mysqli_query($conn, $restoreStudent)){?>
-                        <div class="small_box">
-                            <div class="container">
-                                <h1><?= $_GET['yes']?> was successfully restored</h1>
-                                <div class="action">
-                                    <a href="?page=<?= $_GET['page']?>" id="proceed">Proceed back to Archives!</a>
-                                    <a href="?page=enrollees" id="proceed">Proceed to Enrollees!</a>
+                </script>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all" onclick="toggle(this); showButton();"></th>
+                            <th>LRN</td>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Remarks</th>
+                            <th>Gender</th>
+                            <th>Birth Date</th>
+                            <th>Birth Place</th>
+                            <th>Age</th>
+                            <th>Grade Level</th>
+                            <th>GWA Last School Year</th>
+                            <th>Last School</th>
+                            <th>Last School Address</th>
+                            <th>Guardian Full Name</th>
+                            <th>Guardian Contact Number</th>
+                            <th>Relationship to Enrollee</th>
+                            <th>View Additional Info</th>
+                            <th>View Attachments</th>
+                            <th>Undo Rejection</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        if ($result = mysqli_query($conn, $queryEnrollees)) {
+                            if (mysqli_num_rows($result) == 0) {?>
+                                <tr>
+                                    <td colspan="100%"><h1>Empty Data</h1</td>
+                                </tr>
+                            <?php }else {
+                                while ($res = mysqli_fetch_assoc($result)) {
+                                    $lrn = $res['lrn'];
+                                    $lastName = $res['last_name'];
+                                    $firstName = $res['first_name'];
+                                    $reason = $res['remark'];
+                                    $gender = $res['gender'];
+                                    $birthDateNum = $res['birth_date'];
+                                    $birthDate = date("F d, Y", strtotime($birthDateNum));
+                                    $today = date("Y-m-d");
+                                    $diff = date_diff(date_create($birthDateNum), date_create($today));
+                                    $age = $diff->format('%y');
+                                    $birthPlace = $res['birth_place'];
+                                    $enrollGradeLevel = $res['grade_level'];
+                                    if ($enrollGradeLevel == "0") {
+                                        $enrollGradeLevel = "Kinder";
+                                    }
+                                    $gwa = $res['gwa'];
+                                    $lastSchool = $res['last_school'];
+                                    $lastSchoolAddress = $res['last_school_address'];
+                                    $parentFullName = $res['parent_name'];
+                                    $parentContact = $res['parent_contact'];
+                                    $relationship = $res['parent_relationship'];
+                                    ?>
+                                    <tr id="<?= $lrn?>">
+                                        <td><input type="checkbox" name="lrn[]" value="<?= $lrn?>" onchange="showButton()"></td>
+                                        <td><?= $lrn ?></td>
+                                        <td><?= $lastName ?></td>
+                                        <td><?= $firstName ?></td>
+                                        <td><?= $reason ?></td>
+                                        <td><?= $gender ?></td>
+                                        <td><?= $birthDate ?></td>
+                                        <td><?= $birthPlace ?></td>
+                                        <td><?= $age ?></td>
+                                        <td><?= $enrollGradeLevel ?></td>
+                                        <td><?= $gwa ?></td>
+                                        <td><?= $lastSchool ?></td>
+                                        <td><?= $lastSchoolAddress ?></td>
+                                        <td><?= $parentFullName ?></td>
+                                        <td><?= $parentContact ?></td>
+                                        <td><?= $relationship ?></td>
+                                        <td>Null</td>
+                                        <td>Null</td>
+                                        <td><button type="submit" title="Undo Rejection" name="individual-undo" value="<?= $lrn?>"><img src="../../../img/turn-left.png" alt="Accept"></button></td>
+                                    </tr>
+                                <?php }
+                            }
+                        }
+                    ?>
+                    </tbody>
+                </table>
+                <div class="buttons">
+                    <input type="submit" value="Undo Rejection" class="appear" id="accept" name="multi-undo">
+                </div>
+                <script>
+                    const selectAllCheckbox = document.getElementById("select-all");
+                    const checkboxes = document.querySelectorAll('input[name="lrn[]"]');
+                    for(var i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].addEventListener('change', function() {
+                            var anyUnchecked = false;
+                            for(var i = 0; i < checkboxes.length; i++) {
+                                if(!checkboxes[i].checked) {
+                                    anyUnchecked = true;
+                                    break;
+                                }
+                            }
+                            if(anyUnchecked) {
+                                selectAllCheckbox.checked = false;
+                            }
+                        });
+                    }
+                </script>
+            </form>
+            <?php
+                if (isset($_POST['multi-undo'])) {
+                    foreach($_POST['lrn'] as $lrn){
+                        $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
+                        VALUES ('$lrn','$activeSchoolYear')";
+                        if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                            $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
+                            if(mysqli_query($conn, $removeFromRejectedQuery)){
+                                $noError = true;
+                            }
+                        }
+                    }
+                    if($noError == true){?>
+                        <div class="prompt">
+                            <div class="prompt__container">
+                                <h1>Rejected Enrollees Successfully Returned to Enrollees</h1>
+                                <div class="actions">
+                                    <a href="?page=rejected_enrollees" class="confirm">Okay</a>
                                 </div>
                             </div>
                         </div>
-                <?php ; }?>
-            </table>
+                    <?php }
+                }elseif(isset($_POST['individual-undo'])) {
+                    $lrn = $_POST['individual-undo'];
+                    $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
+                    VALUES ('$lrn','$activeSchoolYear')";
+                    if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                        $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
+                        if(mysqli_query($conn, $removeFromRejectedQuery)){?>
+                            <div class="prompt">
+                                <div class="prompt__container">
+                                    <h1>Rejected Enrollee Successfully Returned as an Enrollee</h1>
+                                    <div class="actions">
+                                        <a href="?page=rejected_enrollees" class="confirm">Okay</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    }
+                }
+            ?>
         </div>
-    <?php ;}
-        CloseCon($conn);
-    }
+    <?php }
     //Write Admin Controls Content Below!
     function adminControlsContent($gradeLevel){
         $conn = OpenCon();

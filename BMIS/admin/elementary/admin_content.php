@@ -276,22 +276,25 @@
                             }
                         }
                         $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
-                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
+                        VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
                         if (mysqli_query($conn, $enrollStudentsQuery)) {
                             $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                                <div class="prompt">
-                                    <div class="prompt__container">
-                                        <h1>Enrollees Accepted Successfull</h1>
-                                        <div class="actions">
-                                            <a href="?page=manage_enrollees" class="confirm">Okay</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php }
+                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                                $noError = true;
+                            }
                         }
                     }
                 }
+                if($noError == true){?>
+                    <div class="prompt">
+                        <div class="prompt__container">
+                            <h1>Enrollees Accepted Successfull</h1>
+                            <div class="actions">
+                                <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
             }elseif(isset($_POST['individual-accept'])){
                 $lrn = $_POST['individual-accept'];
                 $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
@@ -310,7 +313,7 @@
                             }
                         }
                         $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
-                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
+                        VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
                         if (mysqli_query($conn, $enrollStudentsQuery)) {
                             $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                             if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
@@ -387,21 +390,24 @@
                         $remark = $_POST['remark'][$lrn];
                     }
                     $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
-                                        VALUES ('$lrn', '$activeSchoolYear', '$remark')";
+                    VALUES ('$lrn', '$activeSchoolYear', '$remark')";
                     if (mysqli_query($conn, $addToRejectSql)) {
                         $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                            <div class="prompt">
-                                <div class="prompt__container">
-                                    <h1>Enrollees Rejected Successfully</h1>
-                                    <div class="actions">
-                                        <a href="?page=manage_enrollees" class="confirm">Okay</a>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php }
+                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                            $noError = true;
+                        }
                     }
                 }
+                if($noError == true){?>
+                    <div class="prompt">
+                        <div class="prompt__container">
+                            <h1>Enrollees Rejected Successfully</h1>
+                            <div class="actions">
+                                <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
             }
             if (isset($_POST['reject'])) {
                 $lrn = $_POST['rejected-lrn'];
@@ -411,7 +417,7 @@
                     $remark = $_POST['remark'][$lrn];
                 }
                 $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
-                                    VALUES ('$lrn', '$activeSchoolYear', '$remark')";
+                VALUES ('$lrn', '$activeSchoolYear', '$remark')";
                 if (mysqli_query($conn, $addToRejectSql)) {
                     $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                     if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
@@ -537,6 +543,7 @@
                             <th>LRN</td>
                             <th>Last Name</th>
                             <th>First Name</th>
+                            <th>Remarks</th>
                             <th>Gender</th>
                             <th>Birth Date</th>
                             <th>Birth Place</th>
@@ -550,8 +557,7 @@
                             <th>Relationship to Enrollee</th>
                             <th>View Additional Info</th>
                             <th>View Attachments</th>
-                            <th>Accept Enrollee</th>
-                            <th>Reject Enrollee</th>
+                            <th>Undo Rejection</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -566,6 +572,7 @@
                                     $lrn = $res['lrn'];
                                     $lastName = $res['last_name'];
                                     $firstName = $res['first_name'];
+                                    $reason = $res['remark'];
                                     $gender = $res['gender'];
                                     $birthDateNum = $res['birth_date'];
                                     $birthDate = date("F d, Y", strtotime($birthDateNum));
@@ -589,6 +596,7 @@
                                         <td><?= $lrn ?></td>
                                         <td><?= $lastName ?></td>
                                         <td><?= $firstName ?></td>
+                                        <td><?= $reason ?></td>
                                         <td><?= $gender ?></td>
                                         <td><?= $birthDate ?></td>
                                         <td><?= $birthPlace ?></td>
@@ -602,8 +610,7 @@
                                         <td><?= $relationship ?></td>
                                         <td>Null</td>
                                         <td>Null</td>
-                                        <td><button type="submit" title="Accept Enrollee" name="individual-accept" value="<?= $lrn?>"><img src="../../../img/check.png" alt="Accept"></button></td>
-                                        <td><button type="submit" title="Reject Enrollee" name="individual-reject" value="<?= $lrn?>"><img src="../../../img/cross-button.png" alt="Reject"></button></td>
+                                        <td><button type="submit" title="Undo Rejection" name="individual-undo" value="<?= $lrn?>"><img src="../../../img/turn-left.png" alt="Accept"></button></td>
                                     </tr>
                                 <?php }
                             }
@@ -612,8 +619,7 @@
                     </tbody>
                 </table>
                 <div class="buttons">
-                    <input type="submit" value="Accept" class="appear" id="accept" name="multi-accept">
-                    <input type="submit" value="Reject" class="appear" id="reject" name="multi-reject">
+                    <input type="submit" value="Undo Rejection" class="appear" id="accept" name="multi-undo">
                 </div>
                 <script>
                     const selectAllCheckbox = document.getElementById("select-all");
@@ -635,142 +641,37 @@
                 </script>
             </form>
             <?php
-            if(isset($_POST['multi-accept'])){
-                foreach ($_POST['lrn'] as $lrn) {
-                    $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
-                    if ($result = mysqli_query($conn, $queryStudentGrade)) {
-                        
-                        $res = mysqli_fetch_assoc($result);
-                        $enrolleeGradeLevel = $res['grade_level'];
-                        if ($res['grade_level'] == 0) {
-                            $section = rand(1, 10);
-                        }else {
-                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
-                                $section = rand(6, 10);
-                                
-                            }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
-                                $section = rand(1, 5);
+                if (isset($_POST['multi-undo'])) {
+                    foreach($_POST['lrn'] as $lrn){
+                        $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
+                        VALUES ('$lrn','$activeSchoolYear')";
+                        if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                            $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
+                            if(mysqli_query($conn, $removeFromRejectedQuery)){
+                                $noError = true;
                             }
                         }
-                        $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
-                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
-                        if (mysqli_query($conn, $enrollStudentsQuery)) {
-                            $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                                <div class="prompt">
-                                    <div class="prompt__container">
-                                        <h1>Enrollees Accepted Successfull</h1>
-                                        <div class="actions">
-                                            <a href="?page=rejected_enrollees" class="confirm">Okay</a>
-                                        </div>
-                                    </div>
+                    }
+                    if($noError == true){?>
+                        <div class="prompt">
+                            <div class="prompt__container">
+                                <h1>Rejected Enrollees Successfully Returned to Enrollees</h1>
+                                <div class="actions">
+                                    <a href="?page=rejected_enrollees" class="confirm">Okay</a>
                                 </div>
-                            <?php }
-                        }
-                    }
-                }
-            }elseif(isset($_POST['individual-accept'])){
-                $lrn = $_POST['individual-accept'];
-                $queryStudentGrade = "SELECT * FROM students WHERE lrn = ". $lrn;
-                    if ($result = mysqli_query($conn, $queryStudentGrade)) {
-                        
-                        $res = mysqli_fetch_assoc($result);
-                        $enrolleeGradeLevel = $res['grade_level'];
-                        if ($res['grade_level'] == 0) {
-                            $section = rand(1, 10);
-                        }else {
-                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
-                                $section = rand(6, 10);
-                                
-                            }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
-                                $section = rand(1, 5);
-                            }
-                        }
-                        $enrollStudentsQuery = "INSERT INTO `". $activeSchoolYear ."` (enrolled_lrn, grade_level, section)
-                                                    VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
-                        if (mysqli_query($conn, $enrollStudentsQuery)) {
-                            $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                                <div class="prompt">
-                                    <div class="prompt__container">
-                                        <h1>Enrollee Accepted Successfully</h1>
-                                        <div class="actions">
-                                            <a href="?page=rejected_enrollees" class="confirm">Okay</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php }
-                        }
-                    }
-            }elseif (isset($_POST['multi-reject'])) {?>
-                <div class="prompt">
-                    <form action="" method="post" class="prompt__reject" autocomplete="off">
-                        <h1 style="text-align: center;">Reject Students</h1>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>LRN</th>
-                                    <th>Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach ($_POST['lrn'] as $lrn) {?>
-                                <tr>
-                                    <td><?= $lrn ?><input type="hidden" name="rejected-lrn[]" value="<?= $lrn ?>"></td>
-                                    <td><input type="text" name="remark[<?= $lrn ?>]" placeholder="Remark for <?= $lrn?>"></td>
-                                </tr>
-                            <?php }?>
-                            </tbody>
-                        </table>
-                        <div class="actions">
-                            <input type="submit" value="Reject Students" name="rejects" class="confirm">
-                            <a href="?page=rejected_enrollees" class="cancel">Cancel</a>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            <?php }elseif(isset($_POST['individual-reject'])){
-                $lrn = $_POST['individual-reject'];
-                ?>
-                <div class="prompt">
-                    <form action="" method="post" class="prompt__reject" autocomplete="off">
-                        <h1 style="text-align: center;">Reject Students</h1>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>LRN</th>
-                                    <th>Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?= $lrn ?><input type="hidden" name="rejected-lrn" value="<?= $lrn ?>"></td>
-                                    <td><input type="text" name="remark[<?= $lrn ?>]" placeholder="Remark for <?= $lrn?>"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="actions">
-                            <input type="submit" value="Reject Student" name="reject" class="confirm">
-                            <a href="?page=rejected_enrollees" class="cancel">Cancel</a>
-                        </div>
-                    </form>
-                </div>
-            <?php }
-            if (isset($_POST['rejects'])) {
-                foreach($_POST['rejected-lrn'] as $lrn){
-                    if(trim($_POST['remark'][$lrn]) == ""){
-                        $remark = "No Remark";
-                    }else{
-                        $remark = $_POST['remark'][$lrn];
-                    }
-                    $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
-                                        VALUES ('$lrn', '$activeSchoolYear', '$remark')";
-                    if (mysqli_query($conn, $addToRejectSql)) {
-                        $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                    <?php }
+                }elseif(isset($_POST['individual-undo'])) {
+                    $lrn = $_POST['individual-undo'];
+                    $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
+                    VALUES ('$lrn','$activeSchoolYear')";
+                    if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                        $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
+                        if(mysqli_query($conn, $removeFromRejectedQuery)){?>
                             <div class="prompt">
                                 <div class="prompt__container">
-                                    <h1>Enrollees Rejected Successfully</h1>
+                                    <h1>Rejected Enrollee Successfully Returned as an Enrollee</h1>
                                     <div class="actions">
                                         <a href="?page=rejected_enrollees" class="confirm">Okay</a>
                                     </div>
@@ -779,30 +680,6 @@
                         <?php }
                     }
                 }
-            }
-            if (isset($_POST['reject'])) {
-                $lrn = $_POST['rejected-lrn'];
-                if(trim($_POST['remark'][$lrn]) == ""){
-                    $remark = "No Remarks";
-                }else{
-                    $remark = $_POST['remark'][$lrn];
-                }
-                $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
-                                    VALUES ('$lrn', '$activeSchoolYear', '$remark')";
-                if (mysqli_query($conn, $addToRejectSql)) {
-                    $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                    if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
-                        <div class="prompt">
-                            <div class="prompt__container">
-                                <h1>Enrollee Rejected Successfully</h1>
-                                <div class="actions">
-                                    <a href="?page=manage_enrollees" class="confirm">Okay</a>
-                                </div>
-                            </div>
-                        </div>
-                    <?php }
-                }
-            }
             ?>
         </div>
     <?php }
@@ -929,8 +806,7 @@
                     }
                     ?>
                 <?php ;}else{
-                    header("Location: ../../../index.php");
-                    session_destroy();
+                    header("Location: ?page=dashboard");
                 }?>
                 <?php if(isset($_GET['resetting'])){
                     $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['resetting']."';";
