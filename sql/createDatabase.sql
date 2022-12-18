@@ -44,4 +44,11 @@ CREATE TABLE Enrollees(
     school_year varchar(9) not null,
     FOREIGN KEY (student_lrn) REFERENCES Students(lrn),
     FOREIGN KEY (school_year) REFERENCES school_years(school_year)
-)
+);
+CREATE TABLE Rejected_Enrollees(
+    student_lrn varchar(12) NOT NULL UNIQUE,
+    school_year varchar(9) not null,
+    remark text NOT NULL,
+    FOREIGN KEY (student_lrn) REFERENCES Students(lrn),
+    FOREIGN KEY (school_year) REFERENCES school_years(school_year)
+);

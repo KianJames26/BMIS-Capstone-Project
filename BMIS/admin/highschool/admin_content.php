@@ -93,7 +93,6 @@
                 }else{
                     $gradeLevelFilter = $_POST['grade-level'];
                 }
-
                 if ($searchKeyword == "" && $gradeLevelFilter == $gradeLevel) {
                     $queryEnrollees = "SELECT * FROM enrollees
                     JOIN students ON enrollees.student_lrn = students.lrn
@@ -246,7 +245,6 @@
                                     anyUnchecked = true;
                                     break;
                                 }
-                                
                             }
                             if(anyUnchecked) {
                                 selectAllCheckbox.checked = false;
@@ -323,12 +321,106 @@
                             <?php }
                         }
                     }
-            }elseif (isset($_POST['multi-reject'])) {
-                foreach ($_POST['lrn'] as $lrn) {
-                    
+            }elseif (isset($_POST['multi-reject'])) {?>
+                <div class="prompt">
+                    <form action="" method="post" class="prompt__reject" autocomplete="off">
+                        <h1 style="text-align: center;">Reject Students</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>LRN</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($_POST['lrn'] as $lrn) {?>
+                                <tr>
+                                    <td><?= $lrn ?><input type="hidden" name="rejected-lrn[]" value="<?= $lrn ?>"></td>
+                                    <td><input type="text" name="remark[<?= $lrn ?>]" placeholder="Remark for <?= $lrn?>"></td>
+                                </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+                        <div class="actions">
+                            <input type="submit" value="Reject Students" name="rejects" class="confirm">
+                            <a href="?page=manage_enrollees" class="cancel">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            <?php }elseif(isset($_POST['individual-reject'])){
+                $lrn = $_POST['individual-reject'];
+                ?>
+                <div class="prompt">
+                    <form action="" method="post" class="prompt__reject" autocomplete="off">
+                        <h1 style="text-align: center;">Reject Students</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>LRN</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><?= $lrn ?><input type="hidden" name="rejected-lrn" value="<?= $lrn ?>"></td>
+                                    <td><input type="text" name="remark[<?= $lrn ?>]" placeholder="Remark for <?= $lrn?>"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="actions">
+                            <input type="submit" value="Reject Student" name="reject" class="confirm">
+                            <a href="?page=manage_enrollees" class="cancel">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            <?php }
+            if (isset($_POST['rejects'])) {
+                foreach($_POST['rejected-lrn'] as $lrn){
+                    if(trim($_POST['remark'][$lrn]) == ""){
+                        $remark = "No Remark";
+                    }else{
+                        $remark = $_POST['remark'][$lrn];
+                    }
+                    $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
+                                        VALUES ('$lrn', '$activeSchoolYear', '$remark')";
+                    if (mysqli_query($conn, $addToRejectSql)) {
+                        $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
+                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                            <div class="prompt">
+                                <div class="prompt__container">
+                                    <h1>Enrollees Rejected Successfully</h1>
+                                    <div class="actions">
+                                        <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    }
                 }
-            }elseif(isset($_POST['individual-reject'])){
-                
+            }
+            if (isset($_POST['reject'])) {
+                $lrn = $_POST['rejected-lrn'];
+                if(trim($_POST['remark'][$lrn]) == ""){
+                    $remark = "No Remarks";
+                }else{
+                    $remark = $_POST['remark'][$lrn];
+                }
+                $addToRejectSql = "INSERT INTO rejected_enrollees (student_lrn, school_year, remark)
+                                    VALUES ('$lrn', '$activeSchoolYear', '$remark')";
+                if (mysqli_query($conn, $addToRejectSql)) {
+                    $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
+                    if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                        <div class="prompt">
+                            <div class="prompt__container">
+                                <h1>Enrollee Rejected Successfully</h1>
+                                <div class="actions">
+                                    <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }
+                }
             }
             ?>
         </div>

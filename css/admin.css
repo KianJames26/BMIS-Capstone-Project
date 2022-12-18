@@ -262,12 +262,13 @@ body{
     align-self: center;
     text-align: center;
 }
-.prompt__container > .actions{
+.prompt .actions{
     display: flex;
     margin-top: 32px;
-    height: 100%;
+    gap: 20px;
+    justify-content: center;
 }
-.prompt__container > .actions > a{
+.prompt .actions > a, .prompt .actions > input[type='submit']{
     text-decoration: none;
     font-size: 18px;
     color: white;
@@ -275,12 +276,44 @@ body{
     border-radius: 8px;
     transition: background-color 200ms ease-in;
 }
-.prompt__container > .actions > .confirm{
+.prompt .actions > .confirm{
     background-color: #213159;
 }
-.prompt__container > .actions > .confirm:hover{
+.prompt .actions > .confirm:hover{
     background-color: #3d6098;
 }
+.prompt .actions > .cancel{
+    background-color: #C60C29;
+}
+.prompt .actions > .cancel:hover{
+    background-color: #CB243E;
+}
+.prompt__reject{
+    background-color: white;
+    min-height: 300px;
+    max-height: 550px;
+    width: 600px;
+    padding: 20px;
+    animation: .5s ease-out 0s slideInFromTop;
+    border-radius: 16px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+.prompt__reject > table > thead > tr > th, .prompt__reject > table > tbody > tr > td{
+    min-width: 100px;
+    white-space: nowrap;
+    padding: 15px 10px;
+    text-align: center;
+}
+.prompt__reject > table > tbody > tr > td > input[type="text"]{
+    border: #DDDDDD solid 2px;
+    padding: 10px;
+    width: 300px;
+    border-radius: 16px;
+    font-size: 18px;
+}
+
 .small_box, .small_box{
     width: 100vw;
     height: 100vh;
