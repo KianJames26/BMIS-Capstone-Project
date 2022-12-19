@@ -31,7 +31,7 @@
                 <a <?php if($_GET['page'] == "dashboard"){echo "id='active'";}else{echo "href='?page=dashboard'";}?> >Dashboard</a>
                 <a <?php if($_GET['page'] == "manage_enrollees"){echo "id='active'";}else{echo "href='?page=manage_enrollees'";}?> >Manage Enrollees</a>
                 <a <?php if($_GET['page'] == "rejected_enrollees"){echo "id='active'";}else{echo "href='?page=rejected_enrollees'";}?> >Manage Rejected Enrollees</a>
-                <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students&select_grade=true'";}?> >Manage Students</a>
+                <a <?php if($_GET['page'] == "enrolled_students"){echo "id='active'";}else{echo "href='?page=enrolled_students'";}?> >Manage Students</a>
                 <a <?php if($_GET['page'] == "admin_controls"){echo "id='active'";}else{echo "href='?page=admin_controls&sub-page=school-year'";}?> >Admin Controls</a>
             </div>
             <div class="content">

@@ -423,6 +423,8 @@
             $lrn = $_POST['new-enroll'];
             $gwa = round($_POST['gwa'], 2);
             $gradeLevel = $_POST['grade-level'];
+            $lastSchool = $_POST['last-school'];
+            $lastScholAddress = $_POST['last-school-address'];
             $schoolYear = $activeSchoolYear['school_year'];
             $targetDir = "../../uploads/". $lrn . "/";
             if(!is_dir($targetDir)){
@@ -432,7 +434,9 @@
             if(move_uploaded_file($_FILES['report-card']['tmp_name'], $targetDir . $reportCard)){
                 $updateGradeLevel = "UPDATE students
                 SET students.grade_level = '$gradeLevel',
-                students.gwa = '$gwa'
+                students.gwa = '$gwa',
+                students.last_school = '$lastSchool',
+                students.last_school_address = '$lastScholAddress'
                 WHERE students.lrn = '$lrn';
                 ";
                 if(mysqli_query($conn, $updateGradeLevel)){

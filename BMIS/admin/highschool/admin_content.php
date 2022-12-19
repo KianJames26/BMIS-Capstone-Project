@@ -265,7 +265,7 @@
                         if ($res['grade_level'] == 0) {
                             $section = rand(1, 10);
                         }else {
-                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                            if($res['gwa'] >= 0 && $res['gwa'] <= 86){
                                 $section = rand(6, 10);
                                 
                             }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
@@ -302,7 +302,7 @@
                         if ($res['grade_level'] == 0) {
                             $section = rand(1, 10);
                         }else {
-                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                            if($res['gwa'] >= 0 && $res['gwa'] <= 86){
                                 $section = rand(6, 10);
                                 
                             }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
@@ -820,146 +820,259 @@
     //Write Enrolled Students Content Below!
     function enrolledStudentsContent(){
         $conn = OpenCon();
-        $selectActiveSchoolYear = "SELECT * FROM school_years WHERE school_years.isActive = true";
-
-        if(mysqli_num_rows(mysqli_query($conn, $selectActiveSchoolYear)) == 0){?>
-            <div class="no-school-year__container">
-                <h1>No school year is activated</h1>
-                <a href="?page=admin_controls&sub-page=school-year" id="proceed">Activate School Year</a>
-            </div>
-        <?php }else if($activeSchoolYear = mysqli_fetch_array(mysqli_query($conn, $selectActiveSchoolYear))){
-            if (isset($_GET['select_grade'])) {?>
-                <div class="select-grade__container">
-                <h1>Please Select Grade Level to Browse</h1>
-                <div class="grade-levels">
-                    <a href="?page=<?= $_GET['page']?>&grade-level=7">Grade 7</a>
-                    <a href="?page=<?= $_GET['page']?>&grade-level=8">Grade 8</a>
-                    <a href="?page=<?= $_GET['page']?>&grade-level=9">Grade 9</a>
-                    <a href="?page=<?= $_GET['page']?>&grade-level=10">Grade 10</a>
-                </div>
-            </div>
-            <?php }elseif (isset($_GET['grade-level']) && isset($_GET['section'])) {
-                $gradeLevel = $_GET['grade-level'];
-                $section = $_GET['section'];
-                $studentInfoQuery = "SELECT * from `".$activeSchoolYear['school_year']."` join students on `".$activeSchoolYear['school_year']."`.enrolled_lrn = students.lrn where `".$activeSchoolYear['school_year']."`.`grade_level` = ".$gradeLevel." AND `". $activeSchoolYear['school_year'] ."`.section = ".$section." ORDER BY students.last_name ASC;";
-                if ($result = mysqli_query($conn, $studentInfoQuery)) {?>
-                    <div class="student-list__container" id="student-list">
-                        <h1>Grade <?= $gradeLevel ?> Section <?= $section ?> S.Y. <?= $activeSchoolYear['school_year'] ?></h1>
-                        <?php
-                            if (mysqli_num_rows($result) == 0) {?>
-                                <h2>No Students are enrolled to this section</h2>
-                                <a href="?page=enrolled_students&select_grade=true" id="previous">Reselect Grade</a>
-                            <?php }else{
-                                $maleStudents = [];
-                                $femaleStudents = [];
-                                while ($res = mysqli_fetch_array($result)) {
-                                    $lastName = $res['last_name'];
-                                    $firstName = $res['first_name'];
-                                    $middleName = $res['middle_name'];
-                                    $suffix = $res['suffix'];
-                                    $gender = $res['gender'];
-                                    // echo $lastName." ".$suffix.", ".$firstName." ".$middleName[0].".";
-                                    if ($middleName == "" && $suffix == "") {
-                                        $fullName = $lastName.", ".$firstName;
-                                    }elseif ($suffix == "") {
-                                        $fullName = $lastName.", ".$firstName." ".$middleName[0].".";
-                                    }elseif ($middleName == "") {
-                                        $fullName = $lastName." ".$suffix.", ".$firstName;
-                                    }else{
-                                        $fullName = $lastName." ".$suffix.", ".$firstName." ".$middleName[0].".";
-                                    }
-
-                                    if ($gender == "Male") {
-                                        array_push($maleStudents, $fullName);
-                                    }elseif ($gender == "Female") {
-                                        array_push($femaleStudents, $fullName);
-                                    }
-                                }
-
-                                if(count($maleStudents) > count($femaleStudents)){
-                                    $limit = count($maleStudents);
-                                }elseif(count($maleStudents) < count($femaleStudents)){
-                                    $limit = count($femaleStudents);
-                                }else{
-                                    $limit = count($maleStudents);
-                                }?>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>Male</th>
-                                            <th>Female</th>
-                                        </tr>
-                                        <?php for ($i=0; $i < $limit; $i++) { 
-                                            
-                                            if(array_key_exists($i, $maleStudents)){
-                                                $maleName = $maleStudents[$i];
-                                            }else{
-                                                $maleName = " ";
-                                            }
-
-                                            if(array_key_exists($i, $femaleStudents)){
-                                                $femaleName = $femaleStudents[$i];
-                                            }else{
-                                                $femaleName = " ";
-                                            }?>
-                                            <tr>
-                                                <td><?= $i+1 ?>. <?= $maleName ?></td>
-                                                <td><?= $i+1 ?>. <?= $femaleName ?></td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                                <a href="?page=enrolled_students&select_grade=true" id="previous" data-html2canvas-ignore>Reselect Grade</a>
-                                <a id="print" data-html2canvas-ignore>Print</a>
-                                <script>
-                                    function autoClick(){
-                                        $("#print").click();
-                                    }
-                                    $(document).ready(function(){
-                                        var element = $("#student-list");
-
-                                        $("#print").on('click', function(){
-                                            html2canvas(element, {
-                                                scale: 5,
-                                                onrendered: function(canvas){
-                                                    var imageData = canvas.toDataURL("image/jpg");
-                                                    var newData = imageData.replace(/^data:image\/jpg/, "data:application/octet-stream");
-                                                    $("#print").attr("download", "Grade <?= $gradeLevel ?> Section <?= $section ?> S.Y. <?= $activeSchoolYear['school_year'] ?>.jpg").attr("href", newData)
-                                                }
-                                            });
-                                        });
-                                    })
-                                </script>
-                                
-                            <?php }
-                        ?>
-                        
+        ?>
+        <div class="students">
+            <?php
+            $queryActiveSchoolYear = "SELECT * FROM school_years where school_years.isActive = 1";
+            if (mysqli_num_rows(mysqli_query($conn, $queryActiveSchoolYear)) == 0) {?>
+                <h1>No School Year is Active at the moment</h1>
+            <?php }elseif($activeSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, $queryActiveSchoolYear))){
+                $schoolYear = $activeSchoolYear['school_year'];
+                ?>
+                <form action="" method="post" id="filtration">
+                    <div class="select-grade">
+                        <label for="grade-level">Grade Level : </label>
+                        <select name="grade-level" id="grade-level" >
+                            <option value="default" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == 'default') {echo "selected=selected";}?> >All</option>
+                            <option value="0" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '7') {echo "selected=selected";}?> >Kinder</option>
+                            <option value="1" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '8') {echo "selected=selected";}?> >1</option>
+                            <option value="2" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '9') {echo "selected=selected";}?>>2</option>
+                            <option value="3" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '10') {echo "selected=selected";}?>>3</option>
+                        </select>
                     </div>
-                <?php }?>
-            <?php }elseif (isset($_GET['grade-level'])) {?>
-                <div class="select-section__container">
-                    <a href="?page=enrolled_students&select_grade=true" id="previous"><<< Back to Grade Selection</a>
-                    <h1>Please Select the Section from Grade <?= $_GET['grade-level'] ?> to Browse</h1>
-                    <div class="sections">
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=1">Section 1</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=2">Section 2</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=3">Section 3</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=4">Section 4</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=5">Section 5</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=6">Section 6</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=7">Section 7</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=8">Section 8</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=9">Section 9</a></li>
-                        <li><a href="?page=enrolled_students&grade-level=<?= $_GET['grade-level'] ?>&section=10">Section 10</a></li>
+                    <div class="select-grade">
+                        <label for="section">Section : </label>
+                        <select name="section" id="section" >
+                            <option value="default" <?php if (isset($_POST['section']) && $_POST['section'] == 'default') {echo "selected";}?> >All</option>
+                            <option value="1" <?php if (isset($_POST['section']) && $_POST['section'] == '1') {echo "selected";}?>>1</option>
+                            <option value="2" <?php if (isset($_POST['section']) && $_POST['section'] == '2') {echo "selected";}?>>2</option>
+                            <option value="3" <?php if (isset($_POST['section']) && $_POST['section'] == '3') {echo "selected";}?>>3</option>
+                            <option value="4" <?php if (isset($_POST['section']) && $_POST['section'] == '4') {echo "selected";}?>>4</option>
+                            <option value="5" <?php if (isset($_POST['section']) && $_POST['section'] == '5') {echo "selected";}?>>5</option>
+                            <option value="6" <?php if (isset($_POST['section']) && $_POST['section'] == '6') {echo "selected";}?>>6</option>
+                            <option value="7" <?php if (isset($_POST['section']) && $_POST['section'] == '7') {echo "selected";}?>>7</option>
+                            <option value="8" <?php if (isset($_POST['section']) && $_POST['section'] == '8') {echo "selected";}?>>8</option>
+                            <option value="9" <?php if (isset($_POST['section']) && $_POST['section'] == '9') {echo "selected";}?>>9</option>
+                            <option value="10" <?php if (isset($_POST['section']) && $_POST['section'] == '10') {echo "selected";}?>>10</option>
+                        </select>
+                        <input type="submit" name="filter" value="Filter">
+                    </div>
+                    <?php
+                    if (isset($_POST['grade-level']) || isset($_POST['section'])) { ?>
+                        <a href="?page=enrolled_students"><img src="../../../img/reset.png" alt="Reset" width="50px"></a>
+                    <?php }
+                    ?>
+                </form>
+                <form action="" method="post" id="manage-enrollees">
+                <?php 
+                
+                if (isset($_POST['filter'])) {
+                    $filterGradeLevel = $_POST['grade-level'];
+                    $filterSection = $_POST['section'];
+                    if($filterGradeLevel == "default" && $filterSection == "default"){
+                        for ($g=7; $g < 11; $g++) { 
+                            for ($s=1; $s < 11; $s++) { 
+                                showTable($g, $s, $conn, $schoolYear);
+                            }
+                        }
+                    }elseif($filterGradeLevel == "default"){
+                        for ($g=7; $g < 11; $g++) { 
+                            showTable($g, $filterSection, $conn, $schoolYear);
+                        }
+                    }elseif ($filterSection == "default") {
+                        for ($s=1; $s < 11; $s++) { 
+                            showTable($filterGradeLevel, $s, $conn, $schoolYear);
+                        }
+                    }else{
+                        showTable($filterGradeLevel, $filterSection, $conn, $schoolYear);
+                    }
+                }else{
+                    for ($g=7; $g < 11; $g++) { 
+                        for ($s=1; $s < 11; $s++) {
+                            showTable($g, $s, $conn, $schoolYear);
+                        }
+                    }
+                }
+            }
+            ?>
+            <div class="buttons">
+                <input type="submit" value="Remove Students" class="appear" id="reject" name="multi-remove">
+            </div>
+            </form>
+            <script language="JavaScript">
+                function showButtonIfChecked() {
+                var checkboxes = document.querySelectorAll('input[name="lrn[]"]');
+                var boool = false;
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                    boool = true;
+                    break;
+                    }
+                }
+                    if (boool) {
+                        document.getElementById('reject').style.opacity = '100%';
+                    } else {
+                        document.getElementById('reject').style.opacity = '0%';
+                    }
+                }
+                
+                window.addEventListener('load', showButtonIfChecked);
+            </script>
+        </div>
+        <?php
+        if (isset($_POST['multi-remove'])) {
+            foreach ($_POST['lrn'] as $lrn) {
+                $removeFromEnrolledQuery = "DELETE FROM `$schoolYear` WHERE enrolled_lrn = '$lrn'";
+                if (mysqli_query($conn, $removeFromEnrolledQuery)) {
+                    $addToEnrolleesQuery = "INSERT INTO enrollees(student_lrn, school_year)
+                    VALUES ('$lrn', '$schoolYear')";
+                    if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                        $noError = true;
+                    }
+                }
+            }
+            if ($noError == true) {?>
+                <div class="prompt">
+                    <div class="prompt__container">
+                        <h1>Students Moved Back to Enrollees Successfully!</h1>
+                        <div class="actions">
+                            <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                        </div>
                     </div>
                 </div>
             <?php }
+        }elseif (isset($_POST['individual-remove'])) {
+            $lrn = $_POST['individual-remove'];
+            $removeFromEnrolledQuery = "DELETE FROM `$schoolYear` WHERE enrolled_lrn = '$lrn'";
+            if (mysqli_query($conn, $removeFromEnrolledQuery)) {
+                $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
+                VALUES ('$lrn', '$schoolYear')";
+                if (mysqli_query($conn, $addToEnrolleesQuery)) {?>
+                    <div class="prompt">
+                        <div class="prompt__container">
+                            <h1>Students Moved Back to Enrollees Successfully!</h1>
+                            <div class="actions">
+                                <a href="?page=manage_enrollees" class="confirm">Okay</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+            }
         }
         CloseCon($conn);
     }
-    //Write Enrollment Form content Below!
-    function enrollmentFormContent()
-    {?>
-        This is Enrollment Form
-    <?php ;
-    }?>
+    function showTable($grade, $section, $conn, $schoolYear){
+            if ($grade == 0) {
+                $gradeLevel = "Kinder";
+            }else {
+                $gradeLevel = "Grade " . $grade;
+            }
+            $studentInfoQuery = "SELECT * FROM `$schoolYear`
+            JOIN students ON `$schoolYear`.enrolled_lrn = students.lrn
+            JOIN parent_information ON `$schoolYear`.enrolled_lrn = parent_information.student_lrn
+            WHERE `$schoolYear`.grade_level = '$grade' AND `$schoolYear`.section = '$section'";
+        ?>
+        
+        <h1><?= $gradeLevel ?> Section <?= $section?></h1>
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-<?= "g".$grade."s".$section ?>" onchange="showButtonIfChecked()"></th>
+                    <th>LRN</td>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Gender</th>
+                    <th>Birth Date</th>
+                    <th>Birth Place</th>
+                    <th>Age</th>
+                    <th>Grade Level</th>
+                    <th>GWA Last School Year</th>
+                    <th>Last School</th>
+                    <th>Last School Address</th>
+                    <th>Guardian Full Name</th>
+                    <th>Guardian Contact Number</th>
+                    <th>Relationship to Enrollee</th>
+                    <th>Remove Student</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                if ($result = mysqli_query($conn, $studentInfoQuery)) {
+                    if (mysqli_num_rows($result) == 0) {?>
+                        <tr>
+                            <td colspan="100%"><h1>Empty Data</h1</td>
+                        </tr>
+                    <?php }else {
+                        while ($res = mysqli_fetch_assoc($result)) {
+                            $lrn = $res['lrn'];
+                            $lastName = $res['last_name'];
+                            $firstName = $res['first_name'];
+                            $gender = $res['gender'];
+                            $birthDateNum = $res['birth_date'];
+                            $birthDate = date("F d, Y", strtotime($birthDateNum));
+                            $today = date("Y-m-d");
+                            $diff = date_diff(date_create($birthDateNum), date_create($today));
+                            $age = $diff->format('%y');
+                            $birthPlace = $res['birth_place'];
+                            $enrollGradeLevel = $res['grade_level'];
+                            if ($enrollGradeLevel == "0") {
+                                $enrollGradeLevel = "Kinder";
+                            }
+                            $gwa = $res['gwa'];
+                            $lastSchool = $res['last_school'];
+                            $lastSchoolAddress = $res['last_school_address'];
+                            $parentFullName = $res['parent_name'];
+                            $parentContact = $res['parent_contact'];
+                            $relationship = $res['parent_relationship'];
+                            ?>
+                            <tr id="<?= $lrn?>">
+                                <td><input type="checkbox" name="lrn[]" value="<?= $lrn?>" onchange="showButtonIfChecked()" class="<?= "g".$grade."s".$section ?>"></td>
+                                <td><?= $lrn ?></td>
+                                <td><?= $lastName ?></td>
+                                <td><?= $firstName ?></td>
+                                <td><?= $gender ?></td>
+                                <td><?= $birthDate ?></td>
+                                <td><?= $birthPlace ?></td>
+                                <td><?= $age ?></td>
+                                <td><?= $enrollGradeLevel ?></td>
+                                <td><?= $gwa ?></td>
+                                <td><?= $lastSchool ?></td>
+                                <td><?= $lastSchoolAddress ?></td>
+                                <td><?= $parentFullName ?></td>
+                                <td><?= $parentContact ?></td>
+                                <td><?= $relationship ?></td>
+                                <td><button type="submit" title="Remove Student" name="individual-remove" value="<?= $lrn?>"><img src="../../../img/cross-button.png" alt="Reject"></button></td>
+                            </tr>
+                        <?php }
+                    }
+                }
+            ?>
+            </tbody>
+        </table>
+        <script>
+            const selectAllCheckbox<?= "g".$grade."s".$section ?> = document.getElementById("select-<?= "g".$grade."s".$section ?>");
+            const <?= "g".$grade."s".$section ?>checkboxes = document.querySelectorAll('.<?= "g". $grade ."s" . $section ?>');
+            for(var i = 0; i < <?= "g".$grade."s".$section ?>checkboxes.length; i++) {
+                <?= "g".$grade."s".$section ?>checkboxes[i].addEventListener('change', function() {
+                    var anyUnchecked = false;
+                    for(var i = 0; i < <?= "g".$grade."s".$section ?>checkboxes.length; i++) {
+                        if(!<?= "g".$grade."s".$section ?>checkboxes[i].checked) {
+                            anyUnchecked = true;
+                            break;
+                        }
+                        
+                    }
+                    if(anyUnchecked) {
+                        selectAllCheckbox<?= "g".$grade."s".$section ?>.checked = false;
+                    }
+                });
+            }
+            document.getElementById('select-<?= "g".$grade."s".$section ?>').addEventListener('click', function() {
+                var selectAll = this;
+                var selectCheckboxes = document.querySelectorAll('.<?= "g". $grade ."s" . $section ?>');
+                selectCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAll.checked;
+                });
+            });
+        </script>
+    <?php }?>
