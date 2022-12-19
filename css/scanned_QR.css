@@ -2,7 +2,19 @@
     font-family: 'OpenSans SemiBold';
     src: url('../font/OpenSans/OpenSans-SemiBold.ttf');
 }
-
+#student{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 10px;
+    margin-top: 10px;
+    width: 400px;
+    text-align: center;
+}
+h1{
+    text-align: center;
+}
 .student-info__container{
     width: 100vw;
     height: 100vh;
@@ -19,10 +31,23 @@
     border: 2px black solid;
     border-radius: 8px;
 }
-.enrolled-info__container > p{
+p.enrolled{
     font-size: 20px;
     font-family: 'OpenSans SemiBold';
     color: #006633;
+}
+.re-enroll{
+    color: white;
+    background-color: #213159;
+    text-decoration: none;
+    padding: 8px 32px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition: background-color 500ms;
+    cursor: pointer;
+}
+.re-enroll:hover{
+    background-color: #3d6098;
 }
 @keyframes slideInFromTop{
     0% {
@@ -40,6 +65,74 @@
         opacity: 100%;
     }
 }
+@keyframes slideOut {
+    0% {
+        transform: translateY(-0%);
+        opacity: 100%;
+    }
+    50%{
+        opacity: 75%;
+    }
+    75%{
+        opacity: 50%;
+    }
+    100% {
+        transform: translateY(-50%);
+        opacity: 0%;
+    }
+}
+.hidden{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.322);
+    position: fixed;
+    top: 0%;
+    left: 0%;
+}
+.disappear{
+    animation: .5s ease-out 0s slideOut;
+}
+.appear{
+    animation: .5s ease-out 0s slideInFromTop;
+}
+#error-box{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 450px;
+    position: fixed;
+    top: 30%;
+    left: 35%;
+    border: red solid 2px;
+    border-radius: 8px;
+}
+#error-box .title{
+    font-family: 'OpenSans SemiBold';
+    font-size: 20px;
+    padding: 12px 16px;
+    border-bottom: red solid 2px;
+    width: 100%;
+    text-align: center;
+}
+#error-box #error-message{
+    font-size: 20px;
+    padding: 40px 16px 24px 16px;
+    width: 100%;
+}
+#error-box .action{
+    display: flex;
+    justify-content: right;
+    padding: 8px 16px 16px 16px;
+}
+#error-box #ok{
+    padding: 8px 24px;
+    margin: 0 12px;
+    font-size: 16px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #6C757D;
+}
 .re-enroll__container{
     display: flex;
     flex-direction: column;
@@ -52,18 +145,7 @@
     font-family: 'OpenSans SemiBold';
     color: #660033;
 }
-.re-enroll__container > a{
-    color: white;
-    background-color: #C60C29;
-    text-decoration: none;
-    padding: 8px 32px;
-    font-size: 20px;
-    border-radius: 5px;
-    transition: background-color 500ms;
-}
-.re-enroll__container > a:hover{
-    background-color: #CB243E;
-}
+
 .prompt{
     width: 100vw;
     height: 100vh;
@@ -78,7 +160,7 @@
 .prompt__container{
     background-color: white;
     width: 450px;
-    min-height: 250px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -89,20 +171,115 @@
     padding: 32px;
     animation: .5s ease-out 0s slideInFromTop;
 }
-.prompt__container > .action{
+.prompt .actions{
     display: flex;
     column-gap: 20px;
 }
-.prompt__container > .action > a{
-    color: white;
+.prompt .actions > a, .prompt .actions > button{
     text-decoration: none;
-    padding: 8px 32px;
+    font-size: 18px;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: background-color 200ms ease-in;
+}
+.prompt__update{
+    background-color: white;
+    min-width: 1000px;
+    min-height: 250px;
+    max-height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    row-gap: 20px;
+    padding: 32px;
+    animation: .5s ease-out 0s slideInFromTop;
+    overflow-y: scroll;
+}
+#form{
+    min-height: 250px;
+    max-height: 550px;
+    width: 100%;
+}
+.prompt__update .row{
+    margin: 20px 0;
+    display: flex;
+    width: 100%;
+}
+.prompt__update .row .column{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.prompt__update label{
     font-size: 20px;
+}
+.prompt__update .row > input, .prompt__update .row > .column > input, .prompt__update select#suffix, .input{
+    font-size: 18px;
+    border: #DDDDDD solid 2px;
     border-radius: 5px;
+    padding: 10px;
+    width: 95%;
+    transition: 0.5s;
 }
-#yes{
-    background-color: #0D6EFD;
+.prompt__update p.header{
+    font-size: 24px;
+    font-family: 'OpenSans SemiBold';
+    letter-spacing: 1px;
 }
-#no{
-    background-color: #D83444;
+.prompt__update .radio-group{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    align-self: flex-start;
+}
+.prompt__update .row input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.prompt__update .row input::-webkit-outer-spin-button,
+.prompt__update .row input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+.prompt__update .row .column1{
+    width: 40%;
+    margin-right: 20px;
+}
+.prompt__update .row .column2{
+    width: auto;
+}
+.prompt__update .row .column2 input[type='file']{
+    cursor: pointer;
+    border: #DDDDDD solid 2px;
+    font-size: 16px;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.5s;
+}
+::-webkit-file-upload-button{
+    background-color: #E9ECEF;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.5s;
+}
+::-webkit-file-upload-button:hover{
+    background-color: #dde0e2;
+}
+.prompt .actions > .confirm{
+    background-color: #213159;
+}
+.prompt .actions > .confirm:hover{
+    background-color: #3d6098;
+}
+.prompt .actions > .cancel{
+    background-color: #C60C29;
+}
+.prompt .actions > .cancel:hover{
+    background-color: #CB243E;
 }

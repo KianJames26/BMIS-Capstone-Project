@@ -94,7 +94,7 @@
                         </script>
                     </div>
                     <div class="column">
-                        <label for="lrn">Last School Year Average <span class="required"></span></label>
+                        <label for="gwa">Last School Year Average <span class="required"></span></label>
                         <input type="number" name="gwa" step="any" id="gwa" placeholder="Enter your Average Last School Year (74-100)">
                         <script>
                             const inputGrade = document.getElementById('gwa');

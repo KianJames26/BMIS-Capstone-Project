@@ -222,7 +222,7 @@
                                         <td><?= $parentFullName ?></td>
                                         <td><?= $parentContact ?></td>
                                         <td><?= $relationship ?></td>
-                                        <td>Null</td>
+                                        <td><button type="submit" title="View Addtional Info" name="additional-info" value="<?= $lrn ?>"><img src="../../../img/view.png" alt="Additional Info"></button></td>
                                         <td>Null</td>
                                         <td><button type="submit" title="Accept Enrollee" name="individual-accept" value="<?= $lrn?>"><img src="../../../img/check.png" alt="Accept"></button></td>
                                         <td><button type="submit" title="Reject Enrollee" name="individual-reject" value="<?= $lrn?>"><img src="../../../img/cross-button.png" alt="Reject"></button></td>
@@ -268,7 +268,7 @@
                         if ($res['grade_level'] == 0) {
                             $section = rand(1, 10);
                         }else {
-                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                            if($res['gwa'] >= 0 && $res['gwa'] <= 86){
                                 $section = rand(6, 10);
                                 
                             }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
@@ -305,7 +305,7 @@
                         if ($res['grade_level'] == 0) {
                             $section = rand(1, 10);
                         }else {
-                            if($res['gwa'] >= 60 && $res['gwa'] <= 86 && $res['gwa']){
+                            if($res['gwa'] >= 0 && $res['gwa'] <= 86){
                                 $section = rand(6, 10);
                                 
                             }elseif($res['gwa'] >= 87 && $res['gwa']<=100){
@@ -381,8 +381,7 @@
                         </div>
                     </form>
                 </div>
-            <?php }
-            if (isset($_POST['rejects'])) {
+            <?php }elseif (isset($_POST['rejects'])) {
                 foreach($_POST['rejected-lrn'] as $lrn){
                     if(trim($_POST['remark'][$lrn]) == ""){
                         $remark = "No Remark";
@@ -408,8 +407,7 @@
                         </div>
                     </div>
                 <?php }
-            }
-            if (isset($_POST['reject'])) {
+            }elseif (isset($_POST['reject'])) {
                 $lrn = $_POST['rejected-lrn'];
                 if(trim($_POST['remark'][$lrn]) == ""){
                     $remark = "No Remarks";
@@ -608,7 +606,7 @@
                                         <td><?= $parentFullName ?></td>
                                         <td><?= $parentContact ?></td>
                                         <td><?= $relationship ?></td>
-                                        <td>Null</td>
+                                        <td><button type="submit" title="View Addtional Info" name="additional-info" value="<?= $lrn ?>"><img src="../../../img/view.png" alt="Additional Info"></button></td>
                                         <td>Null</td>
                                         <td><button type="submit" title="Undo Rejection" name="individual-undo" value="<?= $lrn?>"><img src="../../../img/turn-left.png" alt="Accept"></button></td>
                                     </tr>
