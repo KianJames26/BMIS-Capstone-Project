@@ -1,11 +1,13 @@
 <?php session_start();
-    if ($_SESSION['loggedin'] == false && $_SESSION['login-role'] != "elementary-admin") {
+    if ($_SESSION['loggedin'] == false && $_SESSION['role'] != "elementary") {
         header("Location: ../../../index.php");
     }else {
         include '../../phpMethods/connection.php';
+        include '../../phpMethods/log.php';
         include 'admin_content.php';
         $gradeLevel = "< 7";
         if (isset($_GET['logout'])) {
+            logNow("Logged out of the system", $_SESSION['admin_id'], OpenCon());
             header("Location: ../../../index.php");
             session_destroy();
         }
@@ -24,7 +26,7 @@
             <div class="header">
                 <img src="../../../img/logo.png" alt="BMIS" srcset="">
                 <h1>Barasoain Memorial Integrated School</h1>
-                <p>Elementary Admin</p>
+                <p style="text-align: center;">Welcome to Elementary Admin <br> <b><?= $_SESSION['username'] ?></b></p>
                 <a href="?logout"><img src="../../../img/logout.png" alt=""></a>
             </div>
             <div class="navigation">

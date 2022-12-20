@@ -93,7 +93,7 @@
                     <div class="prompt__container">
                         <h1>Enrollment is successful!</h1>
                         <div class="actions">
-                            <a href="" class="confirm">Okay</a>
+                            <a href="?lrn=<?= $lrn ?>" class="confirm">Okay</a>
                         </div>
                     </div>
                 </div>

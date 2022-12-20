@@ -70,7 +70,7 @@ function goToPageTwo(existingLrn) {
     } else if (lastName.value.trim().length < 2) {
         showErrorBox("Please Enter your Last Name!", lastName.id);
     } else if (firstName.value.trim().length < 2) {
-        showErrorBox("Please Enter your Firstname!". firstName.id);
+        showErrorBox("Please Enter your Firstname!", firstName.id);
     }else {
         pageOne.style.display = "none";
         pageTwo.style.display = "inherit";

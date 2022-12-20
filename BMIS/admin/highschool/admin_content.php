@@ -277,6 +277,7 @@
                         if (mysqli_query($conn, $enrollStudentsQuery)) {
                             $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                             if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                                logNow("Enrolled ".$lrn." to Grade ".$res['grade_level']." Section ".$section." S.Y. ". $activeSchoolYear, $_SESSION['admin_id'], OpenCon());
                                 $noError = true;
                             }
                         }
@@ -313,7 +314,9 @@
                         VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
                         if (mysqli_query($conn, $enrollStudentsQuery)) {
                             $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                            if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                                logNow("Enrolled ".$lrn." to Grade ".$res['grade_level']." Section ".$section." S.Y. ". $activeSchoolYear, $_SESSION['admin_id'], OpenCon());
+                                ?>
                                 <div class="prompt">
                                     <div class="prompt__container">
                                         <h1>Enrollee Accepted Successfully</h1>
@@ -390,6 +393,7 @@
                     if (mysqli_query($conn, $addToRejectSql)) {
                         $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                         if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                            logNow("Rejected ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
                             $noError = true;
                         }
                     }
@@ -415,7 +419,9 @@
                 VALUES ('$lrn', '$activeSchoolYear', '$remark')";
                 if (mysqli_query($conn, $addToRejectSql)) {
                     $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                    if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                    if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                        logNow("Rejected ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
+                        ?>
                         <div class="prompt">
                             <div class="prompt__container">
                                 <h1>Enrollee Rejected Successfully</h1>
@@ -644,7 +650,9 @@
                             }
                         }
                     }
-                    if($noError == true){?>
+                    if($noError == true){
+                        logNow("Undo the Rejection of ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
+                        ?>
                         <div class="prompt">
                             <div class="prompt__container">
                                 <h1>Rejected Enrollees Successfully Returned to Enrollees</h1>
@@ -660,7 +668,9 @@
                     VALUES ('$lrn','$activeSchoolYear')";
                     if (mysqli_query($conn, $addToEnrolleesQuery)) {
                         $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
-                        if(mysqli_query($conn, $removeFromRejectedQuery)){?>
+                        if(mysqli_query($conn, $removeFromRejectedQuery)){
+                            logNow("Undo the Rejection of ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
+                            ?>
                             <div class="prompt">
                                 <div class="prompt__container">
                                     <h1>Rejected Enrollee Successfully Returned as an Enrollee</h1>
@@ -740,6 +750,7 @@
                                             if (mysqli_num_rows($result) == 0) {
                                                 if (mysqli_query($conn, $insertSchoolYear)) {
                                                     // header("Refresh:0");
+                                                    logNow("Created S.Y. ".$schoolYear, $_SESSION['admin_id'], OpenCon());
                                                     $createSchoolYearTable = "CREATE TABLE `". $schoolYear ."` (
                                                         enrolled_lrn varchar(12) NOT NULL UNIQUE,
                                                         grade_level int NOT NULL,
@@ -802,6 +813,7 @@
                 <?php if(isset($_GET['resetting'])){
                     $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['resetting']."';";
                     mysqli_query($conn, $resetQuery);
+                    logNow("Resets S.Y. ". $_GET['resetting'] . " enrollment", $_SESSION['admin_id'], OpenCon());
                     ?>
                     <div class="small_box">
                         <div class="container">
@@ -834,10 +846,10 @@
                         <label for="grade-level">Grade Level : </label>
                         <select name="grade-level" id="grade-level" >
                             <option value="default" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == 'default') {echo "selected=selected";}?> >All</option>
-                            <option value="0" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '7') {echo "selected=selected";}?> >Kinder</option>
-                            <option value="1" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '8') {echo "selected=selected";}?> >1</option>
-                            <option value="2" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '9') {echo "selected=selected";}?>>2</option>
-                            <option value="3" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '10') {echo "selected=selected";}?>>3</option>
+                            <option value="7" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '7') {echo "selected=selected";}?> >7</option>
+                            <option value="8" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '8') {echo "selected=selected";}?> >8</option>
+                            <option value="9" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '9') {echo "selected=selected";}?>>9</option>
+                            <option value="10" <?php if (isset($_POST['grade-level']) && $_POST['grade-level'] == '10') {echo "selected=selected";}?>>10</option>
                         </select>
                     </div>
                     <div class="select-grade">
@@ -927,6 +939,7 @@
                     $addToEnrolleesQuery = "INSERT INTO enrollees(student_lrn, school_year)
                     VALUES ('$lrn', '$schoolYear')";
                     if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                        logNow("Removed ". $lrn . " from Enrolled back to Enrollees", $_SESSION['admin_id'], OpenCon());
                         $noError = true;
                     }
                 }
@@ -947,7 +960,9 @@
             if (mysqli_query($conn, $removeFromEnrolledQuery)) {
                 $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
                 VALUES ('$lrn', '$schoolYear')";
-                if (mysqli_query($conn, $addToEnrolleesQuery)) {?>
+                if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                    logNow("Removed ". $lrn . " from Enrolled back to Enrollees", $_SESSION['admin_id'], OpenCon());
+                    ?>
                     <div class="prompt">
                         <div class="prompt__container">
                             <h1>Students Moved Back to Enrollees Successfully!</h1>

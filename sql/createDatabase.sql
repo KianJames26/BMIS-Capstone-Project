@@ -52,3 +52,24 @@ CREATE TABLE Rejected_Enrollees(
     FOREIGN KEY (student_lrn) REFERENCES Students(lrn),
     FOREIGN KEY (school_year) REFERENCES school_years(school_year)
 );
+
+-- SUPER ADMIN TABLES
+
+CREATE TABLE admin_accounts(
+    admin_id varchar(50) NOT NULL UNIQUE,
+    admin_username varchar(50) NOT NULL,
+    admin_password varchar(255) NOT NULL,
+    admin_role varchar(255) NOT NULL,
+    admin_status boolean,
+
+    PRIMARY KEY(admin_id)
+);
+CREATE TABLE logs(
+    log_id int NOT NULL AUTO_INCREMENT,
+    log_date varchar(255) NOT NULL,
+    log_description text NOT NULL,
+    admin_id varchar(50)NOT NULL,
+
+    FOREIGN KEY (admin_id) REFERENCES admin_account(admin_id),
+    PRIMARY KEY(log_id)
+);

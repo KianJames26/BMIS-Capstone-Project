@@ -279,6 +279,7 @@
                     if (mysqli_query($conn, $enrollStudentsQuery)) {
                         $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                         if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                            logNow("Enrolled ".$lrn." to Grade ".$res['grade_level']." Section ".$section." S.Y. ". $activeSchoolYear, $_SESSION['admin_id'], OpenCon());
                             $noError = true;
                         }
                     }
@@ -315,7 +316,9 @@
                     VALUES ('$lrn', '$enrolleeGradeLevel', '$section')";
                     if (mysqli_query($conn, $enrollStudentsQuery)) {
                         $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                        if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                            logNow("Enrolled ".$lrn." to Grade ".$res['grade_level']." Section ".$section." S.Y. ". $activeSchoolYear, $_SESSION['admin_id'], OpenCon());
+                            ?>
                             <div class="prompt">
                                 <div class="prompt__container">
                                     <h1>Enrollee Accepted Successfully</h1>
@@ -392,6 +395,7 @@
                 if (mysqli_query($conn, $addToRejectSql)) {
                     $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
                     if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                        logNow("Rejected ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
                         $noError = true;
                     }
                 }
@@ -417,7 +421,9 @@
             VALUES ('$lrn', '$activeSchoolYear', '$remark')";
             if (mysqli_query($conn, $addToRejectSql)) {
                 $removeFromEnrolleesQuery = "DELETE FROM enrollees WHERE enrollees.student_lrn = ". $lrn;
-                if (mysqli_query($conn, $removeFromEnrolleesQuery)) {?>
+                if (mysqli_query($conn, $removeFromEnrolleesQuery)) {
+                    logNow("Rejected ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
+                    ?>
                     <div class="prompt">
                         <div class="prompt__container">
                             <h1>Enrollee Rejected Successfully</h1>
@@ -647,6 +653,7 @@
                     if (mysqli_query($conn, $addToEnrolleesQuery)) {
                         $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
                         if(mysqli_query($conn, $removeFromRejectedQuery)){
+                            logNow("Undo the Rejection of ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
                             $noError = true;
                         }
                     }
@@ -667,7 +674,9 @@
                 VALUES ('$lrn','$activeSchoolYear')";
                 if (mysqli_query($conn, $addToEnrolleesQuery)) {
                     $removeFromRejectedQuery = "DELETE FROM rejected_enrollees WHERE rejected_enrollees.student_lrn = ". $lrn;
-                    if(mysqli_query($conn, $removeFromRejectedQuery)){?>
+                    if(mysqli_query($conn, $removeFromRejectedQuery)){
+                        logNow("Undo the Rejection of ". $lrn . " enrollment", $_SESSION['admin_id'], OpenCon());
+                        ?>
                         <div class="prompt">
                             <div class="prompt__container">
                                 <h1>Rejected Enrollee Successfully Returned as an Enrollee</h1>
@@ -745,6 +754,7 @@
                                         $insertSchoolYear = "INSERT INTO school_years VALUES('$schoolYear', true)";
                                         $reactivateSchoolYear = "UPDATE school_years SET school_years.isActive = true WHERE school_years.school_year = '".$schoolYear."';";
                                         if ($result = mysqli_query($conn, "SELECT * FROM school_years WHERE school_years.school_year ='".$schoolYear."';")) {
+                                            logNow("Created S.Y. ".$schoolYear, $_SESSION['admin_id'], OpenCon());
                                             if (mysqli_num_rows($result) == 0) {
                                                 if (mysqli_query($conn, $insertSchoolYear)) {
                                                     // header("Refresh:0");
@@ -810,6 +820,7 @@
                 }?>
                 <?php if(isset($_GET['resetting'])){
                     $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['resetting']."';";
+                    logNow("Resets S.Y. ". $_GET['resetting'] . " enrollment", $_SESSION['admin_id'], OpenCon());
                     mysqli_query($conn, $resetQuery);
                     ?>
                     <div class="small_box">
@@ -939,6 +950,7 @@
                     $addToEnrolleesQuery = "INSERT INTO enrollees(student_lrn, school_year)
                     VALUES ('$lrn', '$schoolYear')";
                     if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                        logNow("Removed ". $lrn . " from Enrolled back to Enrollees", $_SESSION['admin_id'], OpenCon());
                         $noError = true;
                     }
                 }
@@ -959,7 +971,9 @@
             if (mysqli_query($conn, $removeFromEnrolledQuery)) {
                 $addToEnrolleesQuery = "INSERT INTO enrollees (student_lrn, school_year)
                 VALUES ('$lrn', '$schoolYear')";
-                if (mysqli_query($conn, $addToEnrolleesQuery)) {?>
+                if (mysqli_query($conn, $addToEnrolleesQuery)) {
+                    logNow("Removed ". $lrn . " from Enrolled back to Enrollees", $_SESSION['admin_id'], OpenCon());
+                    ?>
                     <div class="prompt">
                         <div class="prompt__container">
                             <h1>Students Moved Back to Enrollees Successfully!</h1>

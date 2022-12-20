@@ -1,46 +1,4 @@
-<?php session_start();session_destroy();
-    if(isset($_POST['Submit'])){
-        session_start();
-        $_SESSION['loggedin'] = false;
-        $id_num = $_POST['id-num'];
-        $_SESSSION['id_num'] = $_POST['id-num'];
-        $password = $_POST['password'];
-        if ($id_num == "elem_admin") {
-            if($password == "elementary"){
-                $_SESSION['login-role'] = "elementary-admin";
-                $_SESSION['loggedin'] = true;
-                header("location:admin/elementary/admin.php?page=dashboard");
-                exit;
-            }else {
-                $msg="
-                <div class='error-message'>
-                    <img src='../img/error-logo.png' alt='Error Image'>
-                    <p class='message'>Error Invalid Password!</p>
-                </div>";
-            }
-        }else if ($id_num == "hs_admin") {
-            if($password == "highschool"){
-                $_SESSION['login-role'] = "highschool-admin";
-                $_SESSION['loggedin'] = true;
-                header("location:admin/highschool/admin.php?page=dashboard");
-                exit;
-            }else {
-                $msg="
-                <div class='error-message'>
-                    <img src='../img/error-logo.png' alt='Error Image'>
-                    <p class='message'>Error Invalid Password!</p>
-                </div>";
-            }
-        }else{
-            $msg="
-            <div class='error-message'>
-                <img src='../img/error-logo.png' alt='Error Image'>
-                <p class='message'>Error Invalid Id Number!</p>
-            </div>";
-        }
-    }
-
-?>
+<?php session_start();session_destroy();?>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -49,7 +7,7 @@
         <link rel="stylesheet" href="../css/default.css">
         <link rel="stylesheet" href="../css/login.css">
         <title>Login to BMIS</title>
-        <script src="../js/error_message.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.24/sweetalert2.all.js"></script>
     </head>
     <body>
         <div class="content">
@@ -60,16 +18,67 @@
                 <div class="right-column-content">
                     <img src="../img/logo.png" alt="BMIS Logo">
                     <h2>Barasoain Memorial Integrated School</h2>
-                    <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
-                        <?php if(isset($msg)){?>
-                        <?php echo $msg;?>
-                        <?php } ?>
-                        <label for="id-num">ID number</label>
-                        <input type="text" name="id-num" id="id-num" placeholder="Enter ID Number" value="<?php echo isset($_POST['id-num']) ? $_POST['id-num'] : ''; ?>">
+                    <form action="" method="post">
+                        <label for="id-num">Admin ID</label>
+                        <input type="text" name="admin-id" id="admin-id" placeholder="Enter Admin ID" value="<?= isset($_POST['admin-id']) ? trim($_POST['admin-id']) : ''; ?>" required>
                         <label for="password">Password</label>
-                        <input type="password" name="password" id="password" placeholder="Enter Password">
+                        <input type="password" name="password" id="password" placeholder="Enter Password" required>
                         <input name="Submit" type="submit" value="Login" class="login-btn">
                     </form>
+                    <?php
+                        if(isset($_POST['Submit'])){
+                            include '../BMIS/phpMethods/connection.php';
+                            include '../BMIS/phpMethods/log.php';
+                            $conn = OpenCon();
+                            session_start();
+                            $_SESSION['loggedin'] = false;
+                            $adminID = trim($_POST['admin-id']);
+                            $password = $_POST['password'];
+                            
+                            $checkIdQuery = "SELECT * FROM admin_accounts WHERE admin_accounts.admin_id = '$adminID'";
+                            if(mysqli_num_rows(mysqli_query($conn, $checkIdQuery)) == 0){?>
+                                <script>
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Invalid Admin ID'
+                                    })
+                                </script>
+                            <?php }elseif ($result = mysqli_fetch_assoc(mysqli_query($conn, $checkIdQuery))) {
+                                $adminPassword = $result['admin_password'];
+                                if (password_verify($password, $adminPassword)) {
+                                    $adminStatus = $result['admin_status'];
+                                    if (!$adminStatus) {?>
+                                        <script>
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Account was disabled',
+                                            text: 'Your account was disabled by the super admin'
+                                        })
+                                    </script>
+                                    <?php }else{
+                                        $adminRole = $result['admin_role'];
+                                        $_SESSION['loggedin'] = true;
+                                        $_SESSION['role'] = $adminRole;
+                                        $_SESSION['username'] = $result['admin_username'];
+                                        $_SESSION['admin_id'] = $result['admin_id'];
+                                        logNow("Logged in to the system.", $_SESSION['admin_id'], OpenCon());
+                                        if ($adminRole == 'elementary') {
+                                            header("Location: admin/elementary/admin.php");
+                                        }elseif ($adminRole == 'high_school') {
+                                            header("Location: admin/highschool/admin.php");
+                                        }
+                                    }
+                                }else{?>
+                                    <script>
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Invalid Password'
+                                        })
+                                    </script>
+                                <?php }
+                            }
+                        }
+                    ?>
                 </div>
             </div>
         </div>
