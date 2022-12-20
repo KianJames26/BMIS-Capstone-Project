@@ -280,6 +280,7 @@ body{
 .prompt__container > h1{
     align-self: center;
     text-align: center;
+    color: black;
 }
 .prompt .actions{
     display: flex;

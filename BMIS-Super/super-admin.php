@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if ($_SESSION['loggedin'] == false) {
+    if ($_SESSION['logged'] == false) {
         header("Location:index.php");
     }else {
         include '../BMIS/phpMethods/connection.php';

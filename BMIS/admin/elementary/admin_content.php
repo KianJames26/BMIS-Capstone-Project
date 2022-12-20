@@ -800,13 +800,13 @@
                                     </div>
                                 </div>
                                 <?php if (isset($_GET['reset'])) {?>
-                                    <div class="small_box">
-                                        <div class="container">
+                                    <div class="prompt">
+                                        <div class="prompt__container">
                                             <h1>Are you sure you want to reset school year?</h1>
                                             <p>Note: This will end the whole school year and will require students to enroll again.</p>
-                                            <div class="action">
-                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="cancel">Cancel</a>
-                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&resetting=<?= $_GET['reset']?>" id="yes">Yes</a>
+                                            <div class="actions">
+                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" class="cancel">Cancel</a>
+                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&resetting=<?= $_GET['reset']?>" class="confirm">Yes</a>
                                             </div>
                                         </div>
                                     </div>
@@ -823,11 +823,11 @@
                     logNow("Resets S.Y. ". $_GET['resetting'] . " enrollment", $_SESSION['admin_id'], OpenCon());
                     mysqli_query($conn, $resetQuery);
                     ?>
-                    <div class="small_box">
-                        <div class="container">
+                    <div class="prompt">
+                        <div class="prompt__container">
                             <h1>School Year <?= $_GET['resetting']?> successfully reset!</h1>
-                            <div class="action">
-                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" id="proceed">Proceed to School Year</a>
+                            <div class="actions">
+                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" class="confirm">Proceed to School Year</a>
                             </div>
                         </div>
                     </div>
@@ -878,7 +878,14 @@
                             <option value="9" <?php if (isset($_POST['section']) && $_POST['section'] == '9') {echo "selected";}?>>9</option>
                             <option value="10" <?php if (isset($_POST['section']) && $_POST['section'] == '10') {echo "selected";}?>>10</option>
                         </select>
+                        <input type="hidden" name="school-year" value="<?= $schoolYear ?>">
                         <input type="submit" name="filter" value="Filter">
+                        <?php
+                            if ((isset($_POST['grade-level'] ) && isset($_POST['section'])) && ($_POST['grade-level'] != "default" && $_POST['section'] != "default")) {?>
+                                <input type="submit" name="print" value="Print" formaction="../enrolledPDF.php">
+                            <?php }
+                        ?>
+                        
                     </div>
                     <?php
                     if (isset($_POST['grade-level']) || isset($_POST['section'])) { ?>

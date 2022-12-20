@@ -30,12 +30,12 @@ session_start();session_destroy();
                     <?php
                         if (isset($_POST['login'])) {
                             session_start();
-                            $_SESSION['loggedin'] = false;
+                            $_SESSION['logged'] = false;
                             $username = "super_admin";
                             $password = "super_admin";
                             if (trim($_POST['username']) == $username) {
                                 if ($_POST['password'] == $password) {
-                                    $_SESSION['loggedin'] = true;
+                                    $_SESSION['logged'] = true;
                                     header("location:super-admin.php?page=user_management");
                                     exit;
                                 }else {?>
