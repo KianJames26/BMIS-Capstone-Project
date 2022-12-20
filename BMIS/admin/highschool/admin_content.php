@@ -899,6 +899,7 @@
                             <option value="9" <?php if (isset($_POST['section']) && $_POST['section'] == '9') {echo "selected";}?>>9</option>
                             <option value="10" <?php if (isset($_POST['section']) && $_POST['section'] == '10') {echo "selected";}?>>10</option>
                         </select>
+                        <input type="hidden" name="school-year" value="<?= $schoolYear ?>">
                         <input type="submit" name="filter" value="Filter">
                         <?php
                             if ((isset($_POST['grade-level'] ) && isset($_POST['section'])) && ($_POST['grade-level'] != "default" && $_POST['section'] != "default")) {?>

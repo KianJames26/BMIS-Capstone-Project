@@ -92,7 +92,7 @@
         </table>
         <div class="center">
         <main>
-            <h1>Grade '.$gradeLevel.' Section '.$section.' S.Y '.$schoolYear.'</h1>
+            <h1>'.(($gradeLevel==0)? 'Kinder' : 'Grade '.$gradeLevel).' Section '.$section.' S.Y '.$schoolYear.'</h1>
             <table>
                 <thead>
                     <tr>
