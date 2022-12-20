@@ -142,6 +142,7 @@ body{
     flex-direction: column;
     margin-top: 16px;
 }
+
 .enrollees > form#filtration,
 .students > form#filtration{
     width: 100%;
@@ -207,8 +208,8 @@ body{
     background-color: #213159;
     color: white;
 }
-.enrollees > form#manage-enrollees > table > tbody > tr > td > button > img,
-.students > form#manage-enrollees > table > tbody > tr > td > button > img{
+.enrollees > form#manage-enrollees > table > tbody > tr > td > button > img, .enrollees > form#manage-enrollees > table > tbody > tr > td > a > img,
+.students > form#manage-enrollees > table > tbody > tr > td > button > img, .students > form#manage-enrollees > table > tbody > tr > td > a > img{
     background-color: none;
     width: 25px;
 }
@@ -642,4 +643,24 @@ body{
 }
 .student-list__container > table > tbody > tr > td{
     padding-left: 15px;
+}
+
+#print{
+    padding: 10px 0 !important;
+    gap: 20px;
+}
+#print label{
+    font-size: 22px;
+}
+#print select{
+    font-size: 18px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    border: #3d6098 solid 2px;
+}
+#print .row{
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }

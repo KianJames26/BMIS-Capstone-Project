@@ -220,7 +220,8 @@
                                         <td><?= $parentContact ?></td>
                                         <td><?= $relationship ?></td>
                                         <td><button type="submit" title="View Addtional Info" name="additional-info" value="<?= $lrn ?>"><img src="../../../img/view.png" alt="Additional Info"></button></td>
-                                        <td>Null</td>
+                                        <td><a href="../../../../uploads/<?= $lrn ?>/<?= $res['birth_certificate']?>" target="_blank"><img src="../../../img/document.png" alt="Birth"></a>
+                                        <a href="../../../../uploads/<?= $lrn ?>/<?= $res['report_card']?>" target="_blank"><img src="../../../img/student-grades.png" alt="Card"></a></td>
                                         <td><button type="submit" title="Accept Enrollee" name="individual-accept" value="<?= $lrn?>"><img src="../../../img/check.png" alt="Accept"></button></td>
                                         <td><button type="submit" title="Reject Enrollee" name="individual-reject" value="<?= $lrn?>"><img src="../../../img/cross-button.png" alt="Reject"></button></td>
                                     </tr>
@@ -607,7 +608,8 @@
                                         <td><?= $parentContact ?></td>
                                         <td><?= $relationship ?></td>
                                         <td><button type="submit" title="View Addtional Info" name="additional-info" value="<?= $lrn ?>"><img src="../../../img/view.png" alt="Additional Info"></button></td>
-                                        <td>Null</td>
+                                        <td><a href="../../../../uploads/<?= $lrn ?>/<?= $res['birth_certificate']?>" target="_blank"><img src="../../../img/document.png" alt="Birth"></a>
+                                        <a href="../../../../uploads/<?= $lrn ?>/<?= $res['report_card']?>" target="_blank"><img src="../../../img/student-grades.png" alt="Card"></a></td>
                                         <td><button type="submit" title="Undo Rejection" name="individual-undo" value="<?= $lrn?>"><img src="../../../img/turn-left.png" alt="Accept"></button></td>
                                     </tr>
                                 <?php }
@@ -692,17 +694,47 @@
         <div class="admin-controls">
             <nav class="sub-pages">
             <a <?php if($_GET["sub-page"] == "school-year"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=school-year'";}?> >School Year</a>
-                <a <?php if($_GET["sub-page"] == "news"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=news'";}?> >News</a>
-                <a <?php if($_GET["sub-page"] == "announcement"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=announcement'";}?> >Announcements</a>
+            <a <?php if($_GET["sub-page"] == "generate_form"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=generate_form'";}?> >Generate Form</a>
             </nav>
             <div class="sub-page-container">
-                <?php if ($_GET["sub-page"] == "news") {?>
-                    <div class="sub-page-news">
-                        news
-                    </div>
-                <?php ;}else if ($_GET["sub-page"] == "announcement") {?>
-                    <div>Announcement</div>
-                <?php ;}else if ($_GET["sub-page"] == "school-year") {
+                <?php if ($_GET["sub-page"] == "generate_form") {
+                        $querySchoolYear = "SELECT school_year FROM school_years";
+                        if($result = mysqli_query($conn, $querySchoolYear)){?>
+                            <form action="" method="post" id="print">
+                                <div class="row">
+                                    <label for="grade-level">Grade Level : </label>
+                                    <select name="grade-level" id="grade-level">
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <label for="section">Section : </label>
+                                    <select name="section" id="section">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <label for="school-year">School Year : </label>
+                                <select name="school-year" id="school-year">
+                                    <?php
+                                        while ($res = mysqli_fetch_assoc($result)) {?>
+                                            <option value="<?= $res['school_year'] ?>"><?= $res['school_year'] ?></option>
+                                        <?php }
+                                    ?>
+                                </select>
+                                <input type="submit" value="Print" formaction="../enrolledPDF.php" formtarget="_blank">
+                            </form>
+                        <?php }
+                    }else if ($_GET["sub-page"] == "school-year") {
                     $selectActiveSchoolYear = "SELECT * from school_years where school_years.isActive = true";
                     if($result = mysqli_query($conn, $selectActiveSchoolYear)){
                         if(mysqli_num_rows($result) == 0){?>
@@ -868,6 +900,11 @@
                             <option value="10" <?php if (isset($_POST['section']) && $_POST['section'] == '10') {echo "selected";}?>>10</option>
                         </select>
                         <input type="submit" name="filter" value="Filter">
+                        <?php
+                            if ((isset($_POST['grade-level'] ) && isset($_POST['section'])) && ($_POST['grade-level'] != "default" && $_POST['section'] != "default")) {?>
+                                <input type="submit" name="print" value="Print" formaction="../enrolledPDF.php" formtarget="_blank">
+                            <?php }
+                        ?>
                     </div>
                     <?php
                     if (isset($_POST['grade-level']) || isset($_POST['section'])) { ?>

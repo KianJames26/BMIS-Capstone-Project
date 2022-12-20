@@ -113,7 +113,9 @@
 
     if ($result = mysqli_query($conn, $queryStudents)) {
         if (mysqli_num_rows($result) == 0) {
-            header("Location: /BMIS-Capstone-Project/BMIS/admin/elementary/admin.php?page=enrolled_students");
+            $htmlContent .= '<tr>
+                <td colspan="100%"><h1>Empty Data</h1</td>
+            </tr>';
         }else{
             while ($res = mysqli_fetch_assoc($result)) {
                 $htmlContent .= "<tr><td>". $res['lrn'] ."</td><td>". $res['last_name'] ."</td><td>". $res['first_name'] ."</td><td>". $res['middle_name'] ."</td><td>". $res['suffix'] ."</td><td>".$res['gender'] ."</td></tr>";
