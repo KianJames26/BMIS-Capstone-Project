@@ -39,10 +39,24 @@ session_start();session_destroy();
                                     header("location:super-admin.php?page=user_management");
                                     exit;
                                 }else {?>
-                                    <h1 class="error">Password is Incorrect</>
+                                    <h1 class="error">The password you entered is Incorrect.</h1>
+                                    <style>
+                                        input[name="password"]{
+                                            border: 1px solid red !important;
+                                        }
+                                    </style>
                                 <?php }
                             }else {?>
-                                <h1 class="error">Username is Incorrect</h1>
+                                <h1 class="error">The username or password you entered is Incorrect.</h1>
+                                <style>
+                                        input[name="username"]{
+                                            border: 1px solid red !important;
+                                            
+                                        }
+                                        input[name="password"]{
+                                            border: 1px solid red !important;
+                                        }
+                                    </style>
                             <?php }
                         }
                     ?>

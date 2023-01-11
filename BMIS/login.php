@@ -61,6 +61,7 @@
                                         $_SESSION['role'] = $adminRole;
                                         $_SESSION['username'] = $result['admin_username'];
                                         $_SESSION['admin_id'] = $result['admin_id'];
+                                        $_SESSION['password'] = $adminPassword;
                                         logNow("Logged in to the system.", $_SESSION['admin_id'], OpenCon());
                                         if ($adminRole == 'elementary') {
                                             header("Location: admin/elementary/admin.php");

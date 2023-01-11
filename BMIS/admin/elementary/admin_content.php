@@ -701,6 +701,7 @@
         $conn = OpenCon();
         ?>
         <div class="admin-controls">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.24/sweetalert2.all.js"></script>
             <nav class="sub-pages">
                 <a <?php if($_GET["sub-page"] == "school-year"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=school-year'";}?> >School Year</a>
                 <a <?php if($_GET["sub-page"] == "generate_form"){echo "id='active-sub-page'";}else{echo "href='?page=".$_GET['page']."&sub-page=generate_form'";}?> >Generate Form</a>
@@ -841,13 +842,46 @@
                                     <div class="prompt">
                                         <div class="prompt__container">
                                             <h1>Are you sure you want to reset school year?</h1>
+                                            
                                             <p>Note: This will end the whole school year and will require students to enroll again.</p>
+                                            <form action="" method="post">
+                                            <input type="password" name="admin-password" id="admin-password" placeholder="Enter your password">
                                             <div class="actions">
                                                 <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" class="cancel">Cancel</a>
-                                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>&resetting=<?= $_GET['reset']?>" class="confirm">Yes</a>
+                                                <input type="submit" value="Yes" name="yes" class="confirm">
                                             </div>
+                                                
+                                            </form>
+                                            
                                         </div>
                                     </div>
+                                    <?php if(isset($_POST['yes'])){
+                                        $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['reset']."';";
+                                        
+                                        if (password_verify($_POST['admin-password'], $_SESSION['password'])) {
+                                            mysqli_query($conn, $resetQuery);
+                                            logNow("Resets S.Y. ". $_GET['reset'] . " enrollment", $_SESSION['admin_id'], OpenCon());
+                                        ?>
+                                        <div class="prompt">
+                                            <div class="prompt__container">
+                                                <h1>School Year <?= $_GET['reset']?> successfully reset!</h1>
+                                                <div class="actions">
+                                                    <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" class="confirm">Proceed to School Year</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php ;}else {
+                                            ?>
+                                            <script>
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Wrong Password',
+                                            })
+                                        </script>
+                                        <?php 
+                                        }
+                                        
+                                    }?>
                                 <?php ;}?>
                             <?php ;}
                         }
@@ -856,20 +890,6 @@
                 <?php ;}else{
                     header("Location: ?page=dashboard");
                 }?>
-                <?php if(isset($_GET['resetting'])){
-                    $resetQuery = "UPDATE `school_years` SET `isActive` = false WHERE `school_years`.`school_year` = '".$_GET['resetting']."';";
-                    logNow("Resets S.Y. ". $_GET['resetting'] . " enrollment", $_SESSION['admin_id'], OpenCon());
-                    mysqli_query($conn, $resetQuery);
-                    ?>
-                    <div class="prompt">
-                        <div class="prompt__container">
-                            <h1>School Year <?= $_GET['resetting']?> successfully reset!</h1>
-                            <div class="actions">
-                                <a href="?page=<?= $_GET['page']?>&sub-page=<?= $_GET['sub-page']?>" class="confirm">Proceed to School Year</a>
-                            </div>
-                        </div>
-                    </div>
-                <?php ;} ?>
             </div>
         </div>
     <?php ;

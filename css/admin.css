@@ -327,7 +327,7 @@ body{
     padding: 15px 10px;
     text-align: center;
 }
-.prompt__reject > table > tbody > tr > td > input[type="text"]{
+.prompt__reject > table > tbody > tr > td > input[type="text"], #admin-password{
     border: #DDDDDD solid 2px;
     padding: 10px;
     width: 300px;

@@ -16,7 +16,7 @@ button {
 }   
  form{
   margin: 0 auto; 
-  width:55%;
+  width:43%;
 }   
 
 input[type=text]{
@@ -69,5 +69,7 @@ input[type=password] {
   align-self: center;
 }
 .error{
-  color: #C60C29;
+  color: #e4092a;
+  font-size: 18px;
+  text-align: justify;
 }
